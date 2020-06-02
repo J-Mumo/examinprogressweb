@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="error-template">
+        <div class="header-title text-center">
+          <h1 translate>Error</h1>
+        </div>
+        <br/>
+        <br/>
+        <mat-card>
+          <div class="card-body">
+            <p translate>
+              error/please_copy_error_into_email_and_send_to
+              <br/>
+              <br/> &nbsp;&nbsp;&nbsp;&nbsp;{{ errorEmail }}
+            </p>
+            <br/>
+            <div class="alert alert-danger-custom">
+              <div *ngIf="status === 'AngularError'">
+                <table class="table table-borderless table-responsive" style="color: white;">
+                  <tr>
+                    <th translate>error/error_status</th>
+                    <td>{{ status }}</td>
+                  </tr>
+                  <tr>
+                    <th translate>error/timestamp</th>
+                    <td>{{ timestamp | date:'full' }}</td>
+                  </tr>
+                  <tr>
+                    <th translate>error/error_path</th>
+                    <td>{{ redirectUrl }}</td>
+                  </tr>
+                  <tr>
+                    <th translate>error/message</th>
+                    <td>{{ errorMessage }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div *ngIf="status !== 'AngularError'" 
+                  class="embed-responsive">
+                <table>
+                  <tr>
+                    <th translate>error/error_status</th>
+                    <td>{{ status }}</td>
+                  </tr>
+                  <!-- <tr>
+                    <th translate>error/timestamp</th>
+                    <td>{{ timestamp | date:'full' }}</td>
+                  </tr> -->
+                  <tr>
+                    <th translate>error/error_path</th>
+                    <td>{{ redirectUrl }}</td>
+                  </tr>
+                  <tr>
+                    <th translate>error/error_id</th>
+                    <td>{{ errorId }}</td>
+                  </tr>
+                  <tr>
+                    <th translate>error/message</th>
+                    <td>{{ errorMessage }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div class="text-center alert alert-info" 
+                [hidden]="errorNotShow">
+              Can't see error? Refresh page 
+              <br/>
+              <button (click)="refreshPage()" 
+                      class="mat-raised-button mat-primary">
+                Refresh
+              </button>
+            </div>
+            <p translate>
+              error/thank_you
+            </p>
+            <br/>
+            <div class="text-center">
+              <a (click)="backToPreviousPage()" 
+                class="mat-raised-button mat-primary text-white">
+                {{ 'generic/back' | translate }}
+              </a>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

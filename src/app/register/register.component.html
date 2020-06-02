@@ -1,0 +1,139 @@
+<div #top></div>
+<div class="container" style="padding-top: 10px;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/login" translate>
+          generic/login
+        </a>
+      </li>
+      <li class="breadcrumb-item active">
+        {{ 'generic/register' | translate }}
+      </li>
+    </ol>
+  </nav>
+  <h1 class="header-title" translate>
+    register/user/register
+  </h1>
+  <form #register="ngForm" (ngSubmit)="onSubmit(register)">
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <div *ngIf="saved" class='alert alert-success'>
+          {{ 'register/user/email_sent' | translate:{email: emailThatIsUsedAlready} }}
+        </div>
+        <div *ngIf="error" class='alert alert-danger-custom' translate>
+          {{ error }}
+        </div>
+        <mat-card *ngIf="!saved">
+          <div class="card-body">
+            <p style="text-align: center;" class="lighter-font" translate>
+              register/user/welcome_to_registration
+            </p>
+            <div class="form-group">
+              <mat-form-field appearance="standard">
+                <mat-label translate>register/user/add/first_name</mat-label>
+                <input matInput type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="form-control" 
+                  maxlength="100"
+                  ngModel
+                  #firstName="ngModel"
+                  [ngClass]="{ 'is-invalid': firstName.touched && firstName.value === '' }"
+                  required>
+              </mat-form-field>
+              <span class="help-block"
+                *ngIf="!firstName.valid && firstName.touched">
+                <i translate>register/user/add/please_enter_first_name</i>
+              </span>
+            </div>
+            <div class="form-group">
+              <mat-form-field appearance="standard">
+                <mat-label translate>register/user/add/last_name</mat-label>
+                <input matInput type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="form-control" 
+                  maxlength="100"
+                  ngModel
+                  #lastName="ngModel"
+                  [ngClass]="{ 'is-invalid': lastName.touched && lastName.value === '' }"
+                  required>
+              </mat-form-field>
+              <span class="help-block"
+                *ngIf="!lastName.valid && lastName.touched">
+                <i translate>register/user/add/please_enter_last_name</i>
+              </span>
+            </div>
+            <div class="form-group">
+              <mat-form-field appearance="standard">
+                <mat-label translate>register/user/add/email</mat-label>
+                <input matInput type="email"
+                  id="email"
+                  name="email"
+                  class="form-control" 
+                  maxlength="256"
+                  ngModel
+                  #email="ngModel"
+                  [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
+                  required>
+              </mat-form-field>
+              <span class="help-block" 
+                *ngIf="!email.valid && email.touched">
+                <i translate>register/user/add/please_enter_email</i>
+              </span>
+            </div>
+            <div class="form-group">
+              <mat-form-field appearance="standard">
+                <mat-label translate>register/user/add/password</mat-label>
+                <input matInput type="password"
+                  id="password"
+                  name="password"
+                  class="form-control" 
+                  maxlength="256"
+                  ngModel
+                  reverse="true"
+                  appValidateEqual="passwordAgain"
+                  #password="ngModel"
+                  [ngClass]="{ 'is-invalid': password.touched && password.value === '' }"
+                  required>
+              </mat-form-field>
+              <span class="help-block" 
+                *ngIf="!password.valid && password.touched">
+                <i translate>register/user/add/please_enter_a_password</i>
+              </span>
+            </div>
+            <div class="form-group">
+              <mat-form-field appearance="standard">
+                <mat-label translate>register/user/add/type_password_again</mat-label>
+                <input matInput type="password"
+                  id="passwordAgain"
+                  name="passwordAgain"
+                  class="form-control" 
+                  maxlength="256"
+                  ngModel
+                  reverse="false"
+                  appValidateEqual="password"
+                  #passwordAgain="ngModel"
+                  [ngClass]="{ 'is-invalid': passwordAgain.touched && passwordAgain.value === '' }"
+                  required>
+              </mat-form-field>
+              <span [hidden]="passwordAgain.valid || (passwordAgain.pristine)" class="help-block">
+                <i translate>register/user/add/password_mismatch</i>
+              </span>
+            </div>
+            <div class="form-group">
+              <br><br>
+              <button mat-raised-button 
+                color="primary"
+                type="submit"
+                (click)="scroll(top)"
+                translate="generic/save">
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</div>

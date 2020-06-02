@@ -1,0 +1,17 @@
+a, a:visited, a:hover {
+  color: #ffffff;
+}
+
+.header-buttons {
+  display: block;
+  font-size: 12px;
+  margin-right: 2em;
+}
+
+.mat-stroked-button:not([disabled]) {
+  border-color: #ffffffe0;
+}
+
+::ng-deep.mat-menu-content:not(:empty) {
+  padding-top: 0 !important;
+}
