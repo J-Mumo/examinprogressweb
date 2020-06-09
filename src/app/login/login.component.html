@@ -1,94 +1,96 @@
-<div class="container" style="padding-top: 10px;">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a routerLink="/register" translate>
-          generic/register
-        </a>
-      </li>
-      <li class="breadcrumb-item active">
-        {{ 'generic/login' | translate }}
-      </li>
-    </ol>
-  </nav>
-  <h1 class="header-title" translate>
-    generic/login
-  </h1>
-  <form #register="ngForm" (ngSubmit)="onSubmit(register)">
-    <div class="row">
-      <div class="col-md-8 col-lg-8 mx-auto">
-        <div class="alert alert-danger" *ngIf="redirectMessage" translate>
-          login/permission/login
-        </div>
-        <mat-card>
-          <div *ngIf="tokenExpired" class="alert alert-danger-custom text-center" translate>{{tokenExpired}}</div>
-          <div class="card-body">
-            <div *ngIf="error" class="alert alert-danger-custom text-center" translate>{{error}}</div>
-            <p style="text-align: center;" class="lighter-font" translate>
-              login/please_sign_in
-            </p>
-            <div class="form-group">
-              <mat-form-field appearance="standard">
-                <input matInput type="text"
-                  id="email"
-                  name="email"
-                  class="form-control" 
-                  maxlength="100"
-                  ngModel
-                  #email="ngModel"
-                  [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
-                  placeholder="{{'login/placeholder/type_email' | translate}}"
-                  required>
-              </mat-form-field>
-              <span class="help-block" 
-                *ngIf="!email.valid && email.touched">
-                <i translate>login/please_enter_email</i>
-              </span>
-            </div>
-            <div class="form-group">
-              <mat-form-field appearance="standard">
-                <input matInput type="password"
-                  id="password"
-                  name="password"
-                  class="form-control" 
-                  maxlength="256"
-                  ngModel
-                  #password="ngModel"
-                  [ngClass]="{ 'is-invalid': password.touched && password.value === '' }"
-                  placeholder="{{'login/placeholder/type_password' | translate}}"
-                  required>
-              </mat-form-field>
-              <span class="help-block" 
-                *ngIf="!password.valid && password.touched">
-                <i translate>login/please_enter_a_password</i>
-              </span>
-            </div>
-            <div class="form-group">
-              <br><br>
-              <div style="display: flex; justify-content: space-between;">
-                <button mat-raised-button
-                  color="primary"
-                  type="submit"
-                  translate="login/button/sign_in">
-                </button>
-                <button mat-raised-button 
-                  color="primary"
-                  type="button"
-                  (click)="resetForgottenPassword()"
-                  translate="login/button/forgotten_password">
-                </button>
-              </div>
-              <hr />
-              <div>
-                <button type="button" id="registerInLogin" routerLink="/register"
-                  class="mat-raised-button mat-primary btn-block text-center">
-                  {{ 'login/button/create_your_account'| translate }}
-                </button>
-              </div>
-            </div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/register" translate>
+            generic/register
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'generic/login' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      generic/login
+    </h1>
+    <form #register="ngForm" (ngSubmit)="onSubmit(register)">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto">
+          <div class="alert alert-danger" *ngIf="redirectMessage" translate>
+            login/permission/login
           </div>
-        </mat-card>
+          <mat-card>
+            <div *ngIf="tokenExpired" class="alert alert-danger-custom text-center" translate>{{tokenExpired}}</div>
+            <div class="card-body">
+              <div *ngIf="error" class="alert alert-danger-custom text-center" translate>{{error}}</div>
+              <p style="text-align: center;" class="lighter-font" translate>
+                login/please_sign_in
+              </p>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <input matInput type="text"
+                    id="email"
+                    name="email"
+                    class="form-control" 
+                    maxlength="100"
+                    ngModel
+                    #email="ngModel"
+                    [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
+                    placeholder="{{'login/placeholder/type_email' | translate}}"
+                    required>
+                </mat-form-field>
+                <span class="help-block" 
+                  *ngIf="!email.valid && email.touched">
+                  <i translate>login/please_enter_email</i>
+                </span>
+              </div>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <input matInput type="password"
+                    id="password"
+                    name="password"
+                    class="form-control" 
+                    maxlength="256"
+                    ngModel
+                    #password="ngModel"
+                    [ngClass]="{ 'is-invalid': password.touched && password.value === '' }"
+                    placeholder="{{'login/placeholder/type_password' | translate}}"
+                    required>
+                </mat-form-field>
+                <span class="help-block" 
+                  *ngIf="!password.valid && password.touched">
+                  <i translate>login/please_enter_a_password</i>
+                </span>
+              </div>
+              <div class="form-group">
+                <br><br>
+                <div style="display: flex; justify-content: space-between;">
+                  <button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    translate="login/button/sign_in">
+                  </button>
+                  <button mat-raised-button 
+                    color="primary"
+                    type="button"
+                    (click)="resetForgottenPassword()"
+                    translate="login/button/forgotten_password">
+                  </button>
+                </div>
+                <hr />
+                <div>
+                  <button type="button" id="registerInLogin" routerLink="/register"
+                    class="mat-raised-button mat-primary btn-block text-center">
+                    {{ 'login/button/create_your_account'| translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

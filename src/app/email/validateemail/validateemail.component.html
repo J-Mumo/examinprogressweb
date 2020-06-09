@@ -1,49 +1,51 @@
 <div #top></div>
-<div class="container">
-  <div class="row">
-    <div class="col-xs-4 col-md-6 col-12-lg mx-auto">
-      <h1 class="header-title" translate>
-        email/validateemail/pending_email_activation
-      </h1>
-      <div *ngIf="success" class="card-header alert-success" 
-          translate>
-          {{'email/validateemail/an_activation_email_has_been_sent' | translate:{email: email} }}
-      </div>
-      <div *ngIf="error" class="card-header alert-danger" 
-          translate>
-          email/validateemail/an_activation_email_has_not_been_sent
-      </div><br/>
-      <mat-card>
-        <div class="card-body">
-          <p translate>
-            email/validateemail/you_have_an_account_but_your_email_has_not_been_updated  
-          </p>
-          <p>
-            {{ 'email/validateemail/you_should_have_received_an_email_entitled' | translate }}      
-            <br/>
-            <br/>&nbsp;&nbsp;&nbsp;&nbsp;<b>"{{'email/validateemail/activate_your_user_account' | translate }}"</b>
-          </p>
-          <p translate>
-            email/validateemail/inside_the_email_there_is_a_link_to_activate_your_account
-          </p>
-          <p translate>
-            email/validateemail/please_click_on_link_or_copy_and_paste    
-          </p>
-          <p translate>
-            email/validateemail/if_you_cannot_find_the_email_check_spam 
-          </p>
-          <p translate>
-            email/validateemail/if_you_still_cannot_find_the_email_click_resend
-          </p><br>
-          <button class="mat-raised-button mat-primary" 
-                  type="button"         
-                  (click)="resendActivationEmail()" 
-                  (click)="scroll(top)"
-                  translate>
-            email/validateemail/resend_activation_email
-          </button>
+<div class="content" role="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-4 col-md-6 col-12-lg mx-auto">
+        <h1 class="header-title" translate>
+          email/validateemail/pending_email_activation
+        </h1>
+        <div *ngIf="success" class="card-header alert-success" 
+            translate>
+            {{'email/validateemail/an_activation_email_has_been_sent' | translate:{email: email} }}
         </div>
-      </mat-card>
+        <div *ngIf="error" class="card-header alert-danger" 
+            translate>
+            email/validateemail/an_activation_email_has_not_been_sent
+        </div><br/>
+        <mat-card>
+          <div class="card-body">
+            <p translate>
+              email/validateemail/you_have_an_account_but_your_email_has_not_been_updated  
+            </p>
+            <p>
+              {{ 'email/validateemail/you_should_have_received_an_email_entitled' | translate }}      
+              <br/>
+              <br/>&nbsp;&nbsp;&nbsp;&nbsp;<b>"{{'email/validateemail/activate_your_user_account' | translate }}"</b>
+            </p>
+            <p translate>
+              email/validateemail/inside_the_email_there_is_a_link_to_activate_your_account
+            </p>
+            <p translate>
+              email/validateemail/please_click_on_link_or_copy_and_paste    
+            </p>
+            <p translate>
+              email/validateemail/if_you_cannot_find_the_email_check_spam 
+            </p>
+            <p translate>
+              email/validateemail/if_you_still_cannot_find_the_email_click_resend
+            </p><br>
+            <button class="mat-raised-button mat-primary" 
+                    type="button"         
+                    (click)="resendActivationEmail()" 
+                    (click)="scroll(top)"
+                    translate>
+              email/validateemail/resend_activation_email
+            </button>
+          </div>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

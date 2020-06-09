@@ -1,17 +1,19 @@
-<div class="container">
-  <div class="row">
-      <div class="col-md-6 mx-auto text-center">
-      <div class="error-template">
-        <h1 class="header-title" translate>error/offline</h1>
-        <div class="alert alert-danger-custom" translate>
-            error/sorry_you_appear_to_be_offline_check_your_internet_connection
-        </div>
-        <div class="error-actions text-center">
-            <a (click)="backToPreviousPage()" 
-              class="mat-raised-button mat-primary btn-lg text-white">
-              <span class="fa fa-arrow-circle-left"></span>
-              {{ 'generic/back' | translate }}
-            </a>
+<div class="content" role="main">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+        <div class="error-template">
+          <h1 class="header-title" translate>error/offline</h1>
+          <div class="alert alert-danger-custom" translate>
+              error/sorry_you_appear_to_be_offline_check_your_internet_connection
+          </div>
+          <div class="error-actions text-center">
+              <a (click)="backToPreviousPage()" 
+                class="mat-raised-button mat-primary btn-lg text-white">
+                <span class="fa fa-arrow-circle-left"></span>
+                {{ 'generic/back' | translate }}
+              </a>
+          </div>
         </div>
       </div>
     </div>

@@ -1,21 +1,55 @@
-@media (min-width: 1920px) {
-  
-  .bg {
-    background-image: url('../../assets/images/bg/bg-1920x540.jpg');
-    width: 1920px;
-    height: 540px;
-    margin-left: -330px;
-    margin-top: -33px;
-  }  
+.bg {
+  width: 100%;
+  height: auto;
 }
 
-@media (min-width: 1440px) {
-  
+@media (max-width: 1920px) {
   .bg {
-    background-image: url('../../assets/images/bg/bg-1440x405.jpg');
-    width: 1440px;
-    height: 405px;
-    margin-left: -330px;
-    margin-top: -33px;
-  }  
+    background-image: url('../../assets/images/bg/bg-1920x640.jpg');
+    height: 640px;
+    // margin-left: -330px;
+    // margin-top: -33px;
+  } 
+}
+
+@media (max-width: 1440px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-1440x480.jpg');
+    height: 480px;
+  } 
+}
+
+@media (max-width: 1024px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-1024x341.jpg');
+    height: 341px;
+  } 
+}
+
+@media (max-width: 768px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-768x256.jpg');
+    height: 256px;
+  } 
+}
+
+@media (max-width: 425px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-425x142.jpg');
+    height: 142px;
+  } 
+}
+
+@media (max-width: 375px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-375x125.jpg');
+    height: 125px;
+  } 
+}
+
+@media (max-width: 320px) {
+  .bg {
+    background-image: url('../../assets/images/bg/bg-320x107.jpg');
+    height: 107px;
+  } 
 }
