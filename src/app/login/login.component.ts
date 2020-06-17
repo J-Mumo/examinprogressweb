@@ -90,12 +90,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private navigateToCurrentUserDashboard(roles: string[]): string {
     const superadmin = roles.find(x => x === 'SuperAdmin');
-    const dev = roles.find(x => x === 'DEV');
+    const teacher = roles.find(x => x === 'TEACHER');
 
     if (superadmin) {
       return '/superadmin/dashboard';
-    } else if (dev) {
-      return '/dev/dashboard';
+    } else if (teacher) {
+      return '/teacher/dashboard';
     }
     return '#';
   }

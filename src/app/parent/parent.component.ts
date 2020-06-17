@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ParentService } from './parent.service';
 import { UserService } from '../services/user/user.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-parent',
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./parent.component.scss']
 })
 export class ParentComponent implements OnInit {
+  public sidenavMenuItems: Array<any>;
+  @ViewChild('sidenav', { static: false }) sidenav: any;
 
   constructor(
     public parentService: ParentService,

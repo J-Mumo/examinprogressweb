@@ -63,8 +63,8 @@ export class UserService {
       if (roles.indexOf('SuperAdmin') > -1) {
         this.dashboardUrls.push('/superadmin/dashboard');
         this.dashboardTitles.push('header/topheader/superadmin_dashboard');
-      } else if (roles.indexOf('Member') > -1) {
-        this.dashboardUrls.push('/member/dashboard');
+      } else if (roles.indexOf('Teacher') > -1) {
+        this.dashboardUrls.push('/teacher/dashboard');
         this.dashboardTitles.push('header/topheader/member_dashboard');
       }
     }

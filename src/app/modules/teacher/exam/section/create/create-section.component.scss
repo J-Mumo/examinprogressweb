@@ -1,0 +1,9 @@
+.skip-button:hover {
+  color: #272727 !important;
+  text-decoration: underline;
+}
+
+::ng-deep .mat-simple-snackbar {
+  justify-content: center !important;
+  font-weight: bold;
+}

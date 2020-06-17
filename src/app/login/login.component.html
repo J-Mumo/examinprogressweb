@@ -69,14 +69,14 @@
                 <div style="display: flex; justify-content: space-between;">
                   <button mat-raised-button
                     color="primary"
-                    type="submit"
-                    translate="login/button/sign_in">
+                    type="submit">
+                    {{ 'login/button/sign_in'| translate }}
                   </button>
                   <button mat-raised-button 
                     color="primary"
                     type="button"
-                    (click)="resetForgottenPassword()"
-                    translate="login/button/forgotten_password">
+                    (click)="resetForgottenPassword()">
+                    {{ 'login/button/forgotten_password'| translate }}
                   </button>
                 </div>
                 <hr />

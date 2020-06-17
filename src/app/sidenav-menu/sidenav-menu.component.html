@@ -1,0 +1,79 @@
+<!-----Applicant Start Side Nav----->
+<span *ngIf="dev">
+  <br>
+  <ol> <h6>Profiles</h6>
+      <li>
+          <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/profiles/view"
+              routerLinkActive="active-link">
+              <span class="menu-title"><i class="fa fa-users"></i>&nbsp; All Profiles</span>
+          </a>
+      </li>
+      <li>
+          <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/profiles/create"
+              routerLinkActive="active-link">
+              <span class="menu-title"><i class="fa fa-plus"></i>&nbsp; Add Profile</span>
+          </a>
+      </li>
+  </ol>
+  <ol> <h6> Projects</h6>
+      
+      <li>
+          <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/projects/dashboard"
+              routerLinkActive="active-link">
+              <span class="menu-title"><i class="fa fa-folder-open"></i>&nbsp; All Projects</span>
+          </a>
+      </li>
+  
+  
+      <li>
+          <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/projects/adverts/dashboard"
+              routerLinkActive="active-link">
+              <span class="menu-title"><i class="fa fa-folder-open"></i>&nbsp; Project Adverts</span>
+          </a>
+      </li>
+      <li>
+          <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/projects/view"
+              routerLinkActive="active-link">
+              <span class="menu-title"><i class="fa fa-folder-open"></i>&nbsp; My Projects</span>
+          </a>
+      </li>
+     
+  </ol>
+  
+      <a class="pl-0" *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/availability/edit"
+          routerLinkActive="active-link">
+          <span class="menu-title"><i class="fa fa-clock-o"></i>&nbsp; Dev Availability</span>
+      </a>
+  
+  <hr>
+  <a class="pl-0" *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/trends"
+      routerLinkActive="active-link">
+      <span class="menu-title"><i class="fa fa-globe"></i>&nbsp; Trends</span>
+  </a>
+  <a class="pl-0" *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/learning_resources"
+      routerLinkActive="active-link">
+      <span class="menu-title"><i class="fa fa-connectdevelop"></i>&nbsp; Learning Resources</span>
+  </a>
+  <a class="pl-0" *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/assessments"
+      routerLinkActive="active-link">
+      <span class="menu-title"><i class="fa fa-pencil"></i> &nbsp; Assessments</span>
+  </a>
+  <a class="pl-0" *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/dev/account/settings"
+      routerLinkActive="active-link">
+      <span class="menu-title"><i class="fa fa-cogs"></i> &nbsp; Account Settings</span>
+  </a>
+
+</span>
+<!-----Applicant End Side Nav----->
+<!-----Admin Start Side Nav----->
+<span *ngIf="admin">
+  <a *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" routerLink="/applicant/interview"
+      routerLinkActive="active-link">
+      <span class="menu-title"><i class="fa fa-list"></i>Admin dashboard</span>
+  </a>
+</span>
+<!-----Admin End Side Nav----->
+<a class="pl-0"  *ngIf="isLoggedIn()" mat-button fxLayout="row" fxLayoutAlign="start center" href="" routerLinkActive="active-link">
+  <span class="menu-title">
+      <i class="fa fa-sign-out" aria-hidden="true"></i>  &nbsp;  Logout</span>
+</a>

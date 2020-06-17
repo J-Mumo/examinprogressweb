@@ -27,8 +27,13 @@ const routes: Routes = [
       { path: 'error404', component: Error404Component },
       { path: 'erroroffline', component: ErrorofflineComponent },
       { path: 'error', component: ErrorComponent },
+      {
+        path: 'teacher',
+        loadChildren: () => import('./modules/teacher/teacher.module').then(m => m.TeacherModule),
+        canActivate: [HasPermissionGuard], data: { authorities: ['TEACHER'] }
+      },
       { path: '', component: HomeComponent },
-      { path: '**', component: Error404Component },
+      { path: '**', component: Error404Component }
     ]
   }
 ];

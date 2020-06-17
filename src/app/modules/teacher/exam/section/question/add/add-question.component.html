@@ -1,0 +1,153 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/sections" translate>
+            {{ 'teacher/exam/section/sections' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/edit" translate>
+            {{sectionName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/section/question/add_question' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/exam/section/question/add_a_question
+    </h1>
+    <form #addQuestion="ngForm" (ngSubmit)="onSubmit(addQuestion)">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto">
+          <mat-card>
+            <div class="card-body">
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/section/question</mat-label>
+                  <textarea matInput type="text"
+                    id="question"
+                    name="question"
+                    class="form-control" 
+                    maxlength="1024"
+                    ngModel
+                    #question="ngModel"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="3"
+                    cdkAutosizeMaxRows="9"
+                    [ngClass]="{ 'is-invalid': question.touched && question.value === '' }"
+                    required>
+                  </textarea>
+                </mat-form-field>
+                <span id="question-error" class="form-error" translate hidden>
+                  teacher/exam/section/question/please_provide_question
+                </span>
+              </div>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/section/question/score</mat-label>
+                  <input matInput type="number"
+                    id="score"
+                    name="score"
+                    class="form-control" 
+                    maxlength="100"
+                    ngModel
+                    #score="ngModel"
+                    pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
+                    [ngClass]="{ 'is-invalid': score.touched && score.value === '' && score.invalid }"
+                    required>
+                </mat-form-field>
+                <span id="score-error" class="form-error" translate hidden>
+                  teacher/exam/section/question/please_add_score
+                </span>
+              </div>
+              <mat-card>
+                <div class="card-header" translate>
+                  teacher/exam/section/question/answers
+                </div>
+                <div class="card-body">
+                  <p style="text-align: center;" class="lighter-font" translate>
+                    teacher/exam/section/question/answers_info
+                  </p>
+                  <span id="less-answers-error" class="form-error answers-error" translate hidden>
+                    teacher/exam/section/question/less_answers_error
+                  </span>
+                  <span id="no-correct-answer-error" class="form-error answers-error" translate hidden>
+                    teacher/exam/section/question/no_correct_answer_error
+                  </span>
+                  <div class="row"
+                    *ngFor="let answerRequest of addMultipleChoiceQuestionAnswerRequests; trackBy: trackByFn let i=index"
+                    style="align-items: center; justify-content: space-between;">
+                    <mat-radio-button
+                      (change)="getCheckedAnswer(answerRequest)">
+                    </mat-radio-button>
+                    <div class="form-group" style="width: 60%;">
+                      <mat-form-field appearance="standard">
+                        <mat-label translate>teacher/exam/section/question/answer</mat-label>
+                        <textarea matInput type="text"
+                          id="answer_{{i}}"
+                          name="answer_{{i}}"
+                          class="form-control"
+                          maxlength="1024"
+                          [(ngModel)]="answerRequest.answerText"
+                          #answer_{{i}}="ngModel"
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="3"
+                          cdkAutosizeMaxRows="9">
+                        </textarea>
+                      </mat-form-field>
+                      <span id="answer_{{i}}-error" class="form-error" translate hidden>
+                        teacher/exam/section/question/please_add_score
+                      </span>
+                    </div>
+                    <button mat-stroked-button 
+                      color="warn"
+                      type="button"
+                      (click)="deleteAnswer(answerRequest)">
+                      {{ 'teacher/exam/section/question/remove_answer'| translate }}
+                    </button>
+                  </div>
+                  <button mat-stroked-button 
+                    (click)="addAnswer()"
+                    color="primary"
+                    type="button">
+                    {{ 'teacher/exam/section/question/add_answer'| translate }}
+                  </button>
+                </div>
+              </mat-card>
+              <br>
+              <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
+                <button mat-raised-button 
+                  color="primary"
+                  (click)="scroll(top)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
+                </button>
+                <a mat-raised-button
+                  [routerLink]=""
+                  (click)="saveAndExit()"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_exit'| translate }}
+                </a>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

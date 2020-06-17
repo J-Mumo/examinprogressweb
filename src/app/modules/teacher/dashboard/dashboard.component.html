@@ -1,0 +1,26 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/login" translate>
+            generic/login
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'generic/register' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      register/user/register
+    </h1>
+    <form #register="ngForm">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -20,7 +20,7 @@ h6 {
   margin: 8px 0;
 }
 
-.mat-raised-button:hover {
+:host ::ng-deep .mat-raised-button:hover {
   text-decoration: underline !important;
   color: white !important;
 }
@@ -329,4 +329,27 @@ mat-form-field {
 
 .alert-danger-custom {
   color: #fafafa; background-color: #ff3d00; border-color: #ff3d00;
+}
+
+.form-error {
+  background: rgba(237,88,88,.79);
+  border-radius: 2px 2px 0 0;
+  color: white;
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  height: 25px;
+  padding: 4px 14px 2px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 1;
+  margin-top: -20px;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #00d327;
+}
+
+.icon-button {
+  cursor: pointer;
 }

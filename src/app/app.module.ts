@@ -1,19 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
 
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './modules/shared/shared.module';
 import { JwtModule } from '@auth0/angular-jwt';
 import localeEn from '@angular/common/locales/en';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -43,6 +32,7 @@ import { EmailvalidatedComponent } from './email/emailvalidated/emailvalidated.c
 import { ForgotpasswordComponent } from './email/forgotpassword/forgotpassword.component';
 import { ResetforgottenpasswordComponent } from './email/resetforgottenpassword/resetforgottenpassword.component';
 import { ValidateemailComponent } from './email/validateemail/validateemail.component';
+import { SidenavMenuComponent } from './sidenav-menu/sidenav-menu.component';
 
 registerLocaleData(localeEn, 'en');
 
@@ -78,25 +68,14 @@ const jwtConf = {
     EmailvalidatedComponent,
     ForgotpasswordComponent,
     ResetforgottenpasswordComponent,
-    ValidateemailComponent
+    ValidateemailComponent,
+    SidenavMenuComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatCardModule,
+    SharedModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
     CollapseModule.forRoot(),

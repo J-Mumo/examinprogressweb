@@ -1,0 +1,30 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/edit" translate>
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/section/sections' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/exam/section/question/add_a_question
+    </h1>
+    <form #addQuestion="ngForm">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto">
+          <mat-card>
+            <div class="card-body">
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
