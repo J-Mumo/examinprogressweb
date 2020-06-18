@@ -4,76 +4,115 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a routerLink="/login" translate>
-            generic/login
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
           </a>
         </li>
-        <li class="breadcrumb-item active">
-          {{ 'generic/register' | translate }}
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" translate>
+          {{ 'teacher/exam/section/view_section' | translate }}
         </li>
       </ol>
     </nav>
-    <h1 class="header-title" translate>
-      teacher/exam/section/create_section
-    </h1>
-    <form #createSection="ngForm" (ngSubmit)="onSubmit(createSection)">
-      <div class="row">
-        <div class="col-md-8 col-lg-8 mx-auto">
-          <mat-card>
-            <div class="card-body">
-              <p style="text-align: center;" class="lighter-font" translate>
-                teacher/exam/section/create_section_info
-              </p>
-              <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>teacher/exam/section/name</mat-label>
-                  <input matInput type="text"
-                    id="name"
-                    name="name"
-                    class="form-control" 
-                    maxlength="100"
-                    ngModel
-                    #name="ngModel"
-                    [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
-                    required>
-                </mat-form-field>
-                <span id="name-error" class="form-error" translate hidden>
-                  teacher/exam/section/please_type_section_name
-                </span>
-              </div>
-              <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>teacher/exam/section/description</mat-label>
-                  <textarea matInput type="text"
-                    id="description"
-                    name="description"
-                    class="form-control" 
-                    maxlength="1024"
-                    ngModel
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="3"
-                    cdkAutosizeMaxRows="9"
-                    #description="ngModel">
-                  </textarea>
-                </mat-form-field>
-              </div>
-              <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
-                <button mat-raised-button 
-                  color="primary"
-                  (click)="scroll(top)"
-                  type="submit">
-                  {{ 'teacher/exam/section/create_section'| translate }}
-                </button>
-                <a mat-raised-button
-                  class="skip-button"
-                  type="button">
-                  {{ 'generic/skip'| translate }}
-                </a>
-              </div>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <mat-card>
+          <div class="card-header">
+            {{initialData?.name}}
+            <div class="float-right">
+              <mat-icon
+                class="icon-button"
+                routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/edit">
+                  edit
+              </mat-icon>&nbsp;
+              <mat-icon
+                class="icon-button"
+                color="warn">
+                  delete
+              </mat-icon>
             </div>
-          </mat-card>
-        </div>
+          </div>
+          <div class="card-body">
+            <div class="description-div">{{initialData?.description}}</div>
+          </div>
+        </mat-card>
+        <br>
+        <mat-card>
+          <div class="header card-header" translate>
+            teacher/exam/section/questions
+            <button mat-stroked-button 
+              routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/question/add"
+              class="float-right"
+              color="primary"
+              type="button">
+              {{ 'teacher/exam/section/question/add_question'| translate }}
+            </button>
+          </div>
+          <br>
+          <div class="pl-2">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+            </mat-form-field>
+          </div>
+          <table matSort mat-table multiTemplateDataRows [dataSource]="questions">
+            <!-- Question Column -->
+            <ng-container matColumnDef="question">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>
+              <td mat-cell *matCellDef="let question">
+                <span>{{question.questionText}}</span>
+              </td>
+            </ng-container>
+
+            <!-- Score Column -->
+            <ng-container matColumnDef="score">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+              <td mat-cell *matCellDef="let question">
+                <div>{{question.score}}</div>
+              </td>
+            </ng-container>
+
+            <!-- View Column -->
+            <ng-container matColumnDef="viewQuestion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Question</th>
+              <td mat-cell *matCellDef="let question">
+                <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view" translate>
+                  <mat-icon class="eye-icon">remove_red_eye</mat-icon>
+                  generic/view                    
+                </a>
+              </td>
+            </ng-container>
+
+            <!-- Delete Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+              <td mat-cell *matCellDef="let question">
+                <mat-icon
+                  class="icon-button"
+                  routerLink="/teacher/exam/{{examId}}/{{examName}}/edit">
+                    edit
+                </mat-icon>&nbsp;
+                <mat-icon
+                  class="icon-button"
+                  color="warn">
+                    delete
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="questionColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: questionColumns;" class="example-element-row"></tr>
+          </table>
+          <mat-paginator [length]="100"
+              [pageSize]="20"
+              [pageSizeOptions]="[5, 10, 20, 100]"
+              showFirstLastButtons>
+          </mat-paginator>
+        </mat-card>
       </div>
-    </form>
+    </div>
   </div>
 </div>

@@ -14,21 +14,18 @@
           </a>
         </li>
         <li class="breadcrumb-item active">
-          {{ 'teacher/exam/section/create_section' | translate }}
+          {{ 'teacher/exam/section/edit_section' | translate }}
         </li>
       </ol>
     </nav>
     <h1 class="header-title" translate>
-      teacher/exam/section/create_section
+      teacher/exam/section/edit_section
     </h1>
-    <form #createSection="ngForm" (ngSubmit)="onSubmit(createSection)">
+    <form #editSection="ngForm" (ngSubmit)="onSubmit(editSection)">
       <div class="row">
         <div class="col-md-8 col-lg-8 mx-auto">
           <mat-card>
             <div class="card-body">
-              <p style="text-align: center;" class="lighter-font" translate>
-                teacher/exam/section/create_section_info
-              </p>
               <div class="form-group">
                 <mat-form-field appearance="standard">
                   <mat-label translate>teacher/exam/section/name</mat-label>
@@ -37,7 +34,7 @@
                     name="name"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
+                    [ngModel]="initialData?.name"
                     #name="ngModel"
                     [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
                     required>
@@ -54,7 +51,7 @@
                     name="description"
                     class="form-control" 
                     maxlength="1024"
-                    ngModel
+                    [ngModel]="initialData?.description"
                     cdkTextareaAutosize
                     cdkAutosizeMinRows="5"
                     cdkAutosizeMaxRows="9"
@@ -65,15 +62,9 @@
               <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
                 <button mat-raised-button 
                   color="primary"
-                  (click)="scroll(top)"
                   type="submit">
-                  {{ 'teacher/exam/section/create_section'| translate }}
+                  {{ 'teacher/exam/section/edit_section'| translate }}
                 </button>
-                <a mat-raised-button
-                  class="skip-button"
-                  type="button">
-                  {{ 'generic/skip'| translate }}
-                </a>
               </div>
             </div>
           </mat-card>

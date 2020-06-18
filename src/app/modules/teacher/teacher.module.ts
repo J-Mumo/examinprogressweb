@@ -12,6 +12,7 @@ import { SectionsComponent } from './exam/section/sections/sections.component';
 import { ViewExamComponent } from './exam/view/view-exam.component';
 import { ExamsComponent } from './exam/exams/exams.component';
 import { ViewSectionComponent } from './exam/section/view/view-section.component';
+import { EditSectionComponent } from './exam/section/edit/edit-section.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ViewSectionComponent } from './exam/section/view/view-section.component
     SectionsComponent,
     ViewExamComponent,
     ExamsComponent,
-    ViewSectionComponent
+    ViewSectionComponent,
+    EditSectionComponent
   ],
   imports: [
     CommonModule,

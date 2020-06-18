@@ -11,6 +11,7 @@ import { CreateSectionComponent } from './exam/section/create/create-section.com
 import { AddQuestionComponent } from './exam/section/question/add/add-question.component';
 import { SectionsComponent } from './exam/section/sections/sections.component';
 import { ViewSectionComponent } from './exam/section/view/view-section.component';
+import { EditSectionComponent } from './exam/section/edit/edit-section.component';
 
 const routes: Routes = [
   {
@@ -58,6 +59,12 @@ const routes: Routes = [
               {
                 path: 'create',
                 component: CreateSectionComponent,
+                canActivate: [HasPermissionGuard],
+                data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+              },
+              {
+                path: ':sectionId/edit',
+                component: EditSectionComponent,
                 canActivate: [HasPermissionGuard],
                 data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
               },

@@ -34,5 +34,4 @@ export class ExamsComponent implements OnInit {
   applyExamFilter(filterValue: string) {
     this.exams.filter = filterValue.trim().toLowerCase();
   }
-
 }

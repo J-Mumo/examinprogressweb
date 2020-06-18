@@ -38,8 +38,10 @@
               <div><b>The exam duration is: </b>
                 <span *ngIf="hours === 1">{{hours}} hour</span>
                 <span *ngIf="hours > 1">{{hours}} hours</span>
-                <span *ngIf="minutes === 1"> and {{minutes}} minute</span>
-                <span *ngIf="minutes > 1"> and {{minutes}} minutes</span>
+                <span *ngIf="minutes === 1 && hours > 0"> and {{minutes}} minute</span>
+                <span *ngIf="minutes > 1 && hours > 0"> and {{minutes}} minutes</span>
+                <span *ngIf="minutes === 1">{{minutes}} minute</span>
+                <span *ngIf="minutes > 1">{{minutes}} minutes</span>
               </div>
             </div>
           </div>

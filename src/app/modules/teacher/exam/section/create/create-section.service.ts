@@ -9,13 +9,13 @@ import { CreateSectionRequest, SaveResponseWithId } from './create-section-reque
 })
 export class CreateSectionService {
 
-  private CREATE_EXAM_URL = '/examinprogress/teacher/exam/section/save';
+  private CREATE_SECTION_URL = '/examinprogress/teacher/exam/section/create/save';
 
   constructor(private http: HttpClient) {
 
   }
 
-  save(registerRequest: CreateSectionRequest):
+  save(request: CreateSectionRequest):
     Observable<SaveResponseWithId> {
 
     const httpOptions = {
@@ -24,8 +24,8 @@ export class CreateSectionService {
       })
     };
 
-    return this.http.post(this.CREATE_EXAM_URL,
-      registerRequest, httpOptions).pipe(map(
+    return this.http.post(this.CREATE_SECTION_URL,
+      request, httpOptions).pipe(map(
         (response: SaveResponseWithId) => {
           return response;
         }

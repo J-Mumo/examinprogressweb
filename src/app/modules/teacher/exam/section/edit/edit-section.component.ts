@@ -1,30 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EditSectionService } from './edit-section.service';
+import { EditSectionInitialData, EditSectionRequest, SaveResponse } from './edit-section-request-response';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
-import { CreateSectionService } from './create-section.service';
-import { SaveResponseWithId } from '../../create/create-exam-request-response';
-import { CreateSectionRequest } from './create-section-request-response';
 
 @Component({
-  selector: 'app-create-section',
-  templateUrl: './create-section.component.html',
-  styleUrls: ['./create-section.component.scss']
+  selector: 'app-edit-section',
+  templateUrl: './edit-section.component.html',
+  styleUrls: ['./edit-section.component.scss']
 })
-export class CreateSectionComponent implements OnInit {
+export class EditSectionComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
+  sectionId = Number(this.activatedRoute.snapshot.paramMap.get('sectionId'));
+  initialData: EditSectionInitialData;
   message: string;
 
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private translate: TranslateService,
     private snackBar: MatSnackBar,
-    private createSectionService: CreateSectionService) { }
+    private editSectionService: EditSectionService
+  ) { }
 
   ngOnInit(): void {
+    this.getInitialData();
   }
 
   saveSnackBar(message) {
@@ -34,6 +37,14 @@ export class CreateSectionComponent implements OnInit {
         verticalPosition: 'top'
       });
     });
+  }
+
+  getInitialData() {
+    this.editSectionService.getInitialData(this.sectionId).subscribe(
+      (initialData: EditSectionInitialData) => {
+        this.initialData = initialData;
+      }
+    );
   }
 
   onSubmit(form: NgForm) {
@@ -47,22 +58,18 @@ export class CreateSectionComponent implements OnInit {
 
     } else {
 
-      const request: CreateSectionRequest = new CreateSectionRequest(this.examId, name, description);
-      this.createSectionService.save(request).subscribe(
-        (response: SaveResponseWithId) => {
+      const request: EditSectionRequest = new EditSectionRequest(this.sectionId, name, description);
+      this.editSectionService.save(request).subscribe(
+        (response: SaveResponse) => {
           if (response.saved) {
             this.message = 'teacher/exam/section/section_saved_successfully';
-            this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section', response.id, name, 'question/add']);
+            this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section', this.sectionId, name, 'view']);
           } else {
-            this.message = 'teacher/exam/section/section_saved_created';
+            this.message = 'teacher/exam/section/section_not_saved';
           }
           this.saveSnackBar(this.message);
         }
       );
     }
-  }
-
-  scroll(el) {
-    el.scrollIntoView();
   }
 }
