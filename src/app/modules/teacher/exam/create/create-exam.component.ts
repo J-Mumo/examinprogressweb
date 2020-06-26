@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CreateExamService } from './create-exam.service';
-import { ExamRequest, SaveResponseWithId } from './create-exam-request-response';
+import { CreateExamRequest, SaveResponseWithId, CreateExamInitialData } from './create-exam-request-response';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +12,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./create-exam.component.scss']
 })
 export class CreateExamComponent implements OnInit {
+  initialData: CreateExamInitialData;
   message: string;
+  selectedExamTimerType;
+  timedPerExamId = 1;
 
   constructor(
     private router: Router,
@@ -22,6 +25,15 @@ export class CreateExamComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getInitialData();
+  }
+
+  getInitialData() {
+    this.createExamService.getInitialData().subscribe(
+      (initialData: CreateExamInitialData) => {
+        this.initialData = initialData;
+      }
+    );
   }
 
   saveSnackBar(message) {
@@ -33,42 +45,52 @@ export class CreateExamComponent implements OnInit {
     });
   }
 
+  checkIfTimedByExam() {
+
+    if (this.timedPerExamId === this.selectedExamTimerType) {
+      document.getElementById('duration-div').hidden = false;
+      document.getElementById('duration').setAttribute('required', 'true');
+    } else {
+
+      document.getElementById('duration-div').hidden = true;
+      document.getElementById('duration').setAttribute('required', 'false');
+    }
+  }
+
   onSubmit(form: NgForm) {
     const name = form.value.name;
     const description = form.value.description;
-    const startDate = form.value.startDate;
-    const time = form.value.startTime;
-    const examTime = form.value.duration;
+    const examDuration = form.value.duration;
 
     if (!form.valid) {
       if (name === '') {
         document.getElementById('name-error').hidden = false;
       } else { document.getElementById('name-error').hidden = true; }
 
-      if (startDate === '') {
-        document.getElementById('date-error').hidden = false;
-      } else { document.getElementById('date-error').hidden = true; }
+      if (this.selectedExamTimerType === '' || this.selectedExamTimerType === null || this.selectedExamTimerType === undefined) {
+        document.getElementById('timer-type-error').hidden = false;
+      } else { document.getElementById('timer-type-error').hidden = true; }
 
-      if (time === '') {
-        document.getElementById('time-error').hidden = false;
-      } else { document.getElementById('time-error').hidden = true; }
-
-      if (examTime === '') {
+      if (examDuration === '' || examDuration === null) {
         document.getElementById('duration-error').hidden = false;
       } else { document.getElementById('duration-error').hidden = true; }
 
     } else {
 
-      const startTime = startDate + ' ' + time.hour + ':' + time.minute;
-      const duration = 'PT' + examTime.hour + 'H' + examTime.minute + 'M';
-      const request: ExamRequest = new ExamRequest(name, description, startDate, startTime, duration);
+      let duration = null;
+      if (this.timedPerExamId === this.selectedExamTimerType) {
+        duration = 'PT' + examDuration.hour + 'H' + examDuration.minute + 'M';
+      }
+
+      const request: CreateExamRequest = new CreateExamRequest(name, description, duration, this.selectedExamTimerType);
       this.createExamService.save(request).subscribe(
         (response: SaveResponseWithId) => {
-          if (response.saved){
-            this.message = 'teacher/exam/exam_created_successfully';
-            this.router.navigate(['/teacher/exam', response.id, name, 'section/create']);
+          if (response.saved) {
+            this.message = 'teacher/exam/exam_saved_successfully';
+            const createSectionUrl = '/teacher/exam/' + response.id.toString() + '/' + name + '/section/create';
+            this.router.navigate([createSectionUrl]);
           } else {
-            this.message = 'teacher/exam/exam_not_created';
+            this.message = 'teacher/exam/exam_not_saved';
           }
           this.saveSnackBar(this.message);
         }

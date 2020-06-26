@@ -1,12 +1,22 @@
-import { Time } from '@angular/common';
+export class ExamTimerTypeTransfer {
+  constructor(
+    public examTimerTypeId: number,
+    public name: string
+  ) {}
+}
 
-export class ExamRequest {
+export class CreateExamInitialData {
+  constructor(
+    public examTimerTypeTransfers: ExamTimerTypeTransfer[]
+  ) {}
+}
+
+export class CreateExamRequest {
   constructor(
     public name: string,
     public description: string,
-    public startDate: Date,
-    public startTime: string,
-    public duration: string
+    public duration: string,
+    public examTimerTypeId: number
   ) {}
 }
 

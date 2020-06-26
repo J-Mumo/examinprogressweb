@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="description-div">{{initialData?.description}}</div>
+            <div *ngIf="initialData?.description !== ''" class="description-div">{{initialData?.description}}</div>
           </div>
         </mat-card>
         <br>
@@ -53,64 +53,71 @@
             </button>
           </div>
           <br>
-          <div class="pl-2">
-            <mat-form-field>
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
-            </mat-form-field>
+          <div *ngIf="initialData?.multipleChoiceQuestionTransfers.length < 1">
+            <p style="text-align: center;" class="lighter-font" translate>
+              teacher/exam/section/section_questions_info
+            </p>
           </div>
-          <table matSort mat-table multiTemplateDataRows [dataSource]="questions">
-            <!-- Question Column -->
-            <ng-container matColumnDef="question">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>
-              <td mat-cell *matCellDef="let question">
-                <span>{{question.questionText}}</span>
-              </td>
-            </ng-container>
+          <div *ngIf="initialData?.multipleChoiceQuestionTransfers.length > 0">
+            <div class="pl-2">
+              <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+              </mat-form-field>
+            </div>
+            <table matSort mat-table multiTemplateDataRows [dataSource]="questions">
+              <!-- Question Column -->
+              <ng-container matColumnDef="question">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>
+                <td mat-cell *matCellDef="let question">
+                  <span>{{question.questionText}}</span>
+                </td>
+              </ng-container>
 
-            <!-- Score Column -->
-            <ng-container matColumnDef="score">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
-              <td mat-cell *matCellDef="let question">
-                <div>{{question.score}}</div>
-              </td>
-            </ng-container>
+              <!-- Score Column -->
+              <ng-container matColumnDef="score">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+                <td mat-cell *matCellDef="let question">
+                  <div>{{question.score}}</div>
+                </td>
+              </ng-container>
 
-            <!-- View Column -->
-            <ng-container matColumnDef="viewQuestion">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Question</th>
-              <td mat-cell *matCellDef="let question">
-                <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view" translate>
-                  <mat-icon class="eye-icon">remove_red_eye</mat-icon>
-                  generic/view                    
-                </a>
-              </td>
-            </ng-container>
+              <!-- View Column -->
+              <ng-container matColumnDef="viewQuestion">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Question</th>
+                <td mat-cell *matCellDef="let question">
+                  <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view" translate>
+                    <mat-icon class="eye-icon">remove_red_eye</mat-icon>
+                    generic/view                    
+                  </a>
+                </td>
+              </ng-container>
 
-            <!-- Delete Column -->
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
-              <td mat-cell *matCellDef="let question">
-                <mat-icon
-                  class="icon-button"
-                  routerLink="/teacher/exam/{{examId}}/{{examName}}/edit">
-                    edit
-                </mat-icon>&nbsp;
-                <mat-icon
-                  class="icon-button"
-                  color="warn">
-                    delete
-                </mat-icon>
-              </td>
-            </ng-container>
+              <!-- Delete Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+                <td mat-cell *matCellDef="let question">
+                  <mat-icon
+                    class="icon-button"
+                    routerLink="/teacher/exam/{{examId}}/{{examName}}/edit">
+                      edit
+                  </mat-icon>&nbsp;
+                  <mat-icon
+                    class="icon-button"
+                    color="warn">
+                      delete
+                  </mat-icon>
+                </td>
+              </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="questionColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: questionColumns;" class="example-element-row"></tr>
-          </table>
-          <mat-paginator [length]="100"
-              [pageSize]="20"
-              [pageSizeOptions]="[5, 10, 20, 100]"
-              showFirstLastButtons>
-          </mat-paginator>
+              <tr mat-header-row *matHeaderRowDef="questionColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: questionColumns;" class="example-element-row"></tr>
+            </table>
+            <mat-paginator [length]="100"
+                [pageSize]="20"
+                [pageSizeOptions]="[5, 10, 20, 100]"
+                showFirstLastButtons>
+            </mat-paginator>
+          </div>
         </mat-card>
       </div>
     </div>

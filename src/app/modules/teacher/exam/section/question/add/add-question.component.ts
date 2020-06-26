@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AddMultipleChoiceQuestionAnswerRequest, AddMultipleChoiceQuestionRequest, SaveResponse } from './add-question-request-response';
+import {
+  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse
+} from './add-question-request-response';
 import { AddQuestionService } from './add-question.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -122,10 +124,10 @@ export class AddQuestionComponent implements OnInit {
             }
           }
 
-          const addMultipleChoiceQuestionRequest: AddMultipleChoiceQuestionRequest = new AddMultipleChoiceQuestionRequest(
+          const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
             this.sectionId, question, score, this.addMultipleChoiceQuestionAnswerRequests);
 
-          this.addQuestionService.save(addMultipleChoiceQuestionRequest).subscribe(
+          this.addQuestionService.save(addQuestionRequest).subscribe(
             (response: SaveResponse) => {
               if (response.saved) {
                 this.message = 'teacher/exam/section/question/question_saved_successfully';

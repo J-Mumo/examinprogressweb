@@ -10,9 +10,7 @@ export class ViewExamInitialData {
   constructor(
     public name: string,
     public description: string,
-    public startTime: Date,
     public duration: string,
-    public complete: boolean,
     public sectionTransfers: SectionTransfer[]
     ) {}
 }

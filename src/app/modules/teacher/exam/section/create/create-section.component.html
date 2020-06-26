@@ -56,7 +56,7 @@
                     maxlength="1024"
                     ngModel
                     cdkTextareaAutosize
-                    cdkAutosizeMinRows="5"
+                    cdkAutosizeMinRows="4"
                     cdkAutosizeMaxRows="9"
                     #description="ngModel">
                   </textarea>
@@ -69,11 +69,6 @@
                   type="submit">
                   {{ 'teacher/exam/section/create_section'| translate }}
                 </button>
-                <a mat-raised-button
-                  class="skip-button"
-                  type="button">
-                  {{ 'generic/skip'| translate }}
-                </a>
               </div>
             </div>
           </mat-card>

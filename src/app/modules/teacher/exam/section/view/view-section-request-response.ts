@@ -18,7 +18,7 @@ export class ViewSectionInitialData {
   MultipleChoiceQuestionTransfer: any;
   constructor(
     public name: string,
-    public decription: string,
+    public description: string,
     public multipleChoiceQuestionTransfers: MultipleChoiceQuestionTransfer[]
   ) {}
 }

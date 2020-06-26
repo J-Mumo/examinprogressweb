@@ -37,7 +37,6 @@ export class AuthenticationService {
           this.parentService.hidePublicHeader = true;
           this.parentService.hidePrivateHeader = false;
           this.parentService.showNavBar = true;
-          console.log(res);
           return res.access_token;
         }
         return null;

@@ -5,7 +5,7 @@ export class AddMultipleChoiceQuestionAnswerRequest {
   ) {}
 }
 
-export class AddMultipleChoiceQuestionRequest {
+export class AddQuestionRequest {
   constructor(
     public sectionId: number,
     public questionText: string,

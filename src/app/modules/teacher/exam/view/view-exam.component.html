@@ -9,7 +9,7 @@
           </a>
         </li>
         <li class="breadcrumb-item active">
-          {{examName}}
+          {{initialData?.name}}
         </li>
       </ol>
     </nav>
@@ -21,7 +21,7 @@
             <div class="float-right">
               <mat-icon
                 class="icon-button"
-                routerLink="/teacher/exam/{{examId}}/{{examName}}/edit">
+                routerLink="/teacher/exam/{{examId}}/edit">
                   edit
               </mat-icon>&nbsp;
               <mat-icon
@@ -32,18 +32,7 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="description-div">{{initialData?.description}}</div>
-            <div class="time-div">
-              <div><b>The exam will start on: </b>{{startDate | date: 'full'}}</div>
-              <div><b>The exam duration is: </b>
-                <span *ngIf="hours === 1">{{hours}} hour</span>
-                <span *ngIf="hours > 1">{{hours}} hours</span>
-                <span *ngIf="minutes === 1 && hours > 0"> and {{minutes}} minute</span>
-                <span *ngIf="minutes > 1 && hours > 0"> and {{minutes}} minutes</span>
-                <span *ngIf="minutes === 1">{{minutes}} minute</span>
-                <span *ngIf="minutes > 1">{{minutes}} minutes</span>
-              </div>
-            </div>
+            <div *ngIf="initialData?.description !== ''" class="description-div">{{initialData?.description}}</div>
           </div>
         </mat-card>
         <br>
@@ -51,7 +40,7 @@
           <div class="header card-header" translate>
             teacher/exam/section/sections
             <button mat-stroked-button 
-              routerLink="/teacher/exam/{{examId}}/{{examName}}/section/create"
+              routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/section/create"
               class="float-right"
               color="primary"
               type="button">
@@ -59,6 +48,11 @@
             </button>
           </div>
           <div class="card-body">
+            <div *ngIf="initialData?.sectionTransfers.length < 1">
+              <p style="text-align: center;" class="lighter-font" translate>
+                teacher/exam/section/exam_section_info
+              </p>
+            </div>
             <mat-accordion class="example-headers-align" multi>
               <mat-expansion-panel *ngFor="let section of initialData?.sectionTransfers">
                 <mat-expansion-panel-header>
@@ -69,7 +63,7 @@
                   </mat-panel-title>
                   <mat-panel-description>
                     <button mat-stroked-button 
-                      routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{section.sectionId}}/{{section.name}}/view"
+                      routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/section/{{section.sectionId}}/{{section.name}}/view"
                       class="float-right"
                       color="primary"
                       type="button">

@@ -4,19 +4,19 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a routerLink="/teacher/exam/view" translate>
+          <a routerLink="/teacher/exams" translate>
             teacher/exams
           </a>
         </li>
         <li class="breadcrumb-item active">
-          {{ 'teacher/exam/create' | translate }}
+          {{ 'teacher/exam/edit' | translate }}
         </li>
       </ol>
     </nav>
     <h1 class="header-title" translate>
-      teacher/exam/create_an_exam
+      teacher/exam/edit_an_exam
     </h1>
-    <form #exam="ngForm">
+    <form #exam="ngForm" (ngSubmit)="onSubmit(exam)">
       <div class="row">
         <div class="col-md-8 col-lg-8 mx-auto">
           <mat-card>
@@ -29,7 +29,7 @@
                     name="name"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
+                    [ngModel]="initialData?.name"
                     #name="ngModel"
                     [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
                     placeholder="{{ 'teacher/exam/type_name' | translate }}"
@@ -47,46 +47,13 @@
                     name="description"
                     class="form-control" 
                     maxlength="1024"
-                    ngModel
+                    [ngModel]="initialData?.description"
                     #description="ngModel"
                     placeholder="{{ 'teacher/exam/type_description' | translate }}">
                   </textarea>
                 </mat-form-field>
               </div>
-              <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>teacher/exam/start_date</mat-label>
-                  <input matInput type="date"
-                    id="startDate"
-                    name="startDate"
-                    class="form-control" 
-                    ngModel
-                    #startDate="ngModel"
-                    [ngClass]="{ 'is-invalid': startDate.touched && startDate.value === '' }"
-                    placeholder="{{ 'teacher/exam/type_start_date' | translate }}"
-                    required>
-                </mat-form-field>
-                <span id="date-error" class="form-error" translate hidden>
-                  teacher/exam/please_type_start_date
-                </span>
-              </div>
               <div class="row" style="justify-content: space-between; margin: 0;">
-                <div class="form-group">
-                  <mat-label translate
-                    style="color: #7f7f7f; font-size: 14px;">teacher/exam/start_time
-                  </mat-label>
-                  <ngb-timepicker
-                    id="startTime"
-                    name="startTime"
-                    ngModel
-                    #startTime="ngModel"
-                    [ngClass]="{ 'is-invalid': startTime.touched && startTime.value === '' }"
-                    required>
-                  </ngb-timepicker>
-                  <span style="margin: 0;" id="time-error" class="form-error" translate hidden>
-                    teacher/exam/please_type_start_time
-                  </span>
-                </div>
                 <div class="form-group">
                   <mat-label translate
                     style="color: #7f7f7f; font-size: 14px;">teacher/exam/duration
@@ -94,7 +61,7 @@
                   <ngb-timepicker
                     id="duration"
                     name="duration"
-                    ngModel
+                    [ngModel]="initialData?.duration"
                     #duration="ngModel"
                     [ngClass]="{ 'is-invalid': duration.touched && duration.value === '' }"
                     required>
@@ -109,7 +76,7 @@
                 <button mat-raised-button 
                   color="primary"
                   type="submit">
-                  {{ 'generic/create'| translate }}
+                  {{ 'generic/edit'| translate }}
                 </button>
               </div>
             </div>

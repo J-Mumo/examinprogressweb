@@ -8,7 +8,6 @@ import { CreateExamComponent } from './exam/create/create-exam.component';
 import { EditExamComponent } from './exam/edit/edit-exam.component';
 import { CreateSectionComponent } from './exam/section/create/create-section.component';
 import { AddQuestionComponent } from './exam/section/question/add/add-question.component';
-import { SectionsComponent } from './exam/section/sections/sections.component';
 import { ViewExamComponent } from './exam/view/view-exam.component';
 import { ExamsComponent } from './exam/exams/exams.component';
 import { ViewSectionComponent } from './exam/section/view/view-section.component';
@@ -22,7 +21,6 @@ import { EditSectionComponent } from './exam/section/edit/edit-section.component
     EditExamComponent,
     CreateSectionComponent,
     AddQuestionComponent,
-    SectionsComponent,
     ViewExamComponent,
     ExamsComponent,
     ViewSectionComponent,

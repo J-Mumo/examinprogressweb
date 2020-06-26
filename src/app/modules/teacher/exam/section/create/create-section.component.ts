@@ -52,7 +52,9 @@ export class CreateSectionComponent implements OnInit {
         (response: SaveResponseWithId) => {
           if (response.saved) {
             this.message = 'teacher/exam/section/section_saved_successfully';
-            this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section', response.id, name, 'question/add']);
+            const createQuestionUrl = '/teacher/exam/' + this.examId.toString() + '/' + this.examName
+              + '/section/' + response.id.toString() + '/' + name + '/question/add';
+            this.router.navigate([createQuestionUrl]);
           } else {
             this.message = 'teacher/exam/section/section_saved_created';
           }

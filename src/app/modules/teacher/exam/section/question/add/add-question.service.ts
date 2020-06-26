@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SaveResponse, AddMultipleChoiceQuestionRequest } from './add-question-request-response';
+import { SaveResponse, AddQuestionRequest } from './add-question-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AddQuestionService {
 
   constructor(private http: HttpClient) { }
 
-  save(request: AddMultipleChoiceQuestionRequest):
+  save(request: AddQuestionRequest):
     Observable<SaveResponse> {
       const headers = new HttpHeaders();
 
