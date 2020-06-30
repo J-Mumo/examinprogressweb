@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import {
   AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse
 } from './add-question-request-response';
 import { AddQuestionService } from './add-question.service';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-add-question',
@@ -22,17 +23,29 @@ export class AddQuestionComponent implements OnInit {
   correctAnswerRequest: AddMultipleChoiceQuestionAnswerRequest;
   message: string;
   goToSectionView: boolean;
+  questionType;
+  answerType;
+  question: string;
+  score: number;
+
+  @ViewChild('addQuestion')
+  addQuestionForm: NgForm;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private translate: TranslateService,
     private snackBar: MatSnackBar,
-    private addQuestionService: AddQuestionService
-  ) { }
+    private addQuestionService: AddQuestionService,
+  ) {}
 
   ngOnInit(): void {
     this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
     this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
+  }
+
+  printquestionType() {
+    console.log(this.questionType);
   }
 
   public trackByFn(index, item) {
@@ -67,11 +80,12 @@ export class AddQuestionComponent implements OnInit {
     });
   }
 
-  saveAndExit() {
+  saveAndExit(form: NgForm, stepper: MatStepper) {
     this.goToSectionView = true;
+    this.onSubmitAnswers(form, stepper);
   }
 
-  onSubmit(form: NgForm) {
+  onSubmitQuestion(form: NgForm, stepper: MatStepper) {
     const question = form.value.question;
     const score = form.value.score;
 
@@ -85,64 +99,72 @@ export class AddQuestionComponent implements OnInit {
       } else { document.getElementById('score-error').hidden = true; }
 
     } else {
+      this.question = question;
+      this.score = score;
+      stepper.next();
+    }
+  }
 
-      this.addMultipleChoiceQuestionAnswerRequests = [];
-      for ( let i = 0; i < 20; i++ ) {
-        const formAnswer = 'answer_' + i;
-        const answer = form.value[formAnswer];
-        const correct = false;
+  onSubmitAnswers(form: NgForm, stepper: MatStepper) {
+    this.addMultipleChoiceQuestionAnswerRequests = [];
+    for ( let i = 0; i < 20; i++ ) {
+      const formAnswer = 'answer_' + i;
+      const answer = form.value[formAnswer];
+      const correct = false;
 
-        /** Filter nulls */
-        if ( answer !== null && answer !== undefined && answer !== '' ) {
-          this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest(answer, correct));
-        }
+      /** Filter nulls */
+      if ( answer !== null && answer !== undefined && answer !== '' ) {
+        this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest(answer, correct));
       }
+    }
 
-      let counter = 0;
-      for (const answerRequest of this.addMultipleChoiceQuestionAnswerRequests) {
-        if (answerRequest.answerText !== '') {
-          counter++;
-        } else if (counter > 2) {
-          break;
-        }
+    let counter = 0;
+    for (const answerRequest of this.addMultipleChoiceQuestionAnswerRequests) {
+      if (answerRequest.answerText !== '') {
+        counter++;
+      } else if (counter > 2) {
+        break;
       }
-      if (counter < 2) {
-        document.getElementById('less-answers-error').hidden = false;
+    }
+    if (counter < 2) {
+      document.getElementById('less-answers-error').hidden = false;
+    } else {
+
+      document.getElementById('less-answers-error').hidden = true;
+
+      if (this.correctAnswerRequest === undefined) {
+        document.getElementById('no-correct-answer-error').hidden = false;
       } else {
+        document.getElementById('no-correct-answer-error').hidden = true;
 
-        document.getElementById('less-answers-error').hidden = true;
-
-        if (!this.correctAnswerRequest.correct) {
-          document.getElementById('no-correct-answer-error').hidden = false;
-        } else {
-          document.getElementById('no-correct-answer-error').hidden = true;
-
-          for (const answerRequest of this.addMultipleChoiceQuestionAnswerRequests) {
-            if (answerRequest.answerText === this.correctAnswerRequest.answerText) {
-              answerRequest.correct = true;
-              break;
-            }
+        for (const answerRequest of this.addMultipleChoiceQuestionAnswerRequests) {
+          if (answerRequest.answerText === this.correctAnswerRequest.answerText) {
+            answerRequest.correct = true;
+            break;
           }
-
-          const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-            this.sectionId, question, score, this.addMultipleChoiceQuestionAnswerRequests);
-
-          this.addQuestionService.save(addQuestionRequest).subscribe(
-            (response: SaveResponse) => {
-              if (response.saved) {
-                this.message = 'teacher/exam/section/question/question_saved_successfully';
-                if (this.goToSectionView) {
-
-                } else {
-                  form.reset();
-                }
-              } else {
-                this.message = 'teacher/exam/section/question/question_not_saved';
-              }
-              this.questionSnackBar(this.message);
-            }
-          );
         }
+
+        const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
+          this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+
+        this.addQuestionService.save(addQuestionRequest).subscribe(
+          (response: SaveResponse) => {
+            if (response.saved) {
+              this.message = 'teacher/exam/section/question/question_saved_successfully';
+              if (this.goToSectionView) {
+                this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
+                  this.sectionId, this.sectionName, 'view' ]);
+              } else {
+                form.reset();
+                this.addQuestionForm.reset();
+                stepper.reset();
+              }
+            } else {
+              this.message = 'teacher/exam/section/question/question_not_saved';
+            }
+            this.questionSnackBar(this.message);
+          }
+        );
       }
     }
   }

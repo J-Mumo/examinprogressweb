@@ -9,17 +9,12 @@
           </a>
         </li>
         <li class="breadcrumb-item">
-          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view">
+          <a routerLink="/teacher/exam/{{examId}}/view">
             {{examName}}
           </a>
         </li>
         <li class="breadcrumb-item">
-          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/sections" translate>
-            {{ 'teacher/exam/section/sections' | translate }}
-          </a>
-        </li>
-        <li class="breadcrumb-item">
-          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/edit" translate>
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/view" translate>
             {{sectionName}}
           </a>
         </li>
@@ -31,54 +26,198 @@
     <h1 class="header-title" translate>
       teacher/exam/section/question/add_a_question
     </h1>
-    <form #addQuestion="ngForm" (ngSubmit)="onSubmit(addQuestion)">
-      <div class="row">
-        <div class="col-md-8 col-lg-8 mx-auto">
-          <mat-card>
-            <div class="card-body">
-              <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>teacher/exam/section/question</mat-label>
-                  <textarea matInput type="text"
-                    id="question"
-                    name="question"
-                    class="form-control" 
-                    maxlength="1024"
-                    ngModel
-                    #question="ngModel"
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="3"
-                    cdkAutosizeMaxRows="9"
-                    [ngClass]="{ 'is-invalid': question.touched && question.value === '' }"
-                    required>
-                  </textarea>
-                </mat-form-field>
-                <span id="question-error" class="form-error" translate hidden>
-                  teacher/exam/section/question/please_provide_question
-                </span>
+    <mat-horizontal-stepper #stepper>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/section/question/pick_question_type' | translate }}
+        </ng-template><br>
+        <div class="row">
+          <div class="col-md-10 col-lg-10 mx-auto">
+            <mat-card>
+              <div class="card-header" translate>
+                teacher/exam/section/question/question_types
               </div>
-              <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>teacher/exam/section/question/score</mat-label>
-                  <input matInput type="number"
-                    id="score"
-                    name="score"
-                    class="form-control" 
-                    maxlength="100"
-                    ngModel
-                    #score="ngModel"
-                    pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
-                    [ngClass]="{ 'is-invalid': score.touched && score.value === '' && score.invalid }"
-                    required>
-                </mat-form-field>
-                <span id="score-error" class="form-error" translate hidden>
-                  teacher/exam/section/question/please_add_score
-                </span>
-              </div>
-              <mat-card>
-                <div class="card-header" translate>
-                  teacher/exam/section/question/answers
+              <div class="card-body">
+                <mat-radio-group [(ngModel)]="questionType" name="questionType" aria-label="Select an option">
+                  <mat-radio-button value="question">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Normal Question:</b> This is a normal type of a question where you ask a question and expect
+                      an answer based on that question.
+                    </span>
+                  </mat-radio-button><br><br>
+                  <mat-radio-button value="comprehensionQuestion">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Comprehension Question:</b> This is a type of question where we have a block of text giving context for
+                          the questions to be asked. Several questions are then asked based on that block of text.
+                    </span>
+                  </mat-radio-button>
+                </mat-radio-group>          
+                <div>
+                  <br>
+                  <button mat-stroked-button 
+                    matStepperNext
+                    color="primary">
+                    {{ 'generic/next'| translate }}
+                  </button>
                 </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>{{ 'teacher/exam/section/question/add_question' | translate }}</ng-template>
+        <mat-card *ngIf="questionType === undefined" style="margin-top: 10px;">
+          <p style="text-align: center;" class="lighter-font" translate>
+            {{ 'teacher/exam/section/question/question_type_not_selected' | translate }}
+          </p>      
+          <div>
+            <br>
+            <button mat-stroked-button 
+              matStepperPrevious
+              color="primary">
+              {{ 'generic/back'| translate }}
+            </button>
+          </div>
+        </mat-card>
+        <form #addQuestion="ngForm"
+          (ngSubmit)="onSubmitQuestion(addQuestion, stepper)"
+          *ngIf="questionType === 'question'" style="margin-top: 10px;">
+          <div class="row">
+            <div class="col-md-10 col-lg-10 mx-auto">
+              <mat-card>
+                <div class="card-body">
+                  <div class="form-group">
+                    <mat-form-field appearance="standard">
+                      <mat-label translate>teacher/exam/section/question</mat-label>
+                      <textarea matInput type="text"
+                        id="question"
+                        name="question"
+                        class="form-control" 
+                        maxlength="1024"
+                        ngModel
+                        #question="ngModel"
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="3"
+                        cdkAutosizeMaxRows="9"
+                        [ngClass]="{ 'is-invalid': question.touched && question.value === '' }"
+                        required>
+                      </textarea>
+                    </mat-form-field>
+                    <span id="question-error" class="form-error" translate hidden>
+                      teacher/exam/section/question/please_provide_question
+                    </span>
+                  </div>
+                  <div class="form-group">
+                    <mat-form-field appearance="standard">
+                      <mat-label translate>teacher/exam/section/question/score</mat-label>
+                      <input matInput type="number"
+                        id="score"
+                        name="score"
+                        class="form-control" 
+                        maxlength="100"
+                        ngModel
+                        #score="ngModel"
+                        pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
+                        [ngClass]="{ 'is-invalid': score.touched && score.value === '' && score.invalid }"
+                        required>
+                    </mat-form-field>
+                    <span id="score-error" class="form-error" translate hidden>
+                      teacher/exam/section/question/please_add_score
+                    </span>
+                  </div>
+                  <br><br>
+                  <div class="form-group row">
+                    <button mat-stroked-button 
+                      matStepperPrevious
+                      color="primary">
+                      {{ 'generic/back'| translate }}
+                    </button>&nbsp;&nbsp;
+                    <button mat-stroked-button 
+                      type="submit"
+                      color="primary">
+                      {{ 'generic/next'| translate }}
+                    </button>
+                  </div>
+                </div>    
+              </mat-card>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/section/question/pick_answer_type' | translate }}
+        </ng-template><br>
+        <div class="row">
+          <div class="col-md-10 col-lg-10 mx-auto">
+            <mat-card style="margin-top: 10px;">
+              <div class="card-header" translate>
+                teacher/exam/section/question/answer_types
+              </div>
+              <div class="card-body">
+                <mat-radio-group [(ngModel)]="answerType" name="answerType" aria-label="Select an option">
+                  <mat-radio-button value="multipleChoiceSingleAnswer">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Multiple choice single answer:</b> In this case, you provide a list of possible answers to the question.
+                        Only one answer is correct for the given question.
+                    </span>
+                  </mat-radio-button><br><br>
+                  <mat-radio-button value="multipleChoiceMultipleAnswers">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Multiple choice multiple answers:</b> In this case, you also provide a list of possible answers to the question.
+                        There can be more than one correct answer for this question. An examinee gets the points for the question only when they have selected all 
+                        the correct answers. 
+                    </span>
+                  </mat-radio-button><br><br>
+                  <mat-radio-button value="textAnswer">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Text answer:</b> In this case, there are no choices given. The examinee will provide their own answer. You will 
+                        then come and verify if the answer given is correct and award points accordingly.
+                    </span>
+                  </mat-radio-button>
+                  <!-- <br><br> 
+                  <mat-radio-button value="imageAnswer">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Image answer:</b> In this case, there are no choices given. The examinee will provide their own answer. This answer
+                        will be in the form of an image. The examinee will upload an image then you will verify if the answer given is correct and award points accordingly.
+                    </span>
+                  </mat-radio-button> -->
+                </mat-radio-group>   
+                <br><br>
+                <div class="form-group row">
+                  <button mat-stroked-button 
+                    matStepperPrevious
+                    color="primary">
+                    {{ 'generic/back'| translate }}
+                  </button>&nbsp;&nbsp;
+                  <button mat-stroked-button 
+                    matStepperNext
+                    color="primary">
+                    {{ 'generic/next'| translate }}
+                  </button>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/section/question/add_answers' | translate }}
+        </ng-template><br>
+        <mat-card *ngIf="answerType === undefined" style="margin-top: 10px;">
+          <p style="text-align: center;" class="lighter-font" translate>
+            {{ 'teacher/exam/section/question/answer_type_not_selected' | translate }}
+          </p>
+        </mat-card>
+        <form #addAnswers="ngForm" 
+          (ngSubmit)="onSubmitAnswers(addAnswers, stepper)"
+          *ngIf="answerType === 'multipleChoiceSingleAnswer'"
+          style="margin-top: 10px;">
+          <div class="row">
+            <div class="col-md-10 col-lg-10 mx-auto">
+              <mat-card>
                 <div class="card-body">
                   <p style="text-align: center;" class="lighter-font" translate>
                     teacher/exam/section/question/answers_info
@@ -139,15 +278,23 @@
                 </button>
                 <a mat-raised-button
                   [routerLink]=""
-                  (click)="saveAndExit()"
-                  type="submit">
+                  (click)="saveAndExit(addAnswers, stepper)"
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_exit'| translate }}
                 </a>
               </div>
             </div>
-          </mat-card>
+          </div>
+        </form>
+        <div>
+          <br>
+          <button mat-stroked-button 
+            matStepperPrevious
+            color="primary">
+            {{ 'generic/back'| translate }}
+          </button>
         </div>
-      </div>
-    </form>
+      </mat-step> 
+    </mat-horizontal-stepper>
   </div>
 </div>

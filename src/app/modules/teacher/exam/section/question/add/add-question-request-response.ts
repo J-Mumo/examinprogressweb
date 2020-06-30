@@ -8,8 +8,10 @@ export class AddMultipleChoiceQuestionAnswerRequest {
 export class AddQuestionRequest {
   constructor(
     public sectionId: number,
+    public questionType: string,
     public questionText: string,
     public score: number,
+    public answerType: string,
     public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
