@@ -21,6 +21,7 @@ export class AddQuestionComponent implements OnInit {
   sectionName = String(this.activatedRoute.snapshot.paramMap.get('sectionName'));
   addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
   correctAnswerRequest: AddMultipleChoiceQuestionAnswerRequest;
+  multipleChoiceCorrectAnswersRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
   message: string;
   goToSectionView: boolean;
   questionType;
@@ -66,9 +67,19 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  getCheckedAnswer(answerRequest: AddMultipleChoiceQuestionAnswerRequest) {
+  getSingleCheckedAnswer(answerRequest: AddMultipleChoiceQuestionAnswerRequest) {
     this.correctAnswerRequest = answerRequest;
     this.correctAnswerRequest.correct = true;
+  }
+
+  getMultipleCheckedAnswer(event, answerRequest: AddMultipleChoiceQuestionAnswerRequest) {
+    const checkBoxValue = event.checked;
+
+    if (checkBoxValue) {
+      this.multipleChoiceCorrectAnswersRequests.push(answerRequest);
+    } else {
+      this.multipleChoiceCorrectAnswersRequests.splice(this.multipleChoiceCorrectAnswersRequests.indexOf(answerRequest), 1);
+    }
   }
 
   questionSnackBar(message) {
@@ -132,15 +143,24 @@ export class AddQuestionComponent implements OnInit {
 
       document.getElementById('less-answers-error').hidden = true;
 
-      if (this.correctAnswerRequest === undefined) {
+      if (this.correctAnswerRequest === undefined && this.multipleChoiceCorrectAnswersRequests.length < 1) {
         document.getElementById('no-correct-answer-error').hidden = false;
       } else {
         document.getElementById('no-correct-answer-error').hidden = true;
 
         for (const answerRequest of this.addMultipleChoiceQuestionAnswerRequests) {
-          if (answerRequest.answerText === this.correctAnswerRequest.answerText) {
-            answerRequest.correct = true;
-            break;
+          if (this.answerType === 'multipleChoiceSingleAnswer') {
+            if (answerRequest.answerText === this.correctAnswerRequest.answerText) {
+              answerRequest.correct = true;
+              break;
+            }
+          } else if (this.answerType === 'multipleChoiceMultipleAnswers') {
+
+            for (const correctAnswer of this.multipleChoiceCorrectAnswersRequests) {
+              if (answerRequest.answerText === correctAnswer.answerText) {
+                answerRequest.correct = true;
+              }
+            }
           }
         }
 

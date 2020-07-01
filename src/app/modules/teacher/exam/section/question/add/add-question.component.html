@@ -232,8 +232,83 @@
                     *ngFor="let answerRequest of addMultipleChoiceQuestionAnswerRequests; trackBy: trackByFn let i=index"
                     style="align-items: center; justify-content: space-between;">
                     <mat-radio-button
-                      (change)="getCheckedAnswer(answerRequest)">
+                      (change)="getSingleCheckedAnswer(answerRequest)">
                     </mat-radio-button>
+                    <div class="form-group" style="width: 60%;">
+                      <mat-form-field appearance="standard">
+                        <mat-label translate>teacher/exam/section/question/answer</mat-label>
+                        <textarea matInput type="text"
+                          id="answer_{{i}}"
+                          name="answer_{{i}}"
+                          class="form-control"
+                          maxlength="1024"
+                          [(ngModel)]="answerRequest.answerText"
+                          #answer_{{i}}="ngModel"
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="3"
+                          cdkAutosizeMaxRows="9">
+                        </textarea>
+                      </mat-form-field>
+                      <span id="answer_{{i}}-error" class="form-error" translate hidden>
+                        teacher/exam/section/question/please_add_score
+                      </span>
+                    </div>
+                    <button mat-stroked-button 
+                      color="warn"
+                      type="button"
+                      (click)="deleteAnswer(answerRequest)">
+                      {{ 'teacher/exam/section/question/remove_answer'| translate }}
+                    </button>
+                  </div>
+                  <button mat-stroked-button 
+                    (click)="addAnswer()"
+                    color="primary"
+                    type="button">
+                    {{ 'teacher/exam/section/question/add_answer'| translate }}
+                  </button>
+                </div>
+              </mat-card>
+              <br>
+              <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
+                <button mat-raised-button 
+                  color="primary"
+                  (click)="scroll(top)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
+                </button>
+                <a mat-raised-button
+                  [routerLink]=""
+                  (click)="saveAndExit(addAnswers, stepper)"
+                  type="button">
+                  {{ 'teacher/exam/section/question/save_and_exit'| translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form #addAnswers="ngForm" 
+          (ngSubmit)="onSubmitAnswers(addAnswers, stepper)"
+          *ngIf="answerType === 'multipleChoiceMultipleAnswers'"
+          style="margin-top: 10px;">
+          <div class="row">
+            <div class="col-md-10 col-lg-10 mx-auto">
+              <mat-card>
+                <div class="card-body">
+                  <p style="text-align: center;" class="lighter-font" translate>
+                    teacher/exam/section/question/answers_info
+                  </p>
+                  <span id="less-answers-error" class="form-error answers-error" translate hidden>
+                    teacher/exam/section/question/less_answers_error
+                  </span>
+                  <span id="no-correct-answer-error" class="form-error answers-error" translate hidden>
+                    teacher/exam/section/question/no_correct_answer_error
+                  </span>
+                  <div class="row"
+                    *ngFor="let answerRequest of addMultipleChoiceQuestionAnswerRequests; trackBy: trackByFn let i=index"
+                    style="align-items: center; justify-content: space-between;">
+                    <mat-checkbox id="multiple-choice-answer-checkbox_{{i}}"
+                      (change)="getMultipleCheckedAnswer($event, answerRequest)">
+                    </mat-checkbox>
                     <div class="form-group" style="width: 60%;">
                       <mat-form-field appearance="standard">
                         <mat-label translate>teacher/exam/section/question/answer</mat-label>
