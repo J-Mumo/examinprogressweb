@@ -206,12 +206,15 @@
   "teacher/exam/section/question/answer": "Answer",
   "teacher/exam/section/question/pick_answer_type": "Pick answer type",
   "teacher/exam/section/question/answers_info": "Provide a list of answers for the one being examined to choose from. You should then select the correct answer for the question. There is a button on the left of each answer for this.",
+  "teacher/exam/section/question/text_answer_info": "The examinee will provide a text based answer to this question. When the exam is done, you will assess whether the answer given is correct or not. You will then award points on the answer given accordingly.",
   "teacher/exam/section/question/add_answer": "Add Answer",
   "teacher/exam/section/question/remove_answer": "Remove Answer",
   "teacher/exam/section/question/less_answers_error": "You need to provide more answers for the question then select which is the corect one.",
   "teacher/exam/section/question/no_correct_answer_error": "You have not selected a correct answer for this question.",
   "teacher/exam/section/question/save_and_add_question": "Save and add another question",
   "teacher/exam/section/question/save_and_exit": "Save and exit",
+  "teacher/exam/section/question/no_question_type": "You have not yet selected the type of question nor provided a question to this answer.",
+  "teacher/exam/section/question/no_question": "You have not provided a question or score to this answer.",
   "teacher/exam/section/question/question_saved_successfully": "Question saved successfully.",
   "teacher/exam/section/question/question_not_saved": "Question not saved. Pease try again."
 }

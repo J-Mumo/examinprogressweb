@@ -361,6 +361,37 @@
             </div>
           </div>
         </form>
+        <form #addAnswers="ngForm" 
+          (ngSubmit)="onSubmitTextAnswer(stepper)"
+          *ngIf="answerType === 'textAnswer'"
+          style="margin-top: 10px;">
+          <div class="row">
+            <div class="col-md-10 col-lg-10 mx-auto">
+              <mat-card>
+                <div class="card-body">
+                  <p style="text-align: center;" class="lighter-font" translate>
+                    teacher/exam/section/question/text_answer_info
+                  </p>
+                </div>
+              </mat-card>
+              <br>
+              <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
+                <button mat-raised-button 
+                  color="primary"
+                  (click)="scroll(top)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
+                </button>
+                <a mat-raised-button
+                  [routerLink]=""
+                  (click)="saveTextAnswerAndExit(stepper)"
+                  type="button">
+                  {{ 'teacher/exam/section/question/save_and_exit'| translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </form>
         <div>
           <br>
           <button mat-stroked-button 

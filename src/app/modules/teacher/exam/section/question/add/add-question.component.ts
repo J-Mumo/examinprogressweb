@@ -96,6 +96,11 @@ export class AddQuestionComponent implements OnInit {
     this.onSubmitAnswers(form, stepper);
   }
 
+  saveTextAnswerAndExit(stepper: MatStepper) {
+    this.goToSectionView = true;
+    this.onSubmitTextAnswer(stepper);
+  }
+
   onSubmitQuestion(form: NgForm, stepper: MatStepper) {
     const question = form.value.question;
     const score = form.value.score;
@@ -164,28 +169,73 @@ export class AddQuestionComponent implements OnInit {
           }
         }
 
-        const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-          this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+        if (this.questionType === undefined) {
+          this.message = 'teacher/exam/section/question/no_question_type';
+          this.questionSnackBar(this.message);
+          stepper.reset();
+        } else if (this.question === undefined || this.question === '') {
+          this.message = 'teacher/exam/section/question/no_question';
+          this.questionSnackBar(this.message);
+          stepper.previous();
+          stepper.previous();
+        } else {
+          const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
+            this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
-        this.addQuestionService.save(addQuestionRequest).subscribe(
-          (response: SaveResponse) => {
-            if (response.saved) {
-              this.message = 'teacher/exam/section/question/question_saved_successfully';
-              if (this.goToSectionView) {
-                this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
-                  this.sectionId, this.sectionName, 'view' ]);
+          this.addQuestionService.save(addQuestionRequest).subscribe(
+            (response: SaveResponse) => {
+              if (response.saved) {
+                this.message = 'teacher/exam/section/question/question_saved_successfully';
+                if (this.goToSectionView) {
+                  this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
+                    this.sectionId, this.sectionName, 'view' ]);
+                } else {
+                  form.reset();
+                  this.addQuestionForm.reset();
+                  stepper.reset();
+                }
               } else {
-                form.reset();
-                this.addQuestionForm.reset();
-                stepper.reset();
+                this.message = 'teacher/exam/section/question/question_not_saved';
               }
-            } else {
-              this.message = 'teacher/exam/section/question/question_not_saved';
+              this.questionSnackBar(this.message);
             }
-            this.questionSnackBar(this.message);
-          }
-        );
+          );
+        }
       }
+    }
+  }
+
+  onSubmitTextAnswer(stepper: MatStepper) {
+    if (this.questionType === undefined) {
+      this.message = 'teacher/exam/section/question/no_question_type';
+      this.questionSnackBar(this.message);
+      stepper.reset();
+    } else if (this.question === undefined || this.question === '') {
+      this.message = 'teacher/exam/section/question/no_question';
+      this.questionSnackBar(this.message);
+      stepper.previous();
+      stepper.previous();
+    } else {
+      const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
+        this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+
+      this.addQuestionService.save(addQuestionRequest).subscribe(
+        (response: SaveResponse) => {
+          if (response.saved) {
+            this.message = 'teacher/exam/section/question/question_saved_successfully';
+            if (this.goToSectionView) {
+              this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
+                this.sectionId, this.sectionName, 'view' ]);
+            } else {
+              this.addQuestionForm.reset();
+              stepper.reset();
+            }
+          } else {
+            this.message = 'teacher/exam/section/question/question_not_saved';
+          }
+          this.questionSnackBar(this.message);
+        }
+      );
     }
   }
 
