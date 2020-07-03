@@ -65,6 +65,64 @@
           </div>
         </div>
       </mat-step>
+      <mat-step *ngIf="questionType === 'comprehensionQuestion'">
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/section/question/add_comprehension' | translate }}
+        </ng-template><br>
+        <div class="row">
+          <div class="col-md-10 col-lg-10 mx-auto">
+            <mat-card style="margin-top: 10px;">
+              <div class="card-header" translate>
+                teacher/exam/section/question/type_comprehension
+              </div>
+              <div class="card-body">
+                <form #addComprehension="ngForm"
+                  (ngSubmit)="onSubmitComprehension(addComprehension, stepper)"
+                  style="margin-top: 10px;">
+                  <div class="row">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <mat-form-field appearance="standard">
+                          <mat-label translate>teacher/exam/section/comprehension</mat-label>
+                          <textarea matInput type="text"
+                            id="comprehension"
+                            name="comprehension"
+                            class="form-control" 
+                            maxlength="10024"
+                            ngModel
+                            #comprehension="ngModel"
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="3"
+                            cdkAutosizeMaxRows="9"
+                            [ngClass]="{ 'is-invalid': comprehension.touched && comprehension.value === '' }"
+                            required>
+                          </textarea>
+                        </mat-form-field>
+                        <span id="comprehension-error" class="form-error" translate hidden>
+                          teacher/exam/section/question/please_provide_comprehension
+                        </span>
+                      </div>
+                      <br><br>
+                      <div class="form-group row">
+                        <button mat-stroked-button 
+                          matStepperPrevious
+                          color="primary">
+                          {{ 'generic/back'| translate }}
+                        </button>&nbsp;&nbsp;
+                        <button mat-stroked-button 
+                          type="submit"
+                          color="primary">
+                          {{ 'generic/next'| translate }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-step>
       <mat-step>
         <ng-template matStepLabel>{{ 'teacher/exam/section/question/add_question' | translate }}</ng-template>
         <mat-card *ngIf="questionType === undefined" style="margin-top: 10px;">
@@ -82,7 +140,7 @@
         </mat-card>
         <form #addQuestion="ngForm"
           (ngSubmit)="onSubmitQuestion(addQuestion, stepper)"
-          *ngIf="questionType === 'question'" style="margin-top: 10px;">
+          style="margin-top: 10px;">
           <div class="row">
             <div class="col-md-10 col-lg-10 mx-auto">
               <mat-card>
@@ -269,6 +327,16 @@
                 </div>
               </mat-card>
               <br>
+              <div class="row" 
+                *ngIf="questionType === 'comprehensionQuestion'"
+                style="justify-content: center;">
+                <button mat-raised-button
+                  color="primary"
+                  (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
+                </button>
+              </div>
               <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
                 <button mat-raised-button 
                   color="primary"
@@ -344,6 +412,16 @@
                 </div>
               </mat-card>
               <br>
+              <div class="row" 
+                *ngIf="questionType === 'comprehensionQuestion'"
+                style="justify-content: center;">
+                <button mat-raised-button
+                  color="primary"
+                  (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
+                </button>
+              </div>
               <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
                 <button mat-raised-button 
                   color="primary"
@@ -375,6 +453,16 @@
                 </div>
               </mat-card>
               <br>
+              <div class="row" 
+                *ngIf="questionType === 'comprehensionQuestion'"
+                style="justify-content: center;">
+                <button mat-raised-button
+                  color="primary"
+                  (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
+                  type="submit">
+                  {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
+                </button>
+              </div>
               <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
                 <button mat-raised-button 
                   color="primary"

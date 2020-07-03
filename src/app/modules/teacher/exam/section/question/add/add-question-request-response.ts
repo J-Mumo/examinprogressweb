@@ -8,7 +8,6 @@ export class AddMultipleChoiceQuestionAnswerRequest {
 export class AddQuestionRequest {
   constructor(
     public sectionId: number,
-    public questionType: string,
     public questionText: string,
     public score: number,
     public answerType: string,
@@ -16,9 +15,35 @@ export class AddQuestionRequest {
   ) {}
 }
 
+export class QuestionRequest {
+  constructor(
+    public questionText: string,
+    public score: number,
+    public answerType: string,
+    public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
+  ) {}
+}
+
+export class AddComprehensionQuestionRequest {
+  constructor(
+    public sectionId: number,
+    public comprehensionQuestionId: number,
+    public comprehension: string,
+    public questionRequest: QuestionRequest
+  ) {}
+}
+
 export class SaveResponse {
   constructor(
     public saved: boolean,
     public error: string
+  ) {}
+}
+
+export class SaveResponseWithId {
+  constructor(
+    public saved: boolean,
+    public error: string,
+    public id: number
   ) {}
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import {
-  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse
+  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse, QuestionRequest, AddComprehensionQuestionRequest, SaveResponseWithId
 } from './add-question-request-response';
 import { AddQuestionService } from './add-question.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,15 +22,21 @@ export class AddQuestionComponent implements OnInit {
   addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
   correctAnswerRequest: AddMultipleChoiceQuestionAnswerRequest;
   multipleChoiceCorrectAnswersRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
+  comprehensionQuestionId = null;
   message: string;
+  addQuestionForComprehension: boolean;
   goToSectionView: boolean;
   questionType;
   answerType;
+  comprehension: string;
   question: string;
   score: number;
 
   @ViewChild('addQuestion')
   addQuestionForm: NgForm;
+
+  @ViewChild('addComprehension')
+  addComprehensionQuestionForm: NgForm;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -96,6 +102,11 @@ export class AddQuestionComponent implements OnInit {
     this.onSubmitAnswers(form, stepper);
   }
 
+  saveAndAddQuestionForComprehension(form: NgForm, stepper: MatStepper) {
+    this.addQuestionForComprehension = true;
+    this.onSubmitAnswers(form, stepper);
+  }
+
   saveTextAnswerAndExit(stepper: MatStepper) {
     this.goToSectionView = true;
     this.onSubmitTextAnswer(stepper);
@@ -117,6 +128,20 @@ export class AddQuestionComponent implements OnInit {
     } else {
       this.question = question;
       this.score = score;
+      stepper.next();
+    }
+  }
+
+  onSubmitComprehension(form: NgForm, stepper: MatStepper) {
+    const comprehension = form.value.comprehension;
+
+    if (!form.valid) {
+      if (comprehension === '') {
+        document.getElementById('comprehension-error').hidden = false;
+      } else { document.getElementById('comprehension-error').hidden = true; }
+
+    } else {
+      this.comprehension = comprehension;
       stepper.next();
     }
   }
@@ -173,33 +198,26 @@ export class AddQuestionComponent implements OnInit {
           this.message = 'teacher/exam/section/question/no_question_type';
           this.questionSnackBar(this.message);
           stepper.reset();
-        } else if (this.question === undefined || this.question === '') {
+        } else if (this.question === undefined || this.question === '' || this.score === undefined || this.score === null) {
           this.message = 'teacher/exam/section/question/no_question';
           this.questionSnackBar(this.message);
           stepper.previous();
           stepper.previous();
         } else {
-          const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-            this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+          if (this.questionType === 'question') {
+            const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
+              this.sectionId, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
-          this.addQuestionService.save(addQuestionRequest).subscribe(
-            (response: SaveResponse) => {
-              if (response.saved) {
-                this.message = 'teacher/exam/section/question/question_saved_successfully';
-                if (this.goToSectionView) {
-                  this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
-                    this.sectionId, this.sectionName, 'view' ]);
-                } else {
-                  form.reset();
-                  this.addQuestionForm.reset();
-                  stepper.reset();
-                }
-              } else {
-                this.message = 'teacher/exam/section/question/question_not_saved';
-              }
-              this.questionSnackBar(this.message);
-            }
-          );
+            this.addquestionService(addQuestionRequest, stepper);
+          } else if (this.questionType === 'comprehensionQuestion') {
+            const questionRequest: QuestionRequest = new QuestionRequest(
+              this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+
+            const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
+              this.sectionId, this.comprehensionQuestionId, this.comprehension, questionRequest);
+
+            this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper);
+          }
         }
       }
     }
@@ -210,33 +228,76 @@ export class AddQuestionComponent implements OnInit {
       this.message = 'teacher/exam/section/question/no_question_type';
       this.questionSnackBar(this.message);
       stepper.reset();
-    } else if (this.question === undefined || this.question === '') {
-      this.message = 'teacher/exam/section/question/no_question';
+    } else if (this.question === undefined || this.question === '' || this.score === undefined || this.score === null) {
+      this.message = 'teacher/exam/section/question/no_question_score';
       this.questionSnackBar(this.message);
       stepper.previous();
       stepper.previous();
     } else {
-      const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-        this.sectionId, this.questionType, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+      if (this.questionType === 'question') {
+        const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
+          this.sectionId, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
-      this.addQuestionService.save(addQuestionRequest).subscribe(
-        (response: SaveResponse) => {
-          if (response.saved) {
-            this.message = 'teacher/exam/section/question/question_saved_successfully';
-            if (this.goToSectionView) {
-              this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
-                this.sectionId, this.sectionName, 'view' ]);
-            } else {
-              this.addQuestionForm.reset();
-              stepper.reset();
-            }
-          } else {
-            this.message = 'teacher/exam/section/question/question_not_saved';
-          }
-          this.questionSnackBar(this.message);
-        }
-      );
+        this.addquestionService(addQuestionRequest, stepper);
+      } else if (this.questionType === 'comprehensionQuestion') {
+        const questionRequest: QuestionRequest = new QuestionRequest(
+          this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+
+        const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
+          this.sectionId, this.comprehensionQuestionId, this.comprehension, questionRequest);
+
+        this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper);
+      }
     }
+  }
+
+  addquestionService(addQuestionRequest: AddQuestionRequest, stepper: MatStepper) {
+
+    this.addQuestionService.saveQuestion(addQuestionRequest).subscribe(
+      (response: SaveResponse) => {
+        if (response.saved) {
+          this.message = 'teacher/exam/section/question/question_saved_successfully';
+          if (this.goToSectionView) {
+            this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
+              this.sectionId, this.sectionName, 'view' ]);
+          } else {
+            this.addQuestionForm.reset();
+            stepper.reset();
+          }
+        } else {
+          this.message = 'teacher/exam/section/question/question_not_saved';
+        }
+        this.questionSnackBar(this.message);
+      }
+    );
+  }
+
+  addcomprehensionQuestionService(addComprehensionQuestionRequest: AddComprehensionQuestionRequest, stepper: MatStepper) {
+
+    this.addQuestionService.saveComprehensionQuestion(addComprehensionQuestionRequest).subscribe(
+      (response: SaveResponseWithId) => {
+        if (response.saved) {
+          this.message = 'teacher/exam/section/question/question_saved_successfully';
+          if (this.goToSectionView) {
+            this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
+              this.sectionId, this.sectionName, 'view' ]);
+          } else if (this.addQuestionForComprehension) {
+            this.comprehensionQuestionId = response.id;
+            this.addQuestionForm.reset();
+            stepper.previous();
+            stepper.previous();
+          } else {
+            this.addQuestionForm.reset();
+            this.addComprehensionQuestionForm.reset();
+            stepper.reset();
+            this.comprehensionQuestionId = null;
+          }
+        } else {
+          this.message = 'teacher/exam/section/question/question_not_saved';
+        }
+        this.questionSnackBar(this.message);
+      }
+    );
   }
 
   scroll(el) {
