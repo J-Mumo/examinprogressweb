@@ -49,11 +49,15 @@
                     maxlength="1024"
                     [ngModel]="initialData?.description"
                     #description="ngModel"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="3"
+                    cdkAutosizeMaxRows="9"
                     placeholder="{{ 'teacher/exam/type_description' | translate }}">
                   </textarea>
                 </mat-form-field>
               </div>
-              <div class="row" style="justify-content: space-between; margin: 0;">
+              <div class="row" style="justify-content: space-between; margin: 0;"
+                *ngIf="initialData?.duration !== null">
                 <div class="form-group">
                   <mat-label translate
                     style="color: #7f7f7f; font-size: 14px;">teacher/exam/duration

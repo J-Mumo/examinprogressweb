@@ -1,3 +1,9 @@
+export class AddQuestionInitialData {
+  constructor(
+    public examTimedByQuestion: boolean
+  ) {}
+}
+
 export class AddMultipleChoiceQuestionAnswerRequest {
   constructor(
     public answerText: string,
@@ -10,6 +16,7 @@ export class AddQuestionRequest {
     public sectionId: number,
     public questionText: string,
     public score: number,
+    public duration: string,
     public answerType: string,
     public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
   ) {}
@@ -29,6 +36,7 @@ export class AddComprehensionQuestionRequest {
     public sectionId: number,
     public comprehensionQuestionId: number,
     public comprehension: string,
+    public duration: string,
     public questionRequest: QuestionRequest
   ) {}
 }

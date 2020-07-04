@@ -32,11 +32,6 @@ export class NgbTimeStringAdapter extends NgbTimeAdapter<string> {
   }
 }
 
-interface TimePicker {
-  hour: number;
-  minute: number;
-}
-
 @Component({
   selector: 'app-edit-exam',
   templateUrl: './edit-exam.component.html',
@@ -47,8 +42,6 @@ export class EditExamComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   initialData: EditExamInitialData;
   message: string;
-  startDate;
-  startTime: TimePicker = { hour: 0, minute: 0 };
 
   constructor(
     private activatedRoute: ActivatedRoute,

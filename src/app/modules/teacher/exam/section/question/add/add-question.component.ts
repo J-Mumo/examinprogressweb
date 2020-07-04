@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
-  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse, QuestionRequest, AddComprehensionQuestionRequest, SaveResponseWithId
+  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse, QuestionRequest,
+  AddComprehensionQuestionRequest, SaveResponseWithId, AddQuestionInitialData
 } from './add-question-request-response';
 import { AddQuestionService } from './add-question.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,6 +23,7 @@ export class AddQuestionComponent implements OnInit {
   addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
   correctAnswerRequest: AddMultipleChoiceQuestionAnswerRequest;
   multipleChoiceCorrectAnswersRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
+  initialData: AddQuestionInitialData;
   comprehensionQuestionId = null;
   message: string;
   addQuestionForComprehension: boolean;
@@ -29,6 +31,7 @@ export class AddQuestionComponent implements OnInit {
   questionType;
   answerType;
   comprehension: string;
+  questionDuration;
   question: string;
   score: number;
 
@@ -49,6 +52,15 @@ export class AddQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
     this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
+    this.getInitialData();
+  }
+
+  getInitialData() {
+    this.addQuestionService.getInitialData(this.sectionId).subscribe(
+      (initialData: AddQuestionInitialData) => {
+        this.initialData = initialData;
+      }
+    );
   }
 
   printquestionType() {
@@ -104,7 +116,11 @@ export class AddQuestionComponent implements OnInit {
 
   saveAndAddQuestionForComprehension(form: NgForm, stepper: MatStepper) {
     this.addQuestionForComprehension = true;
-    this.onSubmitAnswers(form, stepper);
+    if (this.answerType === 'textAnswer') {
+      this.onSubmitTextAnswer(stepper);
+    } else {
+      this.onSubmitAnswers(form, stepper);
+    }
   }
 
   saveTextAnswerAndExit(stepper: MatStepper) {
@@ -115,6 +131,7 @@ export class AddQuestionComponent implements OnInit {
   onSubmitQuestion(form: NgForm, stepper: MatStepper) {
     const question = form.value.question;
     const score = form.value.score;
+    const questionDuration = form.value.duration !== undefined ? form.value.duration : null;
 
     if (!form.valid) {
       if (question === '') {
@@ -125,23 +142,34 @@ export class AddQuestionComponent implements OnInit {
         document.getElementById('score-error').hidden = false;
       } else { document.getElementById('score-error').hidden = true; }
 
+      if (questionDuration === '' || questionDuration === null) {
+        document.getElementById('duration-error').hidden = false;
+      } else { document.getElementById('duration-error').hidden = true; }
+
     } else {
       this.question = question;
       this.score = score;
+      this.questionDuration = questionDuration;
       stepper.next();
     }
   }
 
   onSubmitComprehension(form: NgForm, stepper: MatStepper) {
     const comprehension = form.value.comprehension;
+    const questionDuration = form.value.duration !== undefined ? form.value.duration : null;
 
     if (!form.valid) {
       if (comprehension === '') {
         document.getElementById('comprehension-error').hidden = false;
       } else { document.getElementById('comprehension-error').hidden = true; }
 
+      if (questionDuration === '' || questionDuration === null) {
+        document.getElementById('duration-error').hidden = false;
+      } else { document.getElementById('duration-error').hidden = true; }
+
     } else {
       this.comprehension = comprehension;
+      this.questionDuration = questionDuration;
       stepper.next();
     }
   }
@@ -204,19 +232,23 @@ export class AddQuestionComponent implements OnInit {
           stepper.previous();
           stepper.previous();
         } else {
+
+          const duration = this.questionDuration != null ?
+            'PT' + this.questionDuration.hour + 'H' + this.questionDuration.minute + 'M' + this.questionDuration.second + 'S' : null;
+
           if (this.questionType === 'question') {
             const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-              this.sectionId, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+              this.sectionId, this.question, this.score, duration, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
-            this.addquestionService(addQuestionRequest, stepper);
+            this.addquestionService(addQuestionRequest, stepper, form);
           } else if (this.questionType === 'comprehensionQuestion') {
             const questionRequest: QuestionRequest = new QuestionRequest(
               this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
             const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
-              this.sectionId, this.comprehensionQuestionId, this.comprehension, questionRequest);
+              this.sectionId, this.comprehensionQuestionId, this.comprehension, duration, questionRequest);
 
-            this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper);
+            this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper, form);
           }
         }
       }
@@ -224,6 +256,7 @@ export class AddQuestionComponent implements OnInit {
   }
 
   onSubmitTextAnswer(stepper: MatStepper) {
+    const form: NgForm = new NgForm(null, null);
     if (this.questionType === undefined) {
       this.message = 'teacher/exam/section/question/no_question_type';
       this.questionSnackBar(this.message);
@@ -234,24 +267,28 @@ export class AddQuestionComponent implements OnInit {
       stepper.previous();
       stepper.previous();
     } else {
+
+      const duration = this.questionDuration != null ?
+      'PT' + this.questionDuration.hour + 'H' + this.questionDuration.minute + 'M' + this.questionDuration.second + 'S' : null;
+
       if (this.questionType === 'question') {
         const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-          this.sectionId, this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
+          this.sectionId, this.question, this.score, duration, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
-        this.addquestionService(addQuestionRequest, stepper);
+        this.addquestionService(addQuestionRequest, stepper, form);
       } else if (this.questionType === 'comprehensionQuestion') {
         const questionRequest: QuestionRequest = new QuestionRequest(
           this.question, this.score, this.answerType, this.addMultipleChoiceQuestionAnswerRequests);
 
         const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
-          this.sectionId, this.comprehensionQuestionId, this.comprehension, questionRequest);
+          this.sectionId, this.comprehensionQuestionId, this.comprehension, duration, questionRequest);
 
-        this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper);
+        this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper, form);
       }
     }
   }
 
-  addquestionService(addQuestionRequest: AddQuestionRequest, stepper: MatStepper) {
+  addquestionService(addQuestionRequest: AddQuestionRequest, stepper: MatStepper, form: NgForm) {
 
     this.addQuestionService.saveQuestion(addQuestionRequest).subscribe(
       (response: SaveResponse) => {
@@ -262,7 +299,12 @@ export class AddQuestionComponent implements OnInit {
               this.sectionId, this.sectionName, 'view' ]);
           } else {
             this.addQuestionForm.reset();
+            form.reset();
             stepper.reset();
+            this.questionType = undefined;
+            this.answerType = undefined;
+            this.correctAnswerRequest = undefined;
+            this.multipleChoiceCorrectAnswersRequests = [];
           }
         } else {
           this.message = 'teacher/exam/section/question/question_not_saved';
@@ -272,7 +314,7 @@ export class AddQuestionComponent implements OnInit {
     );
   }
 
-  addcomprehensionQuestionService(addComprehensionQuestionRequest: AddComprehensionQuestionRequest, stepper: MatStepper) {
+  addcomprehensionQuestionService(addComprehensionQuestionRequest: AddComprehensionQuestionRequest, stepper: MatStepper, form: NgForm) {
 
     this.addQuestionService.saveComprehensionQuestion(addComprehensionQuestionRequest).subscribe(
       (response: SaveResponseWithId) => {
@@ -282,16 +324,23 @@ export class AddQuestionComponent implements OnInit {
             this.router.navigate(['/teacher/exam', this.examId, this.examName, 'section',
               this.sectionId, this.sectionName, 'view' ]);
           } else if (this.addQuestionForComprehension) {
+            console.log(this.addQuestionForComprehension);
             this.comprehensionQuestionId = response.id;
             this.addQuestionForm.reset();
-            stepper.previous();
+            form.reset();
             stepper.previous();
           } else {
-            this.addQuestionForm.reset();
+            console.log(this.addQuestionForComprehension);
             this.addComprehensionQuestionForm.reset();
+            form.reset();
             stepper.reset();
+            this.questionType = undefined;
             this.comprehensionQuestionId = null;
           }
+
+          this.answerType = undefined;
+          this.correctAnswerRequest = undefined;
+          this.multipleChoiceCorrectAnswersRequests = [];
         } else {
           this.message = 'teacher/exam/section/question/question_not_saved';
         }

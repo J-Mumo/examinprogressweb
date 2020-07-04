@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
 import { CreateSectionService } from './create-section.service';
 import { SaveResponseWithId } from '../../create/create-exam-request-response';
-import { CreateSectionRequest } from './create-section-request-response';
+import { CreateSectionRequest, CreateSectionInitialData } from './create-section-request-response';
 
 @Component({
   selector: 'app-create-section',
@@ -15,6 +15,7 @@ import { CreateSectionRequest } from './create-section-request-response';
 export class CreateSectionComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
+  initialData: CreateSectionInitialData;
   message: string;
 
   constructor(
@@ -25,6 +26,15 @@ export class CreateSectionComponent implements OnInit {
     private createSectionService: CreateSectionService) { }
 
   ngOnInit(): void {
+    this.getInitialData();
+  }
+
+  getInitialData() {
+    this.createSectionService.getInitialData(this.examId).subscribe(
+      (initialData: CreateSectionInitialData) => {
+        this.initialData = initialData;
+      }
+    );
   }
 
   saveSnackBar(message) {
@@ -39,15 +49,21 @@ export class CreateSectionComponent implements OnInit {
   onSubmit(form: NgForm) {
     const name = form.value.name;
     const description = form.value.description;
+    const sectionDuration = form.value.duration !== undefined ? form.value.duration : null;
 
     if (!form.valid) {
       if (name === '') {
         document.getElementById('name-error').hidden = false;
       } else { document.getElementById('name-error').hidden = true; }
 
+      if (sectionDuration === '' || sectionDuration === null) {
+        document.getElementById('duration-error').hidden = false;
+      } else { document.getElementById('duration-error').hidden = true; }
+
     } else {
 
-      const request: CreateSectionRequest = new CreateSectionRequest(this.examId, name, description);
+      const duration = sectionDuration != null ? 'PT' + sectionDuration.hour + 'H' + sectionDuration.minute + 'M' : null;
+      const request: CreateSectionRequest = new CreateSectionRequest(this.examId, name, description, duration);
       this.createSectionService.save(request).subscribe(
         (response: SaveResponseWithId) => {
           if (response.saved) {
