@@ -73,3 +73,15 @@ tr.example-element-row:not(.example-expanded-row):active {
   border: 1px solid #ced4da;
   border-radius: .25rem;
 }
+
+.mat-column-question {
+  width: 60%;
+}
+
+.question {
+  overflow: hidden;
+  padding-right: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

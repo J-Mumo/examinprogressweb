@@ -157,7 +157,7 @@
         <form #addQuestion="ngForm"
           (ngSubmit)="onSubmitQuestion(addQuestion, stepper)"
           style="margin-top: 10px;">
-          <div class="row">
+          <div class="row" *ngIf="questionType !== undefined">
             <div class="col-md-10 col-lg-10 mx-auto">
               <mat-card>
                 <div class="card-body">
@@ -372,7 +372,7 @@
               <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
                 <button mat-raised-button 
                   color="primary"
-                  (click)="scroll(top)"
+                  (click)="saveAndAddNewQuestion(addAnswers, stepper)"
                   type="submit">
                   {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
                 </button>

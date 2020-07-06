@@ -19,7 +19,7 @@
       </ol>
     </nav>
     <div class="row">
-      <div class="col-md-8 col-lg-8 mx-auto">
+      <div class="col-md-12 mx-auto">
         <mat-card>
           <div class="card-header">
             {{initialData?.name}}
@@ -69,7 +69,7 @@
               <ng-container matColumnDef="question">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>
                 <td mat-cell *matCellDef="let question">
-                  <span>{{question.questionText}}</span>
+                  <div class="question">{{question.questionText}}</div>
                 </td>
               </ng-container>
 

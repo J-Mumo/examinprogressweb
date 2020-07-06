@@ -1,6 +1,22 @@
+export class QuestionTypeTransfer {
+  constructor(
+    public questionTypeId: number,
+    public name: string
+  ) {}
+}
+
+export class AnswerTypeTransfer {
+  constructor(
+    public answerTypeId: number,
+    public name: string
+  ) {}
+}
+
 export class AddQuestionInitialData {
   constructor(
-    public examTimedByQuestion: boolean
+    public examTimedByQuestion: boolean,
+    public questionTypeTransfers: QuestionTypeTransfer[],
+    public answerTypeTransfers: AnswerTypeTransfer[]
   ) {}
 }
 
@@ -14,10 +30,10 @@ export class AddMultipleChoiceQuestionAnswerRequest {
 export class AddQuestionRequest {
   constructor(
     public sectionId: number,
+    public answerTypeId: number,
     public questionText: string,
     public score: number,
     public duration: string,
-    public answerType: string,
     public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
@@ -26,7 +42,6 @@ export class QuestionRequest {
   constructor(
     public questionText: string,
     public score: number,
-    public answerType: string,
     public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
@@ -35,6 +50,7 @@ export class AddComprehensionQuestionRequest {
   constructor(
     public sectionId: number,
     public comprehensionQuestionId: number,
+    public answerTypeId: number,
     public comprehension: string,
     public duration: string,
     public questionRequest: QuestionRequest
@@ -54,4 +70,11 @@ export class SaveResponseWithId {
     public error: string,
     public id: number
   ) {}
+}
+
+export enum AnswerTypeEnum {
+  multipleChoiceSingleAnswerId = 1,
+  multipleChoiceMultipleAnswersId,
+  textAnswerId,
+  imageAnswerId
 }
