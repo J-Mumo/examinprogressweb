@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewSectionService } from './view-section.service';
 import { ActivatedRoute } from '@angular/router';
-import { ViewSectionInitialData, MultipleChoiceQuestionTransfer } from './view-section-request-response';
+import { ViewSectionInitialData, QuestionTransfer } from './view-section-request-response';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -15,8 +15,8 @@ export class ViewSectionComponent implements OnInit {
   sectionId = Number(this.activatedRoute.snapshot.paramMap.get('sectionId'));
   sectionName = String(this.activatedRoute.snapshot.paramMap.get('sectionName'));
   initialData: ViewSectionInitialData;
-  questions: MatTableDataSource<MultipleChoiceQuestionTransfer>;
-  questionColumns: string[] = ['question', 'score', 'viewQuestion', 'actions'];
+  questions: MatTableDataSource<QuestionTransfer>;
+  questionColumns: string[] = ['question', 'questionType', 'viewQuestion', 'actions'];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,7 +31,7 @@ export class ViewSectionComponent implements OnInit {
     this.viewSectionService.getInitialData(this.sectionId).subscribe(
       (initialData: ViewSectionInitialData) => {
         this.initialData = initialData;
-        this.questions = new MatTableDataSource(initialData.multipleChoiceQuestionTransfers);
+        this.questions = new MatTableDataSource(initialData.questionTransfers);
       }
     );
   }

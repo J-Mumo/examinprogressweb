@@ -5,9 +5,10 @@ export class MultipleChoiceAnswerTransfer {
   ) {}
 }
 
-export class MultipleChoiceQuestionTransfer {
+export class QuestionTransfer {
   constructor(
     public questionId: number,
+    public questionType: string,
     public questionText: string,
     public score: number,
     public multipleChoiceAnswerTransfers: MultipleChoiceAnswerTransfer[]
@@ -19,6 +20,6 @@ export class ViewSectionInitialData {
   constructor(
     public name: string,
     public description: string,
-    public multipleChoiceQuestionTransfers: MultipleChoiceQuestionTransfer[]
+    public questionTransfers: QuestionTransfer[]
   ) {}
 }
