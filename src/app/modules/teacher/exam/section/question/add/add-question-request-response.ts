@@ -20,8 +20,9 @@ export class AddQuestionInitialData {
   ) {}
 }
 
-export class AddMultipleChoiceQuestionAnswerRequest {
+export class MultipleChoiceQuestionAnswerRequest {
   constructor(
+    public answerId: number,
     public answerText: string,
     public correct: boolean
   ) {}
@@ -34,7 +35,7 @@ export class AddQuestionRequest {
     public questionText: string,
     public score: number,
     public duration: string,
-    public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
+    public multipleChoiceQuestionAnswerRequests: MultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
 
@@ -42,7 +43,7 @@ export class QuestionRequest {
   constructor(
     public questionText: string,
     public score: number,
-    public addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[]
+    public multipleChoiceQuestionAnswerRequests: MultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
 

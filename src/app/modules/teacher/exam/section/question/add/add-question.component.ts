@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  AddMultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse, QuestionRequest,
+  MultipleChoiceQuestionAnswerRequest, AddQuestionRequest, SaveResponse, QuestionRequest,
   AddComprehensionQuestionRequest, SaveResponseWithId, AddQuestionInitialData, AnswerTypeEnum
 } from './add-question-request-response';
 import { AddQuestionService } from './add-question.service';
@@ -20,9 +20,9 @@ export class AddQuestionComponent implements OnInit {
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   sectionId = Number(this.activatedRoute.snapshot.paramMap.get('sectionId'));
   sectionName = String(this.activatedRoute.snapshot.paramMap.get('sectionName'));
-  addMultipleChoiceQuestionAnswerRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
-  correctAnswerRequest: AddMultipleChoiceQuestionAnswerRequest;
-  multipleChoiceCorrectAnswersRequests: AddMultipleChoiceQuestionAnswerRequest[] = [];
+  addMultipleChoiceQuestionAnswerRequests: MultipleChoiceQuestionAnswerRequest[] = [];
+  correctAnswerRequest: MultipleChoiceQuestionAnswerRequest;
+  multipleChoiceCorrectAnswersRequests: MultipleChoiceQuestionAnswerRequest[] = [];
   initialData: AddQuestionInitialData;
   comprehensionQuestionId = null;
   message: string;
@@ -50,8 +50,8 @@ export class AddQuestionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
-    this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest('', false));
+    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, '', false));
+    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, '', false));
     this.getInitialData();
   }
 
@@ -74,7 +74,7 @@ export class AddQuestionComponent implements OnInit {
 
   addAnswer() {
     if (this.addMultipleChoiceQuestionAnswerRequests.length < 20) {
-      this.addMultipleChoiceQuestionAnswerRequests.push({ answerText: '', correct: false });
+      this.addMultipleChoiceQuestionAnswerRequests.push({ answerId: null, answerText: '', correct: false });
     }
   }
 
@@ -85,12 +85,12 @@ export class AddQuestionComponent implements OnInit {
     }
   }
 
-  getSingleCheckedAnswer(answerRequest: AddMultipleChoiceQuestionAnswerRequest) {
+  getSingleCheckedAnswer(answerRequest: MultipleChoiceQuestionAnswerRequest) {
     this.correctAnswerRequest = answerRequest;
     this.correctAnswerRequest.correct = true;
   }
 
-  getMultipleCheckedAnswer(event, answerRequest: AddMultipleChoiceQuestionAnswerRequest) {
+  getMultipleCheckedAnswer(event, answerRequest: MultipleChoiceQuestionAnswerRequest) {
     const checkBoxValue = event.checked;
 
     if (checkBoxValue) {
@@ -193,7 +193,7 @@ export class AddQuestionComponent implements OnInit {
 
       /** Filter nulls */
       if ( answer !== null && answer !== undefined && answer !== '' ) {
-        this.addMultipleChoiceQuestionAnswerRequests.push(new AddMultipleChoiceQuestionAnswerRequest(answer, correct));
+        this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, answer, correct));
       }
     }
 

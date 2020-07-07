@@ -90,7 +90,7 @@
               <ng-container matColumnDef="viewQuestion">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>View Question</th>
                 <td mat-cell *matCellDef="let question">
-                  <a routerLink="/teacher/exam/{{examId}}/{{examName}}/view" translate>
+                  <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/question/{{question.questionId}}/view" translate>
                     <mat-icon class="eye-icon">remove_red_eye</mat-icon>
                     generic/view                    
                   </a>

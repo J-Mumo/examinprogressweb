@@ -12,6 +12,8 @@ import { ViewExamComponent } from './exam/view/view-exam.component';
 import { ExamsComponent } from './exam/exams/exams.component';
 import { ViewSectionComponent } from './exam/section/view/view-section.component';
 import { EditSectionComponent } from './exam/section/edit/edit-section.component';
+import { ViewQuestionComponent } from './exam/section/question/view/view-question.component';
+import { EditQuestionComponent } from './exam/section/question/edit/edit-question.component';
 
 
 @NgModule({
@@ -24,7 +26,9 @@ import { EditSectionComponent } from './exam/section/edit/edit-section.component
     ViewExamComponent,
     ExamsComponent,
     ViewSectionComponent,
-    EditSectionComponent
+    EditSectionComponent,
+    ViewQuestionComponent,
+    EditQuestionComponent
   ],
   imports: [
     CommonModule,
