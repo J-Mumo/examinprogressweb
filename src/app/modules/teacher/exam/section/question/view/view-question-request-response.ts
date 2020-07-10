@@ -16,11 +16,18 @@ export class QuestionTransfer {
   ) {}
 }
 
-export class ViewSectionInitialData {
-  MultipleChoiceQuestionTransfer: any;
+export class ComprehensionQuestionTransfer {
   constructor(
-    public name: string,
-    public description: string,
+    public question: string,
+    public duration: string,
     public questionTransfers: QuestionTransfer[]
+  ) {}
+}
+
+export class ViewQuestionInitialData {
+  constructor(
+    public comprehensionQuestion: boolean,
+    public questionTransfer: QuestionTransfer,
+    public comprehensionQuestionTransfer: ComprehensionQuestionTransfer
   ) {}
 }

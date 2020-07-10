@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -46,6 +46,7 @@ export class AddQuestionComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private snackBar: MatSnackBar,
+    private ref: ChangeDetectorRef,
     private addQuestionService: AddQuestionService,
   ) {}
 
@@ -287,12 +288,12 @@ export class AddQuestionComponent implements OnInit {
 
       if (this.questionType === 'question') {
         const addQuestionRequest: AddQuestionRequest = new AddQuestionRequest(
-          this.sectionId, answerTypeId, this.question, this.score, duration, this.addMultipleChoiceQuestionAnswerRequests);
+          this.sectionId, answerTypeId, this.question, this.score, duration, []);
 
         this.addquestionService(addQuestionRequest, stepper, form);
       } else if (this.questionType === 'comprehensionQuestion') {
         const questionRequest: QuestionRequest = new QuestionRequest(
-          this.question, this.score, this.addMultipleChoiceQuestionAnswerRequests);
+          this.question, this.score, []);
 
         const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
           this.sectionId, this.comprehensionQuestionId, answerTypeId, this.comprehension, duration, questionRequest);
@@ -318,8 +319,6 @@ export class AddQuestionComponent implements OnInit {
             this.questionType = undefined;
             this.answerType = undefined;
             this.correctAnswerRequest = undefined;
-            this.multipleChoiceCorrectAnswersRequests = [];
-            this.addMultipleChoiceQuestionAnswerRequests = [];
           }
         } else {
           this.message = 'teacher/exam/section/question/question_not_saved';
@@ -343,18 +342,18 @@ export class AddQuestionComponent implements OnInit {
             this.addQuestionForm.reset();
             form.reset();
             stepper.previous();
+            stepper.previous();
           } else {
             this.addComprehensionQuestionForm.reset();
             form.reset();
             stepper.reset();
             this.questionType = undefined;
+            this.ref.detectChanges()
             this.comprehensionQuestionId = null;
           }
 
           this.answerType = undefined;
           this.correctAnswerRequest = undefined;
-          this.multipleChoiceCorrectAnswersRequests = [];
-          this.addMultipleChoiceQuestionAnswerRequests = [];
         } else {
           this.message = 'teacher/exam/section/question/question_not_saved';
         }

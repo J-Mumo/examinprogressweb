@@ -365,7 +365,7 @@
                 <button mat-raised-button
                   color="primary"
                   (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
-                  type="submit">
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
                 </button>
               </div>
@@ -373,7 +373,7 @@
                 <button mat-raised-button 
                   color="primary"
                   (click)="saveAndAddNewQuestion(addAnswers, stepper)"
-                  type="submit">
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
                 </button>
                 <button mat-raised-button 
@@ -450,7 +450,7 @@
                 <button mat-raised-button
                   color="primary"
                   (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
-                  type="submit">
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
                 </button>
               </div>
@@ -458,7 +458,8 @@
                 <button mat-raised-button 
                   color="primary"
                   (click)="scroll(top)"
-                  type="submit">
+                  (click)="saveAndAddNewQuestion(addAnswers, stepper)"
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
                 </button>
                 <button mat-raised-button 
@@ -499,12 +500,13 @@
                 <button mat-raised-button 
                   color="primary"
                   (click)="scroll(top)"
-                  type="submit">
+                  (click)="saveAndAddNewQuestion(addAnswers, stepper)"
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
                 </button>
                 <button mat-raised-button 
                   color="primary"
-                  (click)="saveAndExit(addAnswers, stepper)"
+                  (click)="saveTextAnswerAndExit(stepper)"
                   type="button">
                   {{ 'teacher/exam/section/question/save_and_exit'| translate }}
                 </button>

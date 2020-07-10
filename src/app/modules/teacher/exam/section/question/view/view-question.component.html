@@ -1,1 +1,80 @@
-<p>view-question works!</p>
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/view">
+            {{sectionName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" translate>
+          {{ 'teacher/exam/section/question/view_question' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <h1 class="header-title" translate>
+          teacher/exam/section/question/view_question
+        </h1>
+        <div *ngIf="initialData?.comprehensionQuestion">
+          <mat-card>
+            <div class="card-body">
+              {{initialData?.comprehensionQuestionTransfer.question}}
+            </div>
+          </mat-card><br><br>
+          <mat-card *ngFor="let questionTransfer of initialData?.comprehensionQuestionTransfer.questionTransfers">
+            <div class="card-body">
+              {{questionTransfer.questionText}}
+              <div *ngIf="questionTransfer.multipleChoiceAnswerTransfers.length > 0">
+                <div class="row"
+                  *ngFor="let answerTransfer of questionTransfer.multipleChoiceAnswerTransfers; let i=index"
+                  style="align-items: center; justify-content: space-between;">
+                  <mat-radio-button
+                    id="multiple-choice-answer-checkbox_{{i}}"
+                    name="multiple-choice-answer-checkbox_{{i}}"
+                    [checked]="answerTransfer.correct">
+                  </mat-radio-button>
+                  <div class="form-group" style="width: 60%;">
+                    <div class="answer">{{answerTransfer.answerTxt}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <!-- <mat-card>
+          <div class="card-header">
+            {{initialData?.name}}
+            <div class="float-right">
+              <mat-icon
+                class="icon-button"
+                routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/edit">
+                  edit
+              </mat-icon>&nbsp;
+              <mat-icon
+                class="icon-button"
+                color="warn">
+                  delete
+              </mat-icon>
+            </div>
+          </div>
+          <div class="card-body">
+            <div *ngIf="initialData?.description !== ''" class="description-div">{{initialData?.description}}</div>
+          </div>
+        </mat-card> -->
+      </div>
+    </div>
+  </div>
+</div>
