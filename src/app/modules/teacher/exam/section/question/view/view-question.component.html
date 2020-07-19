@@ -35,14 +35,14 @@
             </p>
             <div class="card-body">
               {{initialData?.comprehensionQuestionTransfer.question}}<br><br>
-              <div *ngIf="initialData?.comprehensionQuestionTransfer.duration != null" class="form-group"><b>
+              <div *ngIf="initialData?.comprehensionQuestionTransfer.duration != null" class="form-group  duration-div"><b>
                 The total time set for all the questions in this comprehension question is:<br>
-                <span *ngIf="time.hour > '1'">{{time.hour}} hours</span>
-                <span *ngIf="time.hour === '1'">{{time.hour}} hour</span>
-                <span *ngIf="time.minute > '1'">{{time.minute}} minutes</span>
-                <span *ngIf="time.minute === '1'">{{time.minute}} minute</span>
-                <span *ngIf="time.second > '1'">{{time.second}} seconds</span>
-                <span *ngIf="time.second === '1'">{{time.second}} second</span>
+                <span *ngIf="time.hour > 1">{{time.hour}} hours</span>
+                <span *ngIf="time.hour === 1">{{time.hour}} hour</span>
+                <span *ngIf="time.minute > 1">{{time.minute}} minutes</span>
+                <span *ngIf="time.minute === 1">{{time.minute}} minute</span>
+                <span *ngIf="time.second > 1">{{time.second}} seconds</span>
+                <span *ngIf="time.second === 1">{{time.second}} second</span>
               </b></div>
             </div>
             <div style="display: flex; justify-content: flex-start; align-items: center;">
@@ -109,10 +109,10 @@
               <div>{{initialData?.questionTransfer.questionText}}</div><br>
               <span><b>Score:</b> {{initialData?.questionTransfer.score}}</span><br>
               <span><b>Duration:&nbsp;</b> 
-                <span *ngIf="time.hour > 1">{{time.hour}} hours,&nbsp;</span>
-                <span *ngIf="time.hour === 1">{{time.hour}} hour,&nbsp;</span>
-                <span *ngIf="time.minute > 1">{{time.minute}} minutes,&nbsp;</span>
-                <span *ngIf="time.minute === 1">{{time.minute}} minute,&nbsp;</span>
+                <span *ngIf="time.hour > 1">{{time.hour}} hours&nbsp;</span>
+                <span *ngIf="time.hour === 1">{{time.hour}} hour&nbsp;</span>
+                <span *ngIf="time.minute > 1">{{time.minute}} minutes&nbsp;</span>
+                <span *ngIf="time.minute === 1">{{time.minute}} minute&nbsp;</span>
                 <span *ngIf="time.second > 1">{{time.second}} seconds</span>
                 <span *ngIf="time.second === 1">{{time.second}} second</span>
               </span>

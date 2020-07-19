@@ -37,7 +37,14 @@
             </div>
           </div>
           <div class="card-body">
-            <div *ngIf="initialData?.description !== ''" class="description-div">{{initialData?.description}}</div>
+            <div *ngIf="initialData?.description !== ''" class="description-div">{{initialData?.description}}</div><br>
+            <div *ngIf="initialData?.duration != null" class="duration-div">
+              This section will take:
+              <span *ngIf="time.hour > 1">{{time.hour}} hours&nbsp;</span>
+              <span *ngIf="time.hour === 1">{{time.hour}} hour&nbsp;</span>
+              <span *ngIf="time.minute > 1">{{time.minute}} minutes&nbsp;</span>
+              <span *ngIf="time.minute === 1">{{time.minute}} minute&nbsp;</span>
+            </div>
           </div>
         </mat-card>
         <br>

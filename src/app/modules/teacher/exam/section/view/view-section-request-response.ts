@@ -21,6 +21,7 @@ export class ViewSectionInitialData {
   constructor(
     public name: string,
     public description: string,
+    public duration: string,
     public questionTransfers: QuestionTransfer[]
   ) {}
 }
