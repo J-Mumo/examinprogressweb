@@ -22,7 +22,6 @@ export class AddQuestionInitialData {
 
 export class MultipleChoiceQuestionAnswerRequest {
   constructor(
-    public answerId: number,
     public answerText: string,
     public correct: boolean
   ) {}

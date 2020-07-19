@@ -1,8 +1,9 @@
 export class MultipleChoiceAnswerTransfer {
   constructor(
     public answerId: number,
-    public answerTxt: string,
-    public correct: boolean
+    public answerText: string,
+    public correct: boolean,
+    public answerType: string,
   ) {}
 }
 
@@ -12,6 +13,7 @@ export class QuestionTransfer {
     public questionType: string,
     public questionText: string,
     public score: number,
+    public duration: string,
     public multipleChoiceAnswerTransfers: MultipleChoiceAnswerTransfer[]
   ) {}
 }

@@ -51,8 +51,8 @@ export class AddQuestionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, '', false));
-    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, '', false));
+    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest('', false));
+    this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest('', false));
     this.getInitialData();
   }
 
@@ -64,10 +64,6 @@ export class AddQuestionComponent implements OnInit {
     );
   }
 
-  printquestionType() {
-    console.log(this.questionType);
-  }
-
   public trackByFn(index, item) {
     if (!item) { return null; }
     return index;
@@ -75,7 +71,7 @@ export class AddQuestionComponent implements OnInit {
 
   addAnswer() {
     if (this.addMultipleChoiceQuestionAnswerRequests.length < 20) {
-      this.addMultipleChoiceQuestionAnswerRequests.push({ answerId: null, answerText: '', correct: false });
+      this.addMultipleChoiceQuestionAnswerRequests.push({ answerText: '', correct: false });
     }
   }
 
@@ -148,15 +144,14 @@ export class AddQuestionComponent implements OnInit {
         document.getElementById('question-error').hidden = false;
       } else { document.getElementById('question-error').hidden = true; }
 
-      if (score === '' || score === null) {
+      if (score === '' || score === null || isNaN(parseInt(score.trim(), 10))) {
         document.getElementById('score-error').hidden = false;
       } else { document.getElementById('score-error').hidden = true; }
 
-      if (questionDuration === '' || questionDuration === null) {
-        document.getElementById('duration-error').hidden = false;
-      } else { document.getElementById('duration-error').hidden = true; }
-
+    } else if (questionDuration === '' || questionDuration === null) {
+      document.getElementById('duration-error').hidden = false;
     } else {
+      document.getElementById('duration-error').hidden = true;
       this.question = question;
       this.score = score;
       this.questionDuration = questionDuration;
@@ -194,7 +189,7 @@ export class AddQuestionComponent implements OnInit {
 
       /** Filter nulls */
       if ( answer !== null && answer !== undefined && answer !== '' ) {
-        this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(null, answer, correct));
+        this.addMultipleChoiceQuestionAnswerRequests.push(new MultipleChoiceQuestionAnswerRequest(answer, correct));
       }
     }
 

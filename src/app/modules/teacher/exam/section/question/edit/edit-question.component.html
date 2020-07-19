@@ -1,1 +1,176 @@
-<p>edit-question works!</p>
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/question/{{questionId}}/view">
+            {{sectionName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/question/{{questionId}}/view">
+            {{ 'teacher/exam/section/question/view_question' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item active" translate>
+          {{ 'teacher/exam/section/question/edit_question' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <h1 class="header-title" translate>
+          teacher/exam/section/question/edit_question
+        </h1>
+        <form #editQuestion="ngForm" (ngSubmit)="onSubmit(editQuestion)">
+          <mat-card>
+            <p style="text-align: center;" class="lighter-font" translate
+              *ngIf="initialData?.answerType === 'Text answer' && !initialData?.comprehensionQuestion">
+              teacher/exam/section/question/text_answer_info
+            </p>
+            <div class="card-header" translate>
+              <span *ngIf="initialData?.comprehensionSubQuestion" translate>teacher/exam/section/comprehension</span>
+              <span *ngIf="!initialData?.comprehensionSubQuestion" translate>teacher/exam/section/question</span>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <textarea matInput type="text"
+                    id="question"
+                    name="question"
+                    class="form-control" 
+                    maxlength="1024"
+                    [ngModel]="initialData?.question"
+                    #question="ngModel"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="3"
+                    cdkAutosizeMaxRows="9"
+                    [ngClass]="{ 'is-invalid': question.touched && question.value === '' }"
+                    required>
+                  </textarea>
+                </mat-form-field>
+                <span id="question-error" class="form-error" translate hidden>
+                  teacher/exam/section/question/please_provide_question
+                </span>
+              </div>
+              <div *ngIf="!initialData?.comprehensionQuestion" class="form-group">
+                <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/section/question/score</mat-label>
+                  <input matInput type="number"
+                    id="score"
+                    name="score"
+                    class="form-control" 
+                    maxlength="100"
+                    [ngModel]="initialData?.score"
+                    #score="ngModel"
+                    pattern="^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$"
+                    [ngClass]="{ 'is-invalid': score.touched && score.value === '' && score.invalid }"
+                    required>
+                </mat-form-field>
+                <span id="score-error" class="form-error" translate hidden>
+                  teacher/exam/section/question/please_add_score
+                </span>
+              </div>
+              <div *ngIf="initialData?.examTimedByQuestion && !initialData?.comprehensionSubQuestion" class="form-group">
+                <mat-label translate
+                  style="color: #7f7f7f; font-size: 14px;">teacher/exam/section/question/duration
+                </mat-label>
+                <ngb-timepicker
+                  id="duration"
+                  name="duration"
+                  [ngModel]="initialData?.duration"
+                  #duration="ngModel"
+                  [seconds]="true"
+                  [ngClass]="{ 'is-invalid': duration.touched && duration.value === '' }">
+                </ngb-timepicker>
+                <span style="margin: 0;" id="duration-error" class="form-error" translate hidden>
+                  teacher/exam/section/question/please_type_duration
+                </span>
+              </div>
+            </div>
+          </mat-card><br>
+          <div *ngIf="!initialData?.comprehensionQuestion">
+            <mat-card *ngIf="initialData?.answerType !== 'Text answer'">
+              <div class="card-header" translate="teacher/exam/section/question/answers"></div>
+              <div class="card-body">
+                <p style="text-align: center;" class="lighter-font" translate>
+                  teacher/exam/section/question/answers_info
+                </p>
+                <span id="less-answers-error" class="form-error answers-error" translate hidden>
+                  teacher/exam/section/question/less_answers_error
+                </span>
+                <span id="no-correct-answer-error" class="form-error answers-error" translate hidden>
+                  teacher/exam/section/question/no_correct_answer_error
+                </span>
+                <div class="row"
+                  *ngFor="let answer of initialData?.multipleChoiceAnswerTransfers; trackBy: trackByFn let i=index"
+                  style="align-items: center; justify-content: space-between;">
+                  <div *ngIf="initialData?.answerType === 'Multiple choice single answer'">
+                    <mat-radio-button
+                      [checked]="answer.correct"
+                      (change)="getSingleCheckedAnswer(answer)">
+                    </mat-radio-button>
+                  </div>
+                  <div *ngIf="initialData?.answerType === 'Multiple choice multiple answers'">
+                    <mat-checkbox 
+                      id="multiple-choice-answer-checkbox_{{i}}"
+                      [checked]="answer.correct"
+                      (change)="getMultipleCheckedAnswer($event, answer)">
+                    </mat-checkbox>
+                  </div>
+                  <div class="form-group" style="width: 60%;">
+                    <mat-form-field appearance="standard">
+                      <mat-label translate>teacher/exam/section/question/answer</mat-label>
+                      <textarea matInput type="text"
+                        id="answer_{{i}}"
+                        name="answer_{{i}}"
+                        class="form-control"
+                        maxlength="1024"
+                        [(ngModel)]="answer.answerText"
+                        #answer_{{i}}="ngModel"
+                        cdkTextareaAutosize
+                        cdkAutosizeMinRows="3"
+                        cdkAutosizeMaxRows="9">
+                      </textarea>
+                    </mat-form-field>
+                    <span id="answer_{{i}}-error" class="form-error" translate hidden>
+                      teacher/exam/section/question/please_add_score
+                    </span>
+                  </div>
+                  <button mat-stroked-button 
+                    color="warn"
+                    type="button"
+                    (click)="deleteAnswer(answer)">
+                    {{ 'teacher/exam/section/question/remove_answer'| translate }}
+                  </button>
+                </div>
+                <button mat-stroked-button 
+                  (click)="addAnswer()"
+                  color="primary"
+                  type="button">
+                  {{ 'teacher/exam/section/question/add_answer'| translate }}
+                </button>
+              </div>
+            </mat-card><br>
+          </div>
+          <button mat-raised-button
+            color="primary"
+            type="submit">
+            {{ 'generic/save'| translate }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
