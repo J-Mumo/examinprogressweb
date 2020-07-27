@@ -1,0 +1,100 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/section/create_section' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/exam/invite/create_invite
+    </h1>
+    <form #createInvite="ngForm" (ngSubmit)="onSubmit(createInvite)">
+      <div class="row">
+        <div class="col-md-8 col-lg-8 mx-auto">
+          <mat-card>
+            <div class="card-body">
+              <p style="text-align: center;" class="lighter-font" translate>
+                teacher/exam/invite/create_invite_info
+              </p>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/invite/start_date</mat-label>
+                  <input matInput type="date"
+                    id="startDate"
+                    name="startDate"
+                    class="form-control" 
+                    maxlength="100"
+                    ngModel
+                    #startDate="ngModel"
+                    [ngClass]="{ 'is-invalid': startDate.touched && startDate.value === '' }"
+                    required>
+                </mat-form-field>
+                <span id="startDate-error" class="form-error" translate hidden>
+                  teacher/exam/invite/please_add_valid_startdate
+                </span>
+              </div>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/invite/end_date</mat-label>
+                  <input matInput type="date"
+                    id="endDate"
+                    name="endDate"
+                    class="form-control" 
+                    maxlength="100"
+                    ngModel
+                    #endDate="ngModel">
+                </mat-form-field>
+              </div>
+              <div class="form-group">
+                <mat-label class="label" translate>teacher/exam/invite/pausable</mat-label><br>
+                <mat-radio-group
+                  style="border: 0;"
+                  id="pausable"
+                  name="pausable"
+                  class="form-control"
+                  ngModel
+                  #pausable="ngModel">
+                  <mat-radio-button value="true">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                  <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="form-group" style="margin-top: 1rem !important;">
+                <mat-label translate
+                  class="label">teacher/exam/invite/start_time
+                </mat-label>
+                <ngb-timepicker
+                  id="startTime"
+                  name="startTime"
+                  [(ngModel)]="time"
+                  #startTime="ngModel"
+                  [meridian]="true">
+                </ngb-timepicker>
+              </div>
+              <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
+                <button mat-raised-button 
+                  color="primary"
+                  (click)="scroll(top)"
+                  type="submit">
+                  {{ 'teacher/exam/invite/create_invite'| translate }}
+                </button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

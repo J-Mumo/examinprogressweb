@@ -1,0 +1,152 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/section/create_section' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/exam/invite/send_invite
+    </h1>
+    <mat-horizontal-stepper #stepper>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/invite/invite_method' | translate }}
+        </ng-template><br>
+        <div class="row">
+          <div class="col-md-10 col-lg-10 mx-auto">
+            <mat-card>
+              <div class="card-body">
+                <p style="text-align: center;" class="lighter-font" translate>
+                  teacher/exam/invite/invite_method_info
+                </p>
+                <mat-radio-group [(ngModel)]="inviteMethod" name="inviteMethod" aria-label="Select an option" (click)="stepper.next()">
+                  <mat-radio-button value="examLink">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Invite by sharing exam link:</b> In this method, we will provide you with a link to this exam.
+                      You will share this link to anyone you would like to do the exam. Anyone with access to this ink will be able to do this exam.
+                    </span>
+                  </mat-radio-button><br><br>
+                  <mat-radio-button value="token">
+                    <span style="white-space: normal;">
+                      <b style="font-weight: 500;">Invite by email:</b> In this method, an email will be sent to the one intended to do this exam with 
+                      an access code. You will need to know the emails of the people you would like to do this exam beforehand.
+                    </span>
+                  </mat-radio-button>
+                </mat-radio-group>          
+                <div>
+                  <br>
+                  <button mat-stroked-button 
+                    matStepperNext
+                    color="primary">
+                    {{ 'generic/next'| translate }}
+                  </button>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>
+          {{ 'teacher/exam/invite/send_invite' | translate }}
+        </ng-template><br>
+        <div class="row">
+          <div class="col-md-10 col-lg-10 mx-auto">
+            <mat-card style="margin-top: 10px;">
+              <div class="card-body" *ngIf="inviteMethod === 'token'">
+                <p style="text-align: center;" class="lighter-font" translate>
+                  teacher/exam/invite/send_invite_info
+                </p>
+                <form #sendInvite="ngForm" (ngSubmit)="onSubmit(sendInvite)">
+                  <div class="email-holder">
+                    <div *ngFor="let email of emails; trackBy: trackByFn index as i">
+                      <div id="email-row_{{i}}"
+                        style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="form-group" style="width: 70%;">
+                          <mat-form-field appearance="standard">
+                            <mat-label translate>teacher/exam/invite/email</mat-label>
+                            <input matInput type="email"
+                              id="email_{{i}}"
+                              name="email_{{i}}"
+                              class="form-control" 
+                              maxlength="100"
+                              [(ngModel)]="emails[i]"
+                              #email_{{i}}="ngModel"
+                              email>
+                          </mat-form-field>
+                          <span id="email_{{i}}-error" class="form-error" translate hidden>
+                            teacher/exam/invite/please_enter_valid_email
+                          </span>
+                        </div>
+                        <div>
+                          <button mat-stroked-button 
+                            color="primary"
+                            (click)="sendInviteClick(sendInvite, i)"
+                            type="button">
+                            {{ 'teacher/exam/invite/send_invite'| translate }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
+                    <button mat-raised-button 
+                      color="primary"
+                      (click)="scroll(top)"
+                      type="submit">
+                      {{ 'teacher/exam/invite/send_to_all'| translate }}
+                    </button>
+                    <button mat-raised-button 
+                      color="primary"
+                      routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
+                      type="button">
+                      {{ 'generic/skip'| translate }}
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="card-body" *ngIf="inviteMethod === 'examLink'">                
+                <p style="text-align: center;" class="lighter-font" translate>
+                  teacher/exam/invite/copy_invite_link
+                </p>
+                <div class="row" [matTooltip]="copyState" (click)="changeCopyState()">
+                  <button mat-stroked-button 
+                    color="primary"
+                    style="background-color: powderblue; border-radius: 0"
+                    [cdkCopyToClipboard]="initialData?.examLink"
+                    type="button">
+                    <span translate>generic/copy</span>
+                  </button>
+                  <span class="link"
+                  [cdkCopyToClipboard]="initialData?.examLink">{{initialData?.examLink}}</span>
+                </div>
+              </div>
+            </mat-card><br>
+            <div class="form-group row">
+              <button mat-stroked-button 
+                matStepperPrevious
+                type="button"
+                color="primary">
+                {{ 'generic/back'| translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

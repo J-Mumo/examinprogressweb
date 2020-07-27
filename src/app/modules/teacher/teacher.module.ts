@@ -14,6 +14,9 @@ import { ViewSectionComponent } from './exam/section/view/view-section.component
 import { EditSectionComponent } from './exam/section/edit/edit-section.component';
 import { ViewQuestionComponent } from './exam/section/question/view/view-question.component';
 import { EditQuestionComponent } from './exam/section/question/edit/edit-question.component';
+import { CreateInviteComponent } from './exam/invite/create/create-invite.component';
+import { InvitesComponent } from './exam/invite/invites/invites.component';
+import { SendInviteComponent } from './exam/invite/send/send-invite.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import { EditQuestionComponent } from './exam/section/question/edit/edit-questio
     ViewSectionComponent,
     EditSectionComponent,
     ViewQuestionComponent,
-    EditQuestionComponent
+    EditQuestionComponent,
+    CreateInviteComponent,
+    InvitesComponent,
+    SendInviteComponent
   ],
   imports: [
     CommonModule,

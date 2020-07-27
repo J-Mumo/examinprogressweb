@@ -1,0 +1,21 @@
+.email-holder {
+  padding: 10px 30px;
+  border: #dcdcdca8 1px solid;
+  border-radius: 4px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  overflow: auto;
+  max-height: 500px;
+}
+
+.link {
+  padding: 10px;
+  border: 1px solid turquoise;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 567px;
+  display: inline-block;
+  cursor: pointer;
+  background-color: whitesmoke;
+}

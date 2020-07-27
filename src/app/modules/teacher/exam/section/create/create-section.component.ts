@@ -56,11 +56,12 @@ export class CreateSectionComponent implements OnInit {
         document.getElementById('name-error').hidden = false;
       } else { document.getElementById('name-error').hidden = true; }
 
-    } else if (sectionDuration === '' || sectionDuration === null) {
+    } else if (this.initialData.examTimedBySection && (sectionDuration === '' || sectionDuration === null)) {
       document.getElementById('duration-error').hidden = false;
     } else {
 
-      document.getElementById('duration-error').hidden = true;
+      if (this.initialData.examTimedBySection) { document.getElementById('duration-error').hidden = true; }
+
       const duration = sectionDuration != null ? 'PT' + sectionDuration.hour + 'H' + sectionDuration.minute + 'M' : null;
       const request: CreateSectionRequest = new CreateSectionRequest(this.examId, name, description, duration);
       this.createSectionService.save(request).subscribe(

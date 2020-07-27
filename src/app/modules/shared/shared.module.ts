@@ -22,6 +22,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatTableModule,
     MatPaginatorModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    ClipboardModule,
+    MatTooltipModule
   ],
   exports: [
     TranslateModule,
@@ -71,7 +75,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatPaginatorModule,
     MatExpansionModule,
     MatSelectModule,
-    MatStepperModule
+    MatStepperModule,
+    ClipboardModule,
+    MatTooltipModule
   ],
 })
 export class SharedModule { }
