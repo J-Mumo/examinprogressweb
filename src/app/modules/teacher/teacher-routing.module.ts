@@ -16,6 +16,7 @@ import { EditQuestionComponent } from './exam/section/question/edit/edit-questio
 import { CreateInviteComponent } from './exam/invite/create/create-invite.component';
 import { InvitesComponent } from './exam/invite/invites/invites.component';
 import { SendInviteComponent } from './exam/invite/send/send-invite.component';
+import { ViewInviteComponent } from './exam/invite/view/view-invite.component';
 
 const routes: Routes = [
   {
@@ -121,6 +122,12 @@ const routes: Routes = [
               {
                 path: ':inviteId/send',
                 component: SendInviteComponent,
+                canActivate: [HasPermissionGuard],
+                data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+              },
+              {
+                path: ':inviteId/view',
+                component: ViewInviteComponent,
                 canActivate: [HasPermissionGuard],
                 data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
               },

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { SendInviteService } from './send-invite.service';
 import { SaveResponse, SendInviteToEmailRequest, SendInviteRequest, SendInviteInitialData } from './send-invite-request-response';
@@ -24,6 +24,7 @@ export class SendInviteComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private translate: TranslateService,
     private snackBar: MatSnackBar,
     private sendInviteService: SendInviteService
@@ -102,6 +103,7 @@ export class SendInviteComponent implements OnInit {
         (response: SaveResponse) => {
           if (response.saved) {
             this.message = 'teacher/exam/invite/invite_sent';
+            this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
           } else {
             this.message = 'teacher/exam/invite/invite_not_sent';
           }

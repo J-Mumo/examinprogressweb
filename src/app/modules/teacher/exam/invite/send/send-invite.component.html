@@ -131,8 +131,14 @@
                     type="button">
                     <span translate>generic/copy</span>
                   </button>
-                  <span class="link"
-                  [cdkCopyToClipboard]="initialData?.examLink">{{initialData?.examLink}}</span>
+                  <span class="link" [cdkCopyToClipboard]="initialData?.examLink">{{initialData?.examLink}}</span>
+                  <br>
+                  <button mat-raised-button 
+                      color="primary"
+                      routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
+                      type="button">
+                      {{ 'generic/next'| translate }}
+                    </button>
                 </div>
               </div>
             </mat-card><br>

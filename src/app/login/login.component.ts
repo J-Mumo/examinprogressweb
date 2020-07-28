@@ -95,7 +95,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (superadmin) {
       return '/superadmin/dashboard';
     } else if (teacher) {
-      return '/teacher/dashboard';
+      return '/teacher/exam/create';
     }
     return '#';
   }

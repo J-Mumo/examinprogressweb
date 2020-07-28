@@ -1,6 +1,7 @@
 export class CreateInviteRequest {
   constructor(
     public examId: number,
+    public name: string,
     public examStartDate: Date,
     public examEndDate: Date,
     public pausable: boolean,

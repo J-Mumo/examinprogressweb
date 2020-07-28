@@ -250,5 +250,7 @@
   "teacher/exam/invite/invite_not_sent": "Invite not sent. Try again.",
   "teacher/exam/invite/invite_method": "Invite method",
   "teacher/exam/invite/invite_method_info": "There are two ways you could use to invite people to do this exam:",
-  "teacher/exam/invite/copy_invite_link": "Copy the link below and share it to those who are to do the exam. Anyone wih access to this link can do the exam."
+  "teacher/exam/invite/copy_invite_link": "Copy the link below and share it to those who are to do the exam. Anyone wih access to this link can do the exam.",
+  "teacher/exam/invite/name": "Invite name",
+  "teacher/exam/invite/please_invite_name": "Please give this an invite a name."
 }

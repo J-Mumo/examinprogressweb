@@ -37,21 +37,25 @@ export class CreateInviteComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    const name = form.value.name;
     const examStartDate = form.value.startDate;
     const examEndDate = form.value.endDate;
     const pausable = form.value.pausable;
     const startTime = form.value.startTime;
 
     if (!form.valid) {
+      if (name === '') {
+        document.getElementById('name-error').hidden = false;
+      } else { document.getElementById('name-error').hidden = true; }
       if (examStartDate === '') {
         document.getElementById('startDate-error').hidden = false;
-      }
+      } else { document.getElementById('startDate-error').hidden = true; }
 
     } else {
 
       document.getElementById('startDate-error').hidden = true;
       const examStartTime = startTime != null ? 'PT' + startTime.hour + 'H' + startTime.minute + 'M' : null;
-      const request: CreateInviteRequest = new CreateInviteRequest(this.examId, examStartDate, examEndDate, pausable, examStartTime);
+      const request: CreateInviteRequest = new CreateInviteRequest(this.examId, name, examStartDate, examEndDate, pausable, examStartTime);
 
       this.createInviteService.save(request).subscribe(
         (response: SaveResponseWithId) => {

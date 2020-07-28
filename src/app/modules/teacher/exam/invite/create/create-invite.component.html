@@ -31,6 +31,23 @@
               </p>
               <div class="form-group">
                 <mat-form-field appearance="standard">
+                  <mat-label translate>teacher/exam/invite/name</mat-label>
+                  <input matInput type="text"
+                    id="name"
+                    name="name"
+                    class="form-control" 
+                    maxlength="100"
+                    ngModel
+                    #name="ngModel"
+                    [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
+                    required>
+                </mat-form-field>
+                <span id="name-error" class="form-error" translate hidden>
+                  teacher/exam/invite/please_invite_name
+                </span>
+              </div>
+              <div class="form-group">
+                <mat-form-field appearance="standard">
                   <mat-label translate>teacher/exam/invite/start_date</mat-label>
                   <input matInput type="date"
                     id="startDate"
