@@ -1,1 +1,166 @@
 <p>view-invite works!</p>
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/invite/view_invite' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <mat-card>
+          <div class="card-header">
+            {{initialData?.name}}
+            <div class="float-right">
+              <mat-icon
+                class="icon-button"
+                routerLink="/teacher/exam/{{examId}}/edit">
+                  edit
+              </mat-icon>&nbsp;
+              <mat-icon
+                class="icon-button"
+                color="warn">
+                  delete
+              </mat-icon>
+            </div>
+          </div>
+          <div class="card-body">
+            <div *ngIf="initialData?.examStartDate !== null" style="line-height: 2;">
+              <span style="font-weight: bold; color: #000000bf;">Exam start date:</span>&nbsp;&nbsp;
+              {{initialData?.examStartDate | date: 'mediumDate'}}
+            </div>
+            <div *ngIf="initialData?.examEndDate !== null" style="line-height: 2;">
+              <span style="font-weight: bold; color: #000000bf;">Exam end date:</span>&nbsp;&nbsp;
+              {{initialData?.examEndDate | date: 'mediumDate'}}
+            </div>
+            <div style="line-height: 2;">
+              <span style="font-weight: bold; color: #000000bf;" translate>teacher/exam/invite/is_pausable</span>&nbsp;&nbsp;
+              <span *ngIf="initialData?.pausable" translate>generic/yes</span>
+              <span *ngIf="!initialData?.pausable" translate>generic/no</span>
+            </div>
+            <div *ngIf="initialData?.examStartTime !== null" style="line-height: 2;">
+              <span style="font-weight: bold; color: #000000bf;">Exam start time:</span>&nbsp;&nbsp;
+              {{initialData?.examStartTime}}
+            </div>
+            <div style="line-height: 2; display: flex;">
+              <span style="font-weight: bold; color: #000000bf;">Exam link:</span>&nbsp;&nbsp;
+              <span><a class="link" href="">{{initialData?.examLink}}</a></span>
+            </div>
+          </div>
+        </mat-card>
+        <br>
+        <mat-card>
+          <div class="header card-header" translate>
+            teacher/exam/invite/emails_sent_to_exam_invite
+          </div>
+          <div class="card-body">
+            <p style="text-align: center;" class="lighter-font" translate
+              *ngIf="initialData?.examTokenTransfers.length < 1">
+              teacher/exam/invite/no_emails_with_invite_info
+            </p>
+            <div class="email-holder">
+              <div *ngFor="let examTokenTransfer of initialData?.examTokenTransfers trackBy: trackByFn index as i">
+                <div id="email-row_{{i}}"
+                  style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="form-group" style="width: 70%;">
+                    <mat-form-field appearance="standard">
+                      <mat-label translate>teacher/exam/invite/email</mat-label>
+                      <input matInput type="email"
+                        id="email_{{examTokenTransfer.examTokenId}}"
+                        name="email_{{examTokenTransfer.examTokenId}}"
+                        class="form-control" 
+                        maxlength="100"
+                        [(ngModel)]="examTokenTransfer.email"
+                        #email_{{examTokenTransfer.examTokenId}}="ngModel"
+                        email>
+                    </mat-form-field>
+                    <span id="email_{{examTokenTransfer.examTokenId}}-error" class="form-error" translate hidden>
+                      teacher/exam/invite/please_enter_valid_email
+                    </span>
+                  </div>
+                  <div>
+                    <button mat-stroked-button 
+                      color="primary"
+                      (click)="unsendConfirmation(unsendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)"
+                      type="button">
+                      {{ 'teacher/exam/invite/unsend_invite'| translate }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <form #sendNewInvite="ngForm" (ngSubmit)="onSubmit(sendNewInvite)">
+                <div *ngFor="let email of emails; trackBy: trackByFn index as i">
+                  <div id="email-row_{{i}}"
+                    style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="form-group" style="width: 70%;">
+                      <mat-form-field appearance="standard">
+                        <mat-label translate>teacher/exam/invite/email</mat-label>
+                        <input matInput type="email"
+                          id="email_{{i}}"
+                          name="email_{{i}}"
+                          class="form-control" 
+                          maxlength="100"
+                          [(ngModel)]="emails[i]"
+                          #email_{{i}}="ngModel"
+                          email>
+                      </mat-form-field>
+                      <span id="email_{{i}}-error" class="form-error" translate hidden>
+                        teacher/exam/invite/please_enter_valid_email
+                      </span>
+                    </div>
+                    <div>
+                      <button mat-stroked-button 
+                        color="primary"
+                        (click)="sendInviteClick(sendNewInvite, i)"
+                        type="button">
+                        {{ 'teacher/exam/invite/send_invite'| translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #unsendInviteToEmail>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/invite/unsend_invite</b></label>
+    </div>
+    <p>
+      {{ 'teacher/exam/invite/unsend_invite_info' | translate:{email: emailToUnsend} }}
+    </p>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="unsendInvite()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

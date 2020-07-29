@@ -168,6 +168,8 @@
   "teacher/exam/exam_timer_type": "How would you like this exam to be timed?",
   "teacher/exam/please_select_exam_timer_type": "Please choose how you would like your exam to be timed.",
   "teacher/exam/start_date": "Exam start date",
+  "teacher/exam/end_date": "Exam end date",
+  "teacher/exam/starttime": "Exam start time",
   "teacher/exam/type_start_date": "At what date will the exam start?",
   "teacher/exam/please_type_start_date": "Please provide the start date of your exam.",
   "teacher/exam/start_time": "At what time will the exam start?",
@@ -242,6 +244,7 @@
   "teacher/exam/invite/invite_saved_successfully": "Invite saved successfully.",
   "teacher/exam/invite/invite_not_saved": "Invite not saved. Please try again.",
   "teacher/exam/invite/send_invite": "Send Invite",
+  "teacher/exam/invite/unsend_invite": "Unsend Invite",
   "teacher/exam/invite/send_invite_info": "Type in the emails of the ones who will be taking the exam to send them an invite to do this exam according to the scheduled time.",
   "teacher/exam/invite/email": "Email",
   "teacher/exam/invite/please_enter_valid_email": "Please enter a valid email",
@@ -252,5 +255,12 @@
   "teacher/exam/invite/invite_method_info": "There are two ways you could use to invite people to do this exam:",
   "teacher/exam/invite/copy_invite_link": "Copy the link below and share it to those who are to do the exam. Anyone wih access to this link can do the exam.",
   "teacher/exam/invite/name": "Invite name",
-  "teacher/exam/invite/please_invite_name": "Please give this an invite a name."
+  "teacher/exam/invite/please_invite_name": "Please give this an invite a name.",
+  "teacher/exam/invite/view_invite": "View invite",
+  "teacher/exam/invite/is_pausable": "Is this exam pausable?",
+  "teacher/exam/invite/emails_sent_to_exam_invite": "Emails to which an invite to this exam has been sent",
+  "teacher/exam/invite/no_emails_with_invite_info": "There are currently no emails to which this invite has been sent to.",
+  "teacher/exam/invite/invite_unsent": "The invite to the requested email has been retracted.",
+  "teacher/exam/invite/invite_unsent_failed": "The invite has not been unsent. Try again.",
+  "teacher/exam/invite/unsend_invite_info": "Are you sure you would like to unsend the invite to {{ email }}? They will no longer be able to do this exam."
 }

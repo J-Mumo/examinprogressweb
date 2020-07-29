@@ -14,7 +14,7 @@
           </a>
         </li>
         <li class="breadcrumb-item active">
-          {{ 'teacher/exam/section/create_section' | translate }}
+          {{ 'teacher/exam/invite/send_invite' | translate }}
         </li>
       </ol>
     </nav>
@@ -123,7 +123,7 @@
                 <p style="text-align: center;" class="lighter-font" translate>
                   teacher/exam/invite/copy_invite_link
                 </p>
-                <div class="row" [matTooltip]="copyState" (click)="changeCopyState()">
+                <div style="display: flex;" [matTooltip]="copyState" (click)="changeCopyState()">
                   <button mat-stroked-button 
                     color="primary"
                     style="background-color: powderblue; border-radius: 0"
@@ -132,14 +132,14 @@
                     <span translate>generic/copy</span>
                   </button>
                   <span class="link" [cdkCopyToClipboard]="initialData?.examLink">{{initialData?.examLink}}</span>
-                  <br>
-                  <button mat-raised-button 
-                      color="primary"
-                      routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
-                      type="button">
-                      {{ 'generic/next'| translate }}
-                    </button>
                 </div>
+                <br>
+                <button mat-raised-button 
+                  color="primary"
+                  routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
+                  type="button">
+                  {{ 'generic/next'| translate }}
+                </button>
               </div>
             </mat-card><br>
             <div class="form-group row">
