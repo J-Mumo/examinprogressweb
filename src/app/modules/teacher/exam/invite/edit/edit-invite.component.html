@@ -19,21 +19,18 @@
           </a>
         </li>
         <li class="breadcrumb-item active">
-          {{ 'teacher/exam/section/create_invite' | translate }}
+          {{ 'teacher/exam/invite/edit_invite' | translate }}
         </li>
       </ol>
     </nav>
     <h1 class="header-title" translate>
-      teacher/exam/invite/create_invite
+      teacher/exam/invite/edit_invite
     </h1>
-    <form #createInvite="ngForm" (ngSubmit)="onSubmit(createInvite)">
+    <form #editInvite="ngForm" (ngSubmit)="onSubmit(editInvite)">
       <div class="row">
         <div class="col-md-8 col-lg-8 mx-auto">
           <mat-card>
             <div class="card-body">
-              <p style="text-align: center;" class="lighter-font" translate>
-                teacher/exam/invite/create_invite_info
-              </p>
               <div class="form-group">
                 <mat-form-field appearance="standard">
                   <mat-label translate>teacher/exam/invite/name</mat-label>
@@ -42,7 +39,7 @@
                     name="name"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
+                    [ngModel]="initialData?.name"
                     #name="ngModel"
                     [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
                     required>
@@ -55,13 +52,13 @@
                 <mat-form-field appearance="standard">
                   <mat-label translate>teacher/exam/invite/start_date</mat-label>
                   <input matInput type="date"
-                    id="startDate"
-                    name="startDate"
+                    id="examStartDate"
+                    name="examStartDate"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
-                    #startDate="ngModel"
-                    [ngClass]="{ 'is-invalid': startDate.touched && startDate.value === '' }"
+                    [ngModel]="startDate"
+                    #examStartDate="ngModel"
+                    [ngClass]="{ 'is-invalid': examStartDate.touched && examStartDate.value === '' }"
                     required>
                 </mat-form-field>
                 <span id="startDate-error" class="form-error" translate hidden>
@@ -72,12 +69,12 @@
                 <mat-form-field appearance="standard">
                   <mat-label translate>teacher/exam/invite/end_date</mat-label>
                   <input matInput type="date"
-                    id="endDate"
-                    name="endDate"
+                    id="examEndDate"
+                    name="examEndDate"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
-                    #endDate="ngModel">
+                    [ngModel]="endDate"
+                    #examEndDate="ngModel">
                 </mat-form-field>
               </div>
               <div class="form-group">
@@ -87,10 +84,10 @@
                   id="pausable"
                   name="pausable"
                   class="form-control"
-                  ngModel
+                  [ngModel]="initialData?.pausable"
                   #pausable="ngModel">
-                  <mat-radio-button value="true">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
-                  <mat-radio-button value="false">No</mat-radio-button>
+                  <mat-radio-button [value]="true">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                  <mat-radio-button [value]="false">No</mat-radio-button>
                 </mat-radio-group>
               </div>
               <div class="form-group" style="margin-top: 1rem !important;">
@@ -98,10 +95,10 @@
                   class="label">teacher/exam/invite/start_time
                 </mat-label>
                 <ngb-timepicker
-                  id="startTime"
-                  name="startTime"
-                  [(ngModel)]="time"
-                  #startTime="ngModel"
+                  id="examStartTime"
+                  name="examStartTime"
+                  [ngModel]="initialData?.examStartTime"
+                  #examStartTime="ngModel"
                   [meridian]="true">
                 </ngb-timepicker>
               </div>
@@ -110,7 +107,7 @@
                   color="primary"
                   (click)="scroll(top)"
                   type="submit">
-                  {{ 'teacher/exam/invite/create_invite'| translate }}
+                  {{ 'teacher/exam/invite/edit_invite'| translate }}
                 </button>
               </div>
             </div>

@@ -14,6 +14,11 @@
             {{examName}}
           </a>
         </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/{{examName}}/invites">
+            {{ 'teacher/exam/invite/invites' | translate }}
+          </a>
+        </li>
         <li class="breadcrumb-item active">
           {{ 'teacher/exam/invite/view_invite' | translate }}
         </li>
@@ -27,7 +32,7 @@
             <div class="float-right">
               <mat-icon
                 class="icon-button"
-                routerLink="/teacher/exam/{{examId}}/edit">
+                routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/edit">
                   edit
               </mat-icon>&nbsp;
               <mat-icon
@@ -101,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <form #sendNewInvite="ngForm" (ngSubmit)="onSubmit(sendNewInvite)">
+              <form #sendNewInvite="ngForm">
                 <div *ngFor="let email of emails; trackBy: trackByFn index as i">
                   <div id="email-row_{{i}}"
                     style="display: flex; justify-content: space-between; align-items: center;">

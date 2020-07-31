@@ -1,1 +1,103 @@
-<p>invites works!</p>
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exams" translate>
+            {{ 'teacher/exams' | translate }}
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/exam/{{examId}}/view">
+            {{examName}}
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/exam/invite/invites' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/exams
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mat-elevation-z8">
+          <div class="pl-2 row">
+            <mat-form-field [style.width.%]=80 appearance="standard">
+              <input matInput (keyup)="applyInviteFilter($event.target.value)" placeholder="Search">
+            </mat-form-field>
+            <div class="form-group">
+              <button mat-raised-button 
+                style="margin-top: 18px; margin-right: 10px;"
+                color="primary"
+                routerLink="/teacher/exam/create">
+                {{ 'teacher/exam/invite/create_an_invite'| translate }}
+              </button>
+            </div>
+          </div>
+          <div *ngIf="initialData?.inviteTransfers.length < 1">
+            <p style="text-align: center;" class="lighter-font" translate>
+              teacher/exam/invite/no_invites_info
+            </p>
+          </div>
+          <table *ngIf="initialData?.inviteTransfers.length > 0"
+            matSort mat-table multiTemplateDataRows [dataSource]="invites">
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
+              <td mat-cell *matCellDef="let invite">
+                <span>{{invite.name}}</span>
+              </td>
+            </ng-container>
+
+            <!-- examStartDate Column -->
+            <ng-container matColumnDef="examStartDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam Start Date</th>
+              <td mat-cell *matCellDef="let invite">
+                <div>{{invite.examStartDate | date: 'mediumDate'}}</div>
+              </td>
+            </ng-container>
+
+            <!-- View Column -->
+            <ng-container matColumnDef="viewInvite">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Invite</th>
+              <td mat-cell *matCellDef="let invite">
+                <a routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{invite.inviteId}}/view" translate>
+                  <mat-icon class="eye-icon">remove_red_eye</mat-icon>
+                  generic/view                    
+                </a>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+              <td mat-cell *matCellDef="let invite">
+                <mat-icon
+                  class="icon-button"
+                  routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{invite.inviteId}}/edit">
+                    edit
+                </mat-icon>&nbsp;
+                <mat-icon
+                  class="icon-button"
+                  color="warn">
+                    delete
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="invitesColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: invitesColumns;" class="example-element-row"></tr>
+          </table>
+          <mat-paginator [length]="100"
+              [pageSize]="20"
+              [pageSizeOptions]="[5, 10, 20, 100]"
+              showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

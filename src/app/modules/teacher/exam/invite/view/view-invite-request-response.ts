@@ -8,7 +8,7 @@ export class ExamTokenTransfer {
 export class ViewInviteInitialData {
   constructor(
     public name: string,
-    public examStartDate: Date,
+    public examStartDate: string,
     public examEndDate: Date,
     public pausable: boolean,
     public examStartTime: string,

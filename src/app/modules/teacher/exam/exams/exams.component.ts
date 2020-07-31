@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ExamsService } from './exams.service';
 import { ExamsInitialData, ExamTransfer } from './exams-request-response';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-exams',

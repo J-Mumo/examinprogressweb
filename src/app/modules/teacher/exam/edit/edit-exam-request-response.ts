@@ -1,5 +1,3 @@
-import { Time } from '@angular/common';
-
 export class SectionTransfer {
   constructor(
     public sectionId: number,
