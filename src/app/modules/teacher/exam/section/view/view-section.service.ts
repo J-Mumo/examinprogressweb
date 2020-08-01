@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ViewSectionInitialData } from './view-section-request-response';
+import { ViewSectionInitialData, DeleteResponse } from './view-section-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ import { ViewSectionInitialData } from './view-section-request-response';
 export class ViewSectionService {
 
   GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/section/view/getinitialdata';
+  DELETE_SECTION_URL = '/examinprogress/teacher/exam/section/delete';
+  DELETE_QUESTION_URL = '/examinprogress/teacher/exam/section/question/delete';
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +29,41 @@ export class ViewSectionService {
           return response;
         }
     ));
+  }
+
+  deleteSection(sectionId: number):
+    Observable<DeleteResponse> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    const body = JSON.stringify(sectionId);
+
+    return this.http.post(this.DELETE_SECTION_URL,
+      body, httpOptions).pipe(map(
+        (response: DeleteResponse) => {
+          return response;
+        }
+      ));
+  }
+
+  deleteQuestion(questionId: number):
+    Observable<DeleteResponse> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    const body = JSON.stringify(questionId);
+
+    return this.http.post(this.DELETE_QUESTION_URL,
+      body, httpOptions).pipe(map(
+        (response: DeleteResponse) => {
+          return response;
+        }
+      ));
   }
 }

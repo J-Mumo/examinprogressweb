@@ -15,3 +15,10 @@ export class ViewExamInitialData {
     public hasInvites: boolean
     ) {}
 }
+
+export class DeleteResponse {
+  constructor(
+    public deleted: boolean,
+    public error: null
+  ) {}
+}

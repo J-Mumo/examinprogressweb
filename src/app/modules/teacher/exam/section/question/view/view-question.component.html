@@ -55,7 +55,8 @@
               </button>
               <mat-icon
                 class="icon-button"
-                color="warn">
+                color="warn"
+                (click)="deleteQuestionConfirmation(deleteQuestion, questionId, false)">
                   delete
               </mat-icon>
             </div>
@@ -96,7 +97,8 @@
                 </button>
                 <mat-icon
                   class="icon-button"
-                  color="warn">
+                  color="warn"
+                  (click)="deleteQuestionConfirmation(deleteQuestion, questionTransfer.questionId, true)">
                     delete
                 </mat-icon>
               </div>
@@ -150,7 +152,8 @@
               </button>
               <mat-icon
                 class="icon-button"
-                color="warn">
+                color="warn"
+                (click)="deleteQuestionConfirmation(deleteQuestion, initialData?.questionTransfer.questionId, false)">
                   delete
               </mat-icon>
             </div>
@@ -160,3 +163,30 @@
     </div>
   </div>
 </div>
+
+<ng-template #deleteQuestion>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/section/question/delete_question</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/section/question/delete_question_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteQuestionConfirmed()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

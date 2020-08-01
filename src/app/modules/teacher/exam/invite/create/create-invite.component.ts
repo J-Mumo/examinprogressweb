@@ -15,6 +15,7 @@ export class CreateInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   message: string;
+  today = new Date();
   time = {hour: 0, minute: 0};
 
   constructor(

@@ -11,3 +11,10 @@ export class ExamsInitialData {
     public examTransfers: ExamTransfer[]
   ) {}
 }
+
+export class DeleteResponse {
+  constructor(
+    public deleted: boolean,
+    public error: null
+  ) {}
+}

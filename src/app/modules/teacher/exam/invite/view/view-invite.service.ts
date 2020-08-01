@@ -12,6 +12,7 @@ export class ViewInviteService {
   private GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/invite/view/getinitialdata';
   private SEND_INVITE_TO_EMAIL_URL = '/examinprogress/teacher/exam/invite/sendtoemail';
   private UNSEND_INVITE_TO_EMAIL_URL = '/examinprogress/teacher/exam/invite/unsendtoemail';
+  private DELETE_INVITE_URL = '/examinprogress/teacher/exam/invite/delete';
 
   constructor(private http: HttpClient) {
 
@@ -61,6 +62,24 @@ export class ViewInviteService {
     const body = JSON.stringify(examTokenId);
 
     return this.http.post(this.UNSEND_INVITE_TO_EMAIL_URL,
+      body, httpOptions).pipe(map(
+        (response: DeleteResponse) => {
+          return response;
+        }
+      ));
+  }
+
+  deleteInvite(inviteId: number):
+    Observable<DeleteResponse> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    const body = JSON.stringify(inviteId);
+
+    return this.http.post(this.DELETE_INVITE_URL,
       body, httpOptions).pipe(map(
         (response: DeleteResponse) => {
           return response;

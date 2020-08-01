@@ -31,7 +31,8 @@
               </mat-icon>&nbsp;
               <mat-icon
                 class="icon-button"
-                color="warn">
+                color="warn"
+                (click)="deleteSectionConfirmation(deleteSection)">
                   delete
               </mat-icon>
             </div>
@@ -115,7 +116,8 @@
                   </mat-icon>&nbsp;
                   <mat-icon
                     class="icon-button"
-                    color="warn">
+                    color="warn"
+                    (click)="deleteQuestionConfirmation(deleteQuestion, question.questionId)">
                       delete
                   </mat-icon>
                 </td>
@@ -135,3 +137,57 @@
     </div>
   </div>
 </div>
+
+<ng-template #deleteSection>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/section/delete_section</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/section/delete_section_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteSectionConfirmed()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteQuestion>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/section/question/delete_question</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/section/question/delete_question_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteQuestionConfirmed()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

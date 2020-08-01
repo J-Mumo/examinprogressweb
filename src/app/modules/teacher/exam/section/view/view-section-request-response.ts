@@ -25,3 +25,10 @@ export class ViewSectionInitialData {
     public questionTransfers: QuestionTransfer[]
   ) {}
 }
+
+export class DeleteResponse {
+  constructor(
+    public deleted: boolean,
+    public error: null
+  ) {}
+}

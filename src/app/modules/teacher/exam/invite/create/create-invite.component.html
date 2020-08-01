@@ -59,8 +59,9 @@
                     name="startDate"
                     class="form-control" 
                     maxlength="100"
-                    ngModel
+                    [(ngModel)]="today"
                     #startDate="ngModel"
+                    min="{{today | date:'yyyy-MM-dd'}}"
                     [ngClass]="{ 'is-invalid': startDate.touched && startDate.value === '' }"
                     required>
                 </mat-form-field>
@@ -77,6 +78,7 @@
                     class="form-control" 
                     maxlength="100"
                     ngModel
+                    min="{{today | date:'yyyy-MM-dd'}}"
                     #endDate="ngModel">
                 </mat-form-field>
               </div>

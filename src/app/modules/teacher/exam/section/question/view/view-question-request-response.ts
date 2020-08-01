@@ -33,3 +33,10 @@ export class ViewQuestionInitialData {
     public comprehensionQuestionTransfer: ComprehensionQuestionTransfer
   ) {}
 }
+
+export class DeleteResponse {
+  constructor(
+    public deleted: boolean,
+    public error: null
+  ) {}
+}

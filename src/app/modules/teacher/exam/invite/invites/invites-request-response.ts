@@ -14,3 +14,10 @@ export class InvitesInitialData {
     public inviteTransfers: InviteTransfer[]
   ) {}
 }
+
+export class DeleteResponse {
+  constructor(
+    public deleted: boolean,
+    public error: null
+  ) {}
+}

@@ -46,6 +46,7 @@ export class EditInviteComponent implements OnInit {
   message: string;
   startDate;
   endDate;
+  today = new Date();
 
   constructor(
     private activatedRoute: ActivatedRoute,

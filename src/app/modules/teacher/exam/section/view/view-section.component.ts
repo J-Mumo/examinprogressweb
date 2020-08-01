@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ViewSectionService } from './view-section.service';
-import { ActivatedRoute } from '@angular/router';
-import { ViewSectionInitialData, QuestionTransfer } from './view-section-request-response';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ViewSectionInitialData, QuestionTransfer, DeleteResponse } from './view-section-request-response';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-view-section',
@@ -20,9 +23,16 @@ export class ViewSectionComponent implements OnInit {
   questionColumns: string[] = ['question', 'questionType', 'viewQuestion', 'actions'];
   time: NgbTimeStruct = { hour: 0, minute: 0, second: 0 };
   duration = [];
+  questionId: number;
+  modalRef: BsModalRef;
+  message: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private modalService: BsModalService,
     private viewSectionService: ViewSectionService
   ) { }
 
@@ -45,5 +55,65 @@ export class ViewSectionComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.questions.filter = filterValue.trim().toLowerCase();
+  }
+
+  viewSectionSnackBar(message) {
+    this.translate.get(message).subscribe(( res: string ) => {
+      this.snackBar.open( res, '', {
+        duration: 10000,
+        verticalPosition: 'top'
+      });
+    });
+  }
+
+  deleteSectionConfirmation(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  deleteSectionConfirmed() {
+    this.viewSectionService.deleteSection(this.sectionId).subscribe(
+      (response: DeleteResponse) => {
+        if (response.deleted) {
+          this.message = 'teacher/exam/section/section_deleted';
+          this.modalRef.hide();
+          this.router.navigate(['/teacher/exam', this.examId, 'view']);
+        } else {
+          this.message = 'teacher/exam/section/section_not_deleted';
+          this.modalRef.hide();
+        }
+        this.viewSectionSnackBar(this.message);
+      }
+    );
+  }
+
+  deleteQuestionConfirmation(template: TemplateRef<any>, questionId) {
+    this.questionId = questionId;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  deleteQuestionConfirmed() {
+    this.viewSectionService.deleteQuestion(this.questionId).subscribe(
+      (response: DeleteResponse) => {
+        if (response.deleted) {
+          this.message = 'teacher/exam/section/question/question_deleted';
+          this.modalRef.hide();
+          this.navigateBack();
+        } else {
+          this.message = 'teacher/exam/section/question/question_not_deleted';
+          this.modalRef.hide();
+        }
+        this.viewSectionSnackBar(this.message);
+      }
+    );
+  }
+
+  decline() {
+    this.modalRef.hide();
+  }
+
+  navigateBack(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([this.router.url]);
   }
 }

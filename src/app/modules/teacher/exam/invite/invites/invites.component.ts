@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { InvitesService } from './invites.service';
-import { InvitesInitialData, InviteTransfer } from './invites-request-response';
-import { ActivatedRoute } from '@angular/router';
+import { InvitesInitialData, InviteTransfer, DeleteResponse } from './invites-request-response';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-invites',
@@ -15,9 +18,16 @@ export class InvitesComponent implements OnInit {
   initialData: InvitesInitialData;
   invites: MatTableDataSource<InviteTransfer>;
   invitesColumns: string[] = ['name', 'examStartDate', 'viewInvite', 'actions'];
+  inviteId: number;
+  modalRef: BsModalRef;
+  message: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private modalService: BsModalService,
     private invitesService: InvitesService
   ) { }
 
@@ -42,5 +52,44 @@ export class InvitesComponent implements OnInit {
 
   applyInviteFilter(filterValue: string) {
     this.invites.filter = filterValue.trim().toLowerCase();
+  }
+
+  invitesSnackBar(message) {
+    this.translate.get(message).subscribe(( res: string ) => {
+      this.snackBar.open( res, '', {
+        duration: 10000,
+        verticalPosition: 'top'
+      });
+    });
+  }
+
+  deleteInviteConfirmation(template: TemplateRef<any>, inviteId) {
+    this.inviteId = inviteId;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  deleteInviteConfirmed() {
+    this.invitesService.deleteInvite(this.inviteId).subscribe(
+      (response: DeleteResponse) => {
+        if (response.deleted) {
+          this.message = 'teacher/exam/invite/invite_deleted';
+          this.modalRef.hide();
+          this.navigateBack();
+        } else {
+          this.message = 'teacher/exam/invite/invite_not_deleted';
+        }
+        this.invitesSnackBar(this.message);
+      }
+    );
+  }
+
+  decline() {
+    this.modalRef.hide();
+  }
+
+  navigateBack(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([this.router.url]);
   }
 }

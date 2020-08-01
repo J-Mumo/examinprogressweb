@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ExamsInitialData } from './exams-request-response';
+import { ExamsInitialData, DeleteResponse } from './exams-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { ExamsInitialData } from './exams-request-response';
 export class ExamsService {
 
   GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/exams/getinitialdata';
+  DELETE_EXAM_URL = '/examinprogress/teacher/exam/delete';
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +27,23 @@ export class ExamsService {
           return response;
         }
     ));
+  }
+
+  deleteExam(examId: number):
+    Observable<DeleteResponse> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    const body = JSON.stringify(examId);
+
+    return this.http.post(this.DELETE_EXAM_URL,
+      body, httpOptions).pipe(map(
+        (response: DeleteResponse) => {
+          return response;
+        }
+      ));
   }
 }

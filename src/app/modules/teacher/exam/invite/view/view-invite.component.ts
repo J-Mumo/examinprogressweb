@@ -50,13 +50,33 @@ export class ViewInviteComponent implements OnInit {
     return index;
   }
 
-  emailSentSnackBar(message) {
+  viewInviteSnackBar(message) {
     this.translate.get(message).subscribe(( res: string ) => {
       this.snackBar.open( res, '', {
         duration: 5000,
         verticalPosition: 'top'
       });
     });
+  }
+
+  deleteInviteConfirmation(template: TemplateRef<any>, inviteId) {
+    this.inviteId = inviteId;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  deleteInviteConfirmed() {
+    this.viewInviteService.deleteInvite(this.inviteId).subscribe(
+      (response: DeleteResponse) => {
+        if (response.deleted) {
+          this.message = 'teacher/exam/invite/invite_deleted';
+          this.modalRef.hide();
+          this.router.navigate(['/teacher/exam', this.examId, this.examName, 'invites']);
+        } else {
+          this.message = 'teacher/exam/invite/invite_not_deleted';
+        }
+        this.viewInviteSnackBar(this.message);
+      }
+    );
   }
 
   unsendConfirmation(template: TemplateRef<any>, examTokenId, email) {
@@ -74,7 +94,7 @@ export class ViewInviteComponent implements OnInit {
         } else {
           this.message = 'teacher/exam/invite/invite_unsent_failed';
         }
-        this.emailSentSnackBar(this.message);
+        this.viewInviteSnackBar(this.message);
       }
     );
   }
@@ -102,7 +122,7 @@ export class ViewInviteComponent implements OnInit {
           } else {
             this.message = 'teacher/exam/invite/invite_not_sent';
           }
-          this.emailSentSnackBar(this.message);
+          this.viewInviteSnackBar(this.message);
         }
       );
     }

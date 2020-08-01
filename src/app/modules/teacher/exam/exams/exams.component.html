@@ -72,7 +72,8 @@
                 </mat-icon>&nbsp;
                 <mat-icon
                   class="icon-button"
-                  color="warn">
+                  color="warn"
+                  (click)="deleteExamConfirmation(deleteExam, exam.examId)">
                     delete
                 </mat-icon>
               </td>
@@ -91,3 +92,30 @@
     </div>
   </div>
 </div>
+
+<ng-template #deleteExam>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/delete_exam</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/delete_exam_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteExamConfirmed()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

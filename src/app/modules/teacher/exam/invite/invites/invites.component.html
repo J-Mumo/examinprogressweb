@@ -19,7 +19,7 @@
       </ol>
     </nav>
     <h1 class="header-title" translate>
-      teacher/exams
+      teacher/exam/invite/invites
     </h1>
     <div class="row">
       <div class="col-md-12">
@@ -32,7 +32,7 @@
               <button mat-raised-button 
                 style="margin-top: 18px; margin-right: 10px;"
                 color="primary"
-                routerLink="/teacher/exam/create">
+                routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/create">
                 {{ 'teacher/exam/invite/create_an_invite'| translate }}
               </button>
             </div>
@@ -82,7 +82,8 @@
                 </mat-icon>&nbsp;
                 <mat-icon
                   class="icon-button"
-                  color="warn">
+                  color="warn"
+                  (click)="deleteInviteConfirmation(deleteInvite, invite.inviteId)">
                     delete
                 </mat-icon>
               </td>
@@ -101,3 +102,30 @@
     </div>
   </div>
 </div>
+
+<ng-template #deleteInvite>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/invite/delete_invite</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/invite/delete_invite_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteInviteConfirmed()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

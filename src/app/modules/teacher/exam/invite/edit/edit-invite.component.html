@@ -56,8 +56,9 @@
                     name="examStartDate"
                     class="form-control" 
                     maxlength="100"
-                    [ngModel]="startDate"
+                    [(ngModel)]="startDate"
                     #examStartDate="ngModel"
+                    min="{{today | date:'yyyy-MM-dd'}}"
                     [ngClass]="{ 'is-invalid': examStartDate.touched && examStartDate.value === '' }"
                     required>
                 </mat-form-field>
@@ -74,6 +75,7 @@
                     class="form-control" 
                     maxlength="100"
                     [ngModel]="endDate"
+                    min="{{startDate | date:'yyyy-MM-dd'}}"
                     #examEndDate="ngModel">
                 </mat-form-field>
               </div>

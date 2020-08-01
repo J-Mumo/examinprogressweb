@@ -37,7 +37,8 @@
               </mat-icon>&nbsp;
               <mat-icon
                 class="icon-button"
-                color="warn">
+                color="warn"
+                (click)="deleteInviteConfirmation(deleteInvite, inviteId)">
                   delete
               </mat-icon>
             </div>
@@ -157,6 +158,33 @@
       <button mat-raised-button 
         color="primary"
         (click)="unsendInvite()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteInvite>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>teacher/exam/invite/delete_invite</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'teacher/exam/invite/delete_invite_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="deleteInviteConfirmed()"
         type="button">
         {{ 'generic/yes'| translate }}
       </button>

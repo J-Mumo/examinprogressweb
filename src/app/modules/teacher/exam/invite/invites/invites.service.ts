@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { InvitesInitialData } from './invites-request-response';
+import { InvitesInitialData, DeleteResponse } from './invites-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { InvitesInitialData } from './invites-request-response';
 export class InvitesService {
 
   private GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/invite/invites/getinitialdata';
+  private DELETE_INVITE_URL = '/examinprogress/teacher/exam/invite/delete';
 
   constructor(private http: HttpClient) {
 
@@ -29,5 +30,23 @@ export class InvitesService {
           return response;
         }
     ));
+  }
+
+  deleteInvite(inviteId: number):
+    Observable<DeleteResponse> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    const body = JSON.stringify(inviteId);
+
+    return this.http.post(this.DELETE_INVITE_URL,
+      body, httpOptions).pipe(map(
+        (response: DeleteResponse) => {
+          return response;
+        }
+      ));
   }
 }

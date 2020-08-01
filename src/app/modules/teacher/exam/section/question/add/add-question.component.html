@@ -472,7 +472,7 @@
             </div>
           </div>
         </form>
-        <form #addAnswers="ngForm" 
+        <form #addTextAnswer="ngForm" 
           (ngSubmit)="onSubmitTextAnswer(stepper)"
           *ngIf="answerType === 'textAnswer'"
           style="margin-top: 10px;">
@@ -491,8 +491,8 @@
                 style="justify-content: center;">
                 <button mat-raised-button
                   color="primary"
-                  (click)="saveAndAddQuestionForComprehension(addAnswers, stepper)"
-                  type="submit">
+                  (click)="saveAndAddQuestionForComprehension(addTextAnswer, stepper)"
+                  type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question_for_comprehension'| translate }}
                 </button>
               </div>
@@ -500,7 +500,7 @@
                 <button mat-raised-button 
                   color="primary"
                   (click)="scroll(top)"
-                  (click)="saveAndAddNewQuestion(addAnswers, stepper)"
+                  (click)="saveAndAddNewQuestion(addTextAnswer, stepper)"
                   type="button">
                   {{ 'teacher/exam/section/question/save_and_add_question'| translate }}
                 </button>

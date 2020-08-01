@@ -148,13 +148,16 @@ export class AddQuestionComponent implements OnInit {
         document.getElementById('score-error').hidden = false;
       } else { document.getElementById('score-error').hidden = true; }
 
-    } else if (questionDuration === '' || questionDuration === null) {
-      document.getElementById('duration-error').hidden = false;
+    } else if (this.initialData.examTimedByQuestion && this.questionType === 'question'
+      && (questionDuration === '' || questionDuration === null)) {
+        document.getElementById('duration-error').hidden = false;
     } else {
       document.getElementById('duration-error').hidden = true;
       this.question = question;
       this.score = score;
-      this.questionDuration = questionDuration;
+      if (this.questionType === 'question') {
+        this.questionDuration = questionDuration;
+      }
       stepper.next();
     }
   }
@@ -168,10 +171,8 @@ export class AddQuestionComponent implements OnInit {
         document.getElementById('comprehension-error').hidden = false;
       } else { document.getElementById('comprehension-error').hidden = true; }
 
-      if (questionDuration === '' || questionDuration === null) {
+    } else if (this.initialData.examTimedByQuestion && (questionDuration === '' || questionDuration === null)) {
         document.getElementById('duration-error').hidden = false;
-      } else { document.getElementById('duration-error').hidden = true; }
-
     } else {
       this.comprehension = comprehension;
       this.questionDuration = questionDuration;
