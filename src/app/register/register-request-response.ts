@@ -3,7 +3,9 @@ export class RegisterRequest {
     public firstName: string,
     public lastName: string,
     public email: string,
-    public password: string
+    public password: string,
+    public inviteLink: boolean,
+    public code: string
   ) { }
 
 }

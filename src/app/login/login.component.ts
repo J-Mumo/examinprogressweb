@@ -91,11 +91,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   private navigateToCurrentUserDashboard(roles: string[]): string {
     const superadmin = roles.find(x => x === 'SuperAdmin');
     const teacher = roles.find(x => x === 'TEACHER');
+    const student = roles.find(x => x === 'STUDENT');
 
     if (superadmin) {
       return '/superadmin/dashboard';
     } else if (teacher) {
       return '/teacher/exam/create';
+    } else if (student) {
+      return '/student/exams';
     }
     return '#';
   }
@@ -106,8 +109,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (!this.emailValidated(roles)) {
       this.navigateToValidateEmail(email);
-    } else if (this.redirectUrl) {
-      this.router.navigateByUrl(this.redirectUrl);
+    // } else if (this.redirectUrl) {
+    //   console.log(this.authorities);
+    //   this.router.navigateByUrl(this.redirectUrl);
     } else {
       const route = this.navigateToCurrentUserDashboard(roles);
       this.router.navigate([route]);

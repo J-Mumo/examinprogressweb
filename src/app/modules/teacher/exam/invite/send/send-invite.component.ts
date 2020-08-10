@@ -18,7 +18,7 @@ export class SendInviteComponent implements OnInit {
   emails = ['', ''];
   message: string;
   inviteMethod;
-  examLink: string;
+  inviteCode: string;
   initialData: SendInviteInitialData;
   copyState = 'Copy';
 

@@ -12,7 +12,7 @@ export class ViewInviteInitialData {
     public examEndDate: Date,
     public pausable: boolean,
     public examStartTime: string,
-    public examLink: string,
+    public inviteCode: string,
     public examTokenTransfers: ExamTokenTransfer[]
   ) {}
 }

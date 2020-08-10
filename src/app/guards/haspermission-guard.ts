@@ -26,7 +26,10 @@ export class HasPermissionGuard implements CanActivate {
     }
 
     const authorities = this.userService.getAuthorities();
+    console.log(authorities);
     const needAuthorities = next.data.authorities as Array<string>;
+    console.log(needAuthorities);
+    console.log(next);
     let hasPermission = true;
 
     for (const needAuthority of needAuthorities) {

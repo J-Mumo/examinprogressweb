@@ -1,6 +1,6 @@
 export class SendInviteInitialData {
   constructor(
-    public examLink: string
+    public inviteCode: string
   ) {}
 }
 

@@ -39,9 +39,9 @@
                   teacher/exam/invite/invite_method_info
                 </p>
                 <mat-radio-group [(ngModel)]="inviteMethod" name="inviteMethod" aria-label="Select an option" (click)="stepper.next()">
-                  <mat-radio-button value="examLink">
+                  <mat-radio-button value="inviteCode">
                     <span style="white-space: normal;">
-                      <b style="font-weight: 500;">Invite by sharing exam link:</b> In this method, we will provide you with a link to this exam.
+                      <b style="font-weight: 500;">Invite by sharing link:</b> In this method, we will provide you with a link to the exam for this invite.
                       You will share this link to anyone you would like to do the exam. Anyone with access to this ink will be able to do this exam.
                     </span>
                   </mat-radio-button><br><br>
@@ -124,7 +124,7 @@
                   </div>
                 </form>
               </div>
-              <div class="card-body" *ngIf="inviteMethod === 'examLink'">                
+              <div class="card-body" *ngIf="inviteMethod === 'inviteCode'">                
                 <p style="text-align: center;" class="lighter-font" translate>
                   teacher/exam/invite/copy_invite_link
                 </p>
@@ -132,11 +132,11 @@
                   <button mat-stroked-button 
                     color="primary"
                     style="background-color: powderblue; border-radius: 0"
-                    [cdkCopyToClipboard]="initialData?.examLink"
+                    [cdkCopyToClipboard]="initialData?.inviteCode"
                     type="button">
                     <span translate>generic/copy</span>
                   </button>
-                  <span class="link" [cdkCopyToClipboard]="initialData?.examLink">{{initialData?.examLink}}</span>
+                  <span class="link" [cdkCopyToClipboard]="initialData?.inviteCode">{{initialData?.inviteCode}}</span>
                 </div>
                 <br>
                 <button mat-raised-button 

@@ -90,6 +90,7 @@ export class ViewInviteComponent implements OnInit {
       (response: DeleteResponse) => {
         if (response.deleted) {
           this.message = 'teacher/exam/invite/invite_unsent';
+          this.modalRef.hide();
           this.navigateBack();
         } else {
           this.message = 'teacher/exam/invite/invite_unsent_failed';

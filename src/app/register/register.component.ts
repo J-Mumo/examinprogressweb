@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { RegisterRequest, SaveResponse } from './register-request-response';
 import { RegisterService } from './register.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,12 +13,23 @@ export class RegisterComponent implements OnInit {
   saved = false;
   error: string;
   emailThatIsUsedAlready: string;
+  studentEmail = this.activatedRoute.snapshot.paramMap.get('email');
+  isInviteLink: boolean;
+  code: string;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private registerService: RegisterService,
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+        this.studentEmail = params.email;
+        this.isInviteLink = params.isExamLink;
+        this.code = params.code;
+      }
+    );
+  }
 
   onSubmit(form: NgForm) {
     const firstName = form.value.firstName;
@@ -26,7 +38,8 @@ export class RegisterComponent implements OnInit {
     const password = form.value.password;
     this.emailThatIsUsedAlready = email;
 
-    const registerRequest: RegisterRequest = new RegisterRequest(firstName, lastName, email, password);
+    const registerRequest: RegisterRequest = new RegisterRequest(
+      firstName, lastName, email, password, this.isInviteLink, this.code);
 
     this.registerService.save(registerRequest).subscribe(
       (response: SaveResponse) => {
