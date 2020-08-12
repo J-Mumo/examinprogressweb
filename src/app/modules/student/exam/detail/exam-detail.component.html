@@ -1,0 +1,108 @@
+<div class="content" role="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="error-template" *ngIf="examExists">
+          <div class="header-title">
+            <h1 translate>Exam in progress</h1>
+          </div>
+          <br/>
+          <mat-card>
+            <div class="card-body">
+              <div class="header-title">
+                <h2 style="font-size: xx-large;">{{ initialData?.examName }}</h2>
+              </div>
+              <div *ngIf="initialData?.examDescription !== null" class="lighter-font"
+                style="margin: 1.5em 0;">
+                {{ initialData?.examDescription }}
+              </div>
+              <br>
+              <div style="display: flex; align-items: flex-start;">
+                <mat-icon>query_builder</mat-icon>&nbsp;&nbsp;&nbsp;
+                <span style="font-size: x-large;">{{ initialData?.examTotalTime }}</span>&nbsp;&nbsp;
+                <span class="lighter-font" style="font-size: x-large;">minutes</span>
+              </div>
+              <br><br>
+              <div *ngIf="initialData?.examHasEnded">
+                This exam ended on {{ initialData?.endDate | date:'mediumDate' }}
+              </div>
+              <div *ngIf="initialData?.examHasStarted">
+                <div *ngIf="initialData?.startTime !== null">
+                  The exam has started -- put timer--
+                </div>
+              </div>
+              <div class="lighter-font" style="font-weight: 500;">
+                <div *ngIf="!initialData?.examHasStarted">
+                  <div *ngIf="initialData?.startTime !== null">
+                    The exam will start on {{ initialData?.startDate | date:'mediumDate' }} at {{ initialData?.startTime }} Hrs.
+                  </div>
+                  <div *ngIf="initialData?.startTime === null && initialData?.endDate !== null">
+                    The exam can be done on any day between {{ initialData?.startDate | date:'mediumDate' }} and {{ initialData?.endDate | date:'mediumDate' }}.
+                  </div>
+                  <div *ngIf="initialData?.startTime === null && initialData?.endDate === null">
+                    The exam will be available from {{ initialData?.startDate | date:'mediumDate' }}.
+                  </div>
+                </div>
+                <br>
+                <div>
+                  <p *ngIf="initialData?.pausable">
+                    This exam is pausable. You can pause doing the exam at any point you like. Later, you can
+                    come back and resume from where you left off, as long as you complete the exam within the given time period.
+                  </p>
+                  <p *ngIf="!initialData?.pausable">
+                    This exam is not pausable. Once you start the exam, you can not stop until you complete the exam.
+                  </p>
+                  <p>The exam has been split into sections</p>
+                  <p *ngIf="initialData?.timedPerSection">
+                    Each section has it's own timer. You have to complete a section within the allocated time for the section.
+                    When the time runs out, you will be moved to the next section.
+                  </p>
+                  <p *ngIf="initialData?.timedPerQuestion">
+                    Each question has it's own timer. You have to complete a question within the allocated time for the question.
+                    When the time runs out, you will be moved to the next question.
+                  </p>
+                </div>
+              </div>
+              <br/>
+              <button mat-raised-button 
+                *ngIf="isToday && !examHasEnded"
+                color="primary"
+                routerLink="/"
+                type="button">
+                Start Exam
+              </button>
+              <button mat-raised-button 
+                *ngIf="!isToday"
+                color="primary"
+                routerLink="/"
+                type="button">
+                Go to Dashboard
+              </button>
+            </div>
+          </mat-card>
+        </div>
+        <div class="error-template" *ngIf="!examExists">
+          <div class="header-title text-center">
+            <h1 translate>Exam Token Error</h1>
+          </div>
+          <br/>
+          <mat-card>
+            <div class="card-body">
+              <p class="lighter-font" translate>
+                The exam link you have used is invalid. This means that the exam you are trying to access is no longer
+                available. The exam has either been deleted or the invite that was sent to you has been retracted.
+              </p>
+              <br/>
+              <button mat-raised-button 
+                color="primary"
+                routerLink="/"
+                type="button">
+                {{ 'generic/home'| translate }}
+              </button>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

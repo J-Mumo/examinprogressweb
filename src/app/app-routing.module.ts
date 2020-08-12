@@ -12,7 +12,7 @@ import { ForgotpasswordComponent } from './email/forgotpassword/forgotpassword.c
 import { Error404Component } from './errors/404/error404.component';
 import { ErrorComponent } from './errors/error/error.component';
 import { ErrorofflineComponent } from './errors/offline/erroroffline.component';
-import { VerifyExamTokenComponent } from './modules/student/verify-exam-token/verify-exam-token.component';
+import { ExamDetailComponent } from './modules/student/exam/detail/exam-detail.component';
 
 
 const routes: Routes = [
@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'user/activate', component: EmailvalidatedComponent },
       { path: 'login', component: LoginComponent },
       { path: 'user/forgottenpassword', component: ForgotpasswordComponent },
-      { path: 'student/exam/token', component: VerifyExamTokenComponent },
+      { path: 'student/exam/detail', component: ExamDetailComponent },
       { path: 'error404', component: Error404Component },
       { path: 'erroroffline', component: ErrorofflineComponent },
       { path: 'error', component: ErrorComponent },

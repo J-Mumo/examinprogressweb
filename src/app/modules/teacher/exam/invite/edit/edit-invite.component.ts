@@ -65,7 +65,7 @@ export class EditInviteComponent implements OnInit {
       (initialData: EditInviteInitialData) => {
         this.initialData = initialData;
         this.startDate = initialData.examStartDate.toString().split('T')[0];
-        this.endDate = initialData.examEndDate.toString().split('T')[0];
+        this.endDate = initialData.examEndDate != null ? initialData.examEndDate.toString().split('T')[0] : null;
       }
     );
   }

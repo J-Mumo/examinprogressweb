@@ -15,7 +15,6 @@ export class CreateInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   message: string;
-  today = new Date();
   time = {hour: 0, minute: 0};
 
   constructor(
@@ -43,6 +42,8 @@ export class CreateInviteComponent implements OnInit {
     const examEndDate = form.value.endDate;
     const pausable = form.value.pausable;
     const startTime = form.value.startTime;
+    const startDate = new Date(new Date(examStartDate).toDateString());
+    const today = new Date(new Date().toDateString());
 
     if (!form.valid) {
       if (name === '') {
@@ -52,11 +53,14 @@ export class CreateInviteComponent implements OnInit {
         document.getElementById('startDate-error').hidden = false;
       } else { document.getElementById('startDate-error').hidden = true; }
 
+    } else if (startDate < today) {
+      document.getElementById('name-error').hidden = true;
+      document.getElementById('startDate-error').hidden = false;
     } else {
-
       document.getElementById('startDate-error').hidden = true;
-      const examStartTime = startTime != null ? 'PT' + startTime.hour + 'H' + startTime.minute + 'M' : null;
-      const request: CreateInviteRequest = new CreateInviteRequest(this.examId, name, examStartDate, examEndDate, pausable, examStartTime);
+
+      const request: CreateInviteRequest = new CreateInviteRequest(
+        this.examId, name, examStartDate, examEndDate, pausable, startTime.hour + ':' + ('0' + startTime.minute).slice(-2));
 
       this.createInviteService.save(request).subscribe(
         (response: SaveResponseWithId) => {

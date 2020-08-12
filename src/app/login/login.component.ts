@@ -109,9 +109,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if (!this.emailValidated(roles)) {
       this.navigateToValidateEmail(email);
-    // } else if (this.redirectUrl) {
-    //   console.log(this.authorities);
-    //   this.router.navigateByUrl(this.redirectUrl);
+    } else if (this.redirectUrl) {
+      this.router.navigateByUrl(this.redirectUrl);
     } else {
       const route = this.navigateToCurrentUserDashboard(roles);
       this.router.navigate([route]);
