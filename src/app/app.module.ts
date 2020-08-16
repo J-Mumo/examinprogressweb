@@ -33,7 +33,6 @@ import { ForgotpasswordComponent } from './email/forgotpassword/forgotpassword.c
 import { ResetforgottenpasswordComponent } from './email/resetforgottenpassword/resetforgottenpassword.component';
 import { ValidateemailComponent } from './email/validateemail/validateemail.component';
 import { SidenavMenuComponent } from './sidenav-menu/sidenav-menu.component';
-import { VerifyExamTokenComponent } from './modules/student/verify-exam-token/verify-exam-token.component';
 import { ExamDetailComponent } from './modules/student/exam/detail/exam-detail.component';
 
 registerLocaleData(localeEn, 'en');
@@ -72,7 +71,6 @@ const jwtConf = {
     ResetforgottenpasswordComponent,
     ValidateemailComponent,
     SidenavMenuComponent,
-    VerifyExamTokenComponent,
     ExamDetailComponent
   ],
   imports: [

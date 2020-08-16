@@ -65,9 +65,17 @@
               </div>
               <br/>
               <button mat-raised-button 
-                *ngIf="isToday && !examHasEnded"
+                *ngIf="isToday && !initialData?.examHasEnded && initialData?.studentRegistered"
                 color="primary"
-                routerLink="/"
+                routerLink="/student/exam/examinprogress/{{ initialData?.examTokenId }}"
+                type="button">
+                Start Exam
+              </button>
+              <button mat-raised-button 
+                *ngIf="isToday && !initialData?.examHasEnded && !initialData?.studentRegistered"
+                color="primary"
+                routerLink="/register"
+                [queryParams]="{ email: initialData?.email, inviteLink: inviteLink, code: code }"
                 type="button">
                 Start Exam
               </button>

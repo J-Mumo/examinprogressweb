@@ -81,7 +81,7 @@
                 </td>
               </ng-container>
 
-              <!-- Score Column -->
+              <!-- Question type Column -->
               <ng-container matColumnDef="questionType">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Question Type</th>
                 <td mat-cell *matCellDef="let question">
@@ -111,7 +111,7 @@
                 <td mat-cell *matCellDef="let question">
                   <mat-icon
                     class="icon-button"
-                    routerLink="/teacher/exam/{{examId}}/{{examName}}/edit">
+                    routerLink="/teacher/exam/{{examId}}/{{examName}}/section/{{sectionId}}/{{sectionName}}/question/{{question.questionId}}/edit">
                       edit
                   </mat-icon>&nbsp;
                   <mat-icon

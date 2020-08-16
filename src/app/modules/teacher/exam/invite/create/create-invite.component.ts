@@ -60,7 +60,8 @@ export class CreateInviteComponent implements OnInit {
       document.getElementById('startDate-error').hidden = true;
 
       const request: CreateInviteRequest = new CreateInviteRequest(
-        this.examId, name, examStartDate, examEndDate, pausable, startTime.hour + ':' + ('0' + startTime.minute).slice(-2));
+        this.examId, name, examStartDate, examEndDate, pausable,
+        ('0' + startTime.hour).slice(-2) + ':' + ('0' + startTime.minute).slice(-2));
 
       this.createInviteService.save(request).subscribe(
         (response: SaveResponseWithId) => {

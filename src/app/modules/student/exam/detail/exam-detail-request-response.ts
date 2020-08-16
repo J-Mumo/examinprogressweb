@@ -11,6 +11,7 @@ export class ExamDetailInitialData {
     public studentRegistered: boolean,
     public examHasStarted: boolean,
     public examHasEnded: boolean,
+    public examTokenId: number,
     public examName: string,
     public examDescription: string,
     public startDate: Date,

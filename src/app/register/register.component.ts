@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
   saved = false;
   error: string;
   emailThatIsUsedAlready: string;
-  studentEmail = this.activatedRoute.snapshot.paramMap.get('email');
+  studentEmail: string;
   isInviteLink: boolean;
   code: string;
 
@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
         this.studentEmail = params.email;
-        this.isInviteLink = params.isExamLink;
+        this.isInviteLink = params.inviteLink;
         this.code = params.code;
       }
     );

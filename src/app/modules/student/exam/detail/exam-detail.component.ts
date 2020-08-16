@@ -12,6 +12,8 @@ export class ExamDetailComponent implements OnInit {
   initialData: ExamDetailInitialData;
   examExists: boolean;
   isToday: boolean;
+  code: string;
+  inviteLink: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,10 +27,10 @@ export class ExamDetailComponent implements OnInit {
   getInitialData() {
     const token = this.activatedRoute.snapshot.queryParamMap.get('token');
     const inviteCode = this.activatedRoute.snapshot.queryParamMap.get('invitecode');
-    const inviteLink = inviteCode !== null ? true : false;
-    const code = inviteLink ? inviteCode : token;
+    this.inviteLink = inviteCode !== null ? true : false;
+    this.code = this.inviteLink ? inviteCode : token;
 
-    const request: ExamDetailRequest = new ExamDetailRequest(inviteLink, code);
+    const request: ExamDetailRequest = new ExamDetailRequest(this.inviteLink, this.code);
 
     this.examDetailService.getInitialData(request).subscribe(
       (initialData: ExamDetailInitialData) => {
@@ -38,8 +40,6 @@ export class ExamDetailComponent implements OnInit {
         }
         const today = new Date(new Date().toDateString());
         const startDate = new Date(new Date(initialData.startDate).toDateString());
-        console.log(today);
-        console.log(new Date(new Date(initialData.startDate).toDateString()));
         if (today <= startDate) {
           this.isToday = true;
         }
