@@ -25,7 +25,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
   declarations: [],
@@ -54,7 +54,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
-    AngularEditorModule
+    AngularEditorModule,
+    CountdownModule
   ],
   exports: [
     TranslateModule,
@@ -80,7 +81,8 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     MatStepperModule,
     ClipboardModule,
     MatTooltipModule,
-    AngularEditorModule
+    AngularEditorModule,
+    CountdownModule
   ],
 })
 export class SharedModule { }

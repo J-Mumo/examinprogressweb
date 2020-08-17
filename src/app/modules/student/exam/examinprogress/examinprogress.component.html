@@ -7,6 +7,10 @@
           <div class="lighter-font">{{ response?.examSectionTransfer.description }}</div>
         </div><br>
         <mat-card class="col-md-10 mx-auto" style="padding: 2em;">
+          <countdown #countDown [config]="{leftTime: timeLeftInSeconds}" (finished)="onTimerExpired()"
+            class="text-danger">
+            $!h!:$!m!:$!s!
+          </countdown>
           <div style="padding-bottom: 2em;">{{ response?.examSectionTransfer.examQuestionTransfer.question }}</div>
           <form #saveAnswers="ngForm" 
             (ngSubmit)="onSubmit(saveAnswers)"
@@ -108,8 +112,15 @@
           </form>
         </mat-card>
       </div>
-      <div class="col-md-12 mx-auto" *ngIf="response?.examComplete">
-        Exam is Complete
+      <div class="col-md-8 mx-auto" *ngIf="response?.examComplete">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_complete</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            You have reached the end of the exam.
+          </div>
+        </mat-card>
       </div>
     </div>
   </div>

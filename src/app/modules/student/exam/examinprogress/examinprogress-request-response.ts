@@ -10,6 +10,7 @@ export class ExamQuestionTransfer {
     public questionId: number,
     public comprehensionQuestion: boolean,
     public question: string,
+    public questionTime: number,
     public questionTransfer: ExamQuestionTransfer,
     public answerType: string,
     public answerTransfers: AnswerTransfer[]
@@ -21,6 +22,7 @@ export class ExamSectionTransfer {
     public sectionId: number,
     public sectionName: string,
     public description: string,
+    public sectionTime: number,
     public sectionComplete: boolean,
     public examQuestionTransfer: ExamQuestionTransfer
   ) { }
@@ -29,7 +31,11 @@ export class ExamSectionTransfer {
 export class ExaminprogressResponse {
   constructor(
     public examSectionTransfer: ExamSectionTransfer,
-    public examComplete: boolean
+    public examComplete: boolean,
+    public timedPerExam: boolean,
+    public timedPerSection: boolean,
+    public timedPerQuestion: boolean,
+    public examTime: number
   ) { }
 }
 
