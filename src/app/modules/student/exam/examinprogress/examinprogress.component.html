@@ -8,27 +8,35 @@
         </div><br>
         <mat-card class="col-md-10 mx-auto" style="padding: 2em;">
           <div style="padding-bottom: 2em;">{{ response?.examSectionTransfer.examQuestionTransfer.question }}</div>
-          <form *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType !== 'Text answer'"
-            #saveAnswers="ngForm" 
-            (ngSubmit)="onSubmitMultipleChoice(saveAnswers)">
-            <div
-              *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.answerTransfers;
-                trackBy: trackByFn let i=index"
-              style="display: flex; align-items: flex-start; justify-content: flex-start;">
-              <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice single answer'">
-                <mat-radio-button
-                  (change)="getSingleCheckedAnswer(answer.answerId)">
-                </mat-radio-button>
+          <form #saveAnswers="ngForm" (ngSubmit)="onSubmit(saveAnswers)">
+            <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType !== 'Text answer'">
+              <div
+                *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.answerTransfers;
+                  trackBy: trackByFn let i=index"
+                style="display: flex; align-items: flex-start; justify-content: flex-start;">
+                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice single answer'">
+                  <mat-radio-button
+                    (change)="getSingleCheckedAnswer(answer.answerId)">
+                  </mat-radio-button>
+                </div>
+                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice multiple answers'">
+                  <mat-checkbox 
+                    id="multiple-choice-answer-checkbox_{{i}}"
+                    (change)="getMultipleCheckedAnswer($event, answer.answerId)">
+                  </mat-checkbox>&nbsp;&nbsp;
+                </div>
+                <div class="form-group" style="width: 60%;">
+                  {{ answer.answer }}
+                </div>
               </div>
-              <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice multiple answers'">
-                <mat-checkbox 
-                  id="multiple-choice-answer-checkbox_{{i}}"
-                  (change)="getMultipleCheckedAnswer($event, answer.answerId)">
-                </mat-checkbox>
-              </div>
-              <div class="form-group" style="width: 60%;">
-                {{ answer.answer }}
-              </div>
+            </div>
+            <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Text answer'">
+              <angular-editor id="answer" 
+                [config]="config"
+                name="answer" 
+                [(ngModel)]="answerText"
+                #answer="ngModel">
+              </angular-editor>
             </div>
             <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
               <button mat-raised-button 

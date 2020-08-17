@@ -24,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatExpansionModule,
     MatStepperModule,
     ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    AngularEditorModule
   ],
   exports: [
     TranslateModule,
@@ -77,7 +79,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatStepperModule,
     ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+    AngularEditorModule
   ],
 })
 export class SharedModule { }

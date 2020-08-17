@@ -32,10 +32,18 @@ export class ExaminprogressResponse {
   ) { }
 }
 
-export class MultipleChoiceAnswerRequest {
+export class AnswerRequest {
   constructor(
     public examTokenId: number,
     public questionId: number,
-    public answerIds: number[]
+    public answerIds: number[],
+    public answerText: string
+  ) {}
+}
+
+export class SkipQuestionRequest {
+  constructor(
+    public examTokenId: number,
+    public questionId: number
   ) {}
 }
