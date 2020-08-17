@@ -113,8 +113,11 @@ export class ExaminprogressComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    const request: AnswerRequest = new AnswerRequest(this.examTokenId,
-      this.response.examSectionTransfer.examQuestionTransfer.questionId, this.answerIds, this.answerText);
+    const questionId = this.response.examSectionTransfer.examQuestionTransfer.questionTransfer != null ?
+      this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
+      this.response.examSectionTransfer.examQuestionTransfer.questionId;
+
+    const request: AnswerRequest = new AnswerRequest(this.examTokenId,questionId, this.answerIds, this.answerText);
 
     this.examinprogressService.saveAnswer(request).subscribe(
       (response: ExaminprogressResponse) => {

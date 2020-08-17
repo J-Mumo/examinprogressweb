@@ -10,6 +10,7 @@ export class ExamQuestionTransfer {
     public questionId: number,
     public comprehensionQuestion: boolean,
     public question: string,
+    public questionTransfer: ExamQuestionTransfer,
     public answerType: string,
     public answerTransfers: AnswerTransfer[]
   ) { }
