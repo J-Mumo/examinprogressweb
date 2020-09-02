@@ -35,13 +35,15 @@ export class ExaminprogressResponse {
     public timedPerExam: boolean,
     public timedPerSection: boolean,
     public timedPerQuestion: boolean,
-    public examTime: number
+    public examTime: number,
+    public pausable: boolean
   ) { }
 }
 
 export class AnswerRequest {
   constructor(
     public examTokenId: number,
+    public pause: boolean,
     public questionId: number,
     public answerIds: number[],
     public answerText: string
@@ -51,6 +53,7 @@ export class AnswerRequest {
 export class SkipQuestionRequest {
   constructor(
     public examTokenId: number,
+    public pause: boolean,
     public questionId: number
   ) {}
 }

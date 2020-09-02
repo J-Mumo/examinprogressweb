@@ -69,9 +69,7 @@ export class ViewQuestionComponent implements OnInit {
     this.viewQuestionService.getInitialData(this.questionId).subscribe(
       (initialData: ViewQuestionInitialData) => {
         this.initialData = initialData;
-        if (initialData.comprehensionQuestion) {
-          this.duration = initialData.comprehensionQuestionTransfer.duration.split( ':' );
-        } else if (initialData.questionTransfer.duration != null) {
+        if (initialData.questionTransfer != null && initialData.questionTransfer.duration != null) {
           this.duration = initialData.questionTransfer.duration.split(':');
         }
         this.time.hour = parseInt(this.duration[0], 10);

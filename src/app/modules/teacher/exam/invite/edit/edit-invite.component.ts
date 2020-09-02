@@ -44,6 +44,7 @@ export class EditInviteComponent implements OnInit {
   inviteId = Number(this.activatedRoute.snapshot.paramMap.get('inviteId'));
   initialData: EditInviteInitialData;
   message: string;
+  examPausable: boolean;
   startDate;
   endDate;
   today = new Date();
@@ -64,6 +65,7 @@ export class EditInviteComponent implements OnInit {
     this.editInviteService.getInitialData(this.inviteId).subscribe(
       (initialData: EditInviteInitialData) => {
         this.initialData = initialData;
+        this.examPausable = initialData.pausable;
         this.startDate = initialData.examStartDate.toString().split('T')[0];
         this.endDate = initialData.examEndDate != null ? initialData.examEndDate.toString().split('T')[0] : null;
       }
@@ -93,6 +95,12 @@ export class EditInviteComponent implements OnInit {
       if (examStartDate === '') {
         document.getElementById('startDate-error').hidden = false;
       } else { document.getElementById('startDate-error').hidden = true; }
+      if (examEndDate === '' && this.examPausable) {
+        document.getElementById('endDate-error').hidden = false;
+      } else if (this.examPausable) { document.getElementById('endDate-error').hidden = true; }
+      if (examStartTime === '' && !this.examPausable || examStartTime === null) {
+        document.getElementById('startTime-error').hidden = false;
+      } else if (!this.examPausable) { document.getElementById('startTime-error').hidden = true; }
 
     } else {
 

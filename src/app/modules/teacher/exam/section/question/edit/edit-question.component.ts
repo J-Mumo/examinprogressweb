@@ -123,7 +123,7 @@ export class EditQuestionComponent implements OnInit {
     const question = form.value.question;
     const score = form.value.score;
     let duration = null;
-    if (!this.initialData.comprehensionSubQuestion || !this.initialData.comprehensionQuestion) {
+    if (!this.initialData.comprehensionQuestion) {
       duration = form.value.duration;
     }
     this.multipleChoiceQuestionAnswerRequests = [];

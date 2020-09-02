@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest } from './examinprogress-request-response';
 import { ExaminprogressService } from './examinprogress.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { CountdownComponent } from 'ngx-countdown';
 
 @Component({
   selector: 'app-examinprogress',
@@ -14,7 +15,9 @@ export class ExaminprogressComponent implements OnInit {
   examTokenId = Number(this.activatedRoute.snapshot.paramMap.get('examTokenId'));
   answerIds: number[] = [];
   answerText: string;
-  timeLeftInSeconds = 0;
+  timeLeftInSeconds = null;
+  pause: boolean;
+  @ViewChild('countDown', { static: false }) countDown: CountdownComponent;
   config = {
     editable: true,
     spellcheck: true,
@@ -66,6 +69,7 @@ export class ExaminprogressComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private ref: ChangeDetectorRef,
     private examinprogressService: ExaminprogressService
   ) { }
 
@@ -77,14 +81,18 @@ export class ExaminprogressComponent implements OnInit {
     this.examinprogressService.getExamProgress(this.examTokenId).subscribe(
       (response: ExaminprogressResponse) => {
         this.response = response;
-        if (response.timedPerExam) {
-          this.timeLeftInSeconds = response.examTime;
-        } else if (response.timedPerSection) {
-          this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
-        } else if (response.timedPerQuestion) {
-          this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime != null ?
-            response.examSectionTransfer.examQuestionTransfer.questionTime :
-            response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+        if (!response.examComplete) {
+          if (response.timedPerExam) {
+            this.timeLeftInSeconds = response.examTime;
+          } else if (response.timedPerSection) {
+            this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
+          } else if (response.timedPerQuestion) {
+            if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
+              this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+            } else {
+              this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+            }
+          }
         }
       }
     );
@@ -110,20 +118,46 @@ export class ExaminprogressComponent implements OnInit {
     }
   }
 
-  onTimerExpired() {
-    this.skipToNextQuestion();
+  onTimerExpired(event) {
+    if (event.action === 'done') {
+      // this.countDown = event;
+      console.log(this.countDown);
+      this.skipToNextQuestion();
+    }
+  }
+
+  pauseExam() {
+    this.pause = true;
   }
 
   skipToNextQuestion() {
-    const request: SkipQuestionRequest = new SkipQuestionRequest(this.examTokenId,
-      this.response.examSectionTransfer.examQuestionTransfer.questionId);
-
-    this.examinprogressService.skipQuestion(request).subscribe(
-      (response: ExaminprogressResponse) => {
-        this.response = response;
-        this.answerIds = [];
-      }
-    );
+    if (this.response !== undefined) {
+      const questionId = this.response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion ?
+      this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
+      this.response.examSectionTransfer.examQuestionTransfer.questionId;
+      const request: SkipQuestionRequest = new SkipQuestionRequest(this.examTokenId, this.pause, questionId);
+      this.examinprogressService.skipQuestion(request).subscribe(
+        (response: ExaminprogressResponse) => {
+          this.response = response;
+          this.answerIds = [];
+          if (!response.examComplete) {
+            if (response.timedPerExam) {
+              this.timeLeftInSeconds = response.examTime;
+            } else if (response.timedPerSection) {
+              this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
+            } else if (response.timedPerQuestion) {
+              if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
+                this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+              } else {
+                this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+              }
+            }
+            this.countDown.left = this.timeLeftInSeconds;
+            this.countDown.restart();
+          }
+        }
+      );
+    }
   }
 
   onSubmit(form: NgForm) {
@@ -131,12 +165,25 @@ export class ExaminprogressComponent implements OnInit {
       this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
       this.response.examSectionTransfer.examQuestionTransfer.questionId;
 
-    const request: AnswerRequest = new AnswerRequest(this.examTokenId, questionId, this.answerIds, this.answerText);
+    const request: AnswerRequest = new AnswerRequest(this.examTokenId, this.pause, questionId, this.answerIds, this.answerText);
 
     this.examinprogressService.saveAnswer(request).subscribe(
       (response: ExaminprogressResponse) => {
         this.response = response;
         this.answerIds = [];
+        if (!response.examComplete) {
+          if (response.timedPerExam) {
+            this.timeLeftInSeconds = response.examTime;
+          } else if (response.timedPerSection) {
+            this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
+          } else if (response.timedPerQuestion) {
+            if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
+              this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+            } else {
+              this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+            }
+          }
+        }
       }
     );
   }

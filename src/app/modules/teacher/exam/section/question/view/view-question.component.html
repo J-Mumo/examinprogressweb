@@ -35,15 +35,6 @@
             </p>
             <div class="card-body">
               {{initialData?.comprehensionQuestionTransfer.question}}<br><br>
-              <div *ngIf="initialData?.comprehensionQuestionTransfer.duration != null" class="form-group  duration-div"><b>
-                The total time set for all the questions in this comprehension question is:<br>
-                <span *ngIf="time.hour > 1">{{time.hour}} hours</span>
-                <span *ngIf="time.hour === 1">{{time.hour}} hour</span>
-                <span *ngIf="time.minute > 1">{{time.minute}} minutes</span>
-                <span *ngIf="time.minute === 1">{{time.minute}} minute</span>
-                <span *ngIf="time.second > 1">{{time.second}} seconds</span>
-                <span *ngIf="time.second === 1">{{time.second}} second</span>
-              </b></div>
             </div>
             <div style="display: flex; justify-content: flex-start; align-items: center;">
               <button mat-button 
@@ -79,7 +70,7 @@
                       <mat-checkbox
                         [checked]="answerTransfer.correct"
                         [disabled]="true">
-                      </mat-checkbox><&nbsp;&nbsp;
+                      </mat-checkbox>&nbsp;&nbsp;
                     </div>
                     <div class="form-group" style="width: 60%;">
                       <div class="answer">{{answerTransfer.answerText}}</div>

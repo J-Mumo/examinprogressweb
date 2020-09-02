@@ -148,34 +148,26 @@ export class AddQuestionComponent implements OnInit {
         document.getElementById('score-error').hidden = false;
       } else { document.getElementById('score-error').hidden = true; }
 
-    } else if (this.initialData.examTimedByQuestion && this.questionType === 'question'
-      && (questionDuration === '' || questionDuration === null)) {
+    } else if (this.initialData.examTimedByQuestion && (questionDuration === '' || questionDuration === null)) {
         document.getElementById('duration-error').hidden = false;
     } else {
       document.getElementById('duration-error').hidden = true;
       this.question = question;
       this.score = score;
-      if (this.questionType === 'question') {
-        this.questionDuration = questionDuration;
-      }
+      this.questionDuration = questionDuration;
       stepper.next();
     }
   }
 
   onSubmitComprehension(form: NgForm, stepper: MatStepper) {
     const comprehension = form.value.comprehension;
-    const questionDuration = form.value.duration !== undefined ? form.value.duration : null;
 
     if (!form.valid) {
       if (comprehension === '') {
         document.getElementById('comprehension-error').hidden = false;
       } else { document.getElementById('comprehension-error').hidden = true; }
-
-    } else if (this.initialData.examTimedByQuestion && (questionDuration === '' || questionDuration === null)) {
-        document.getElementById('duration-error').hidden = false;
     } else {
       this.comprehension = comprehension;
-      this.questionDuration = questionDuration;
       stepper.next();
     }
   }
@@ -252,10 +244,10 @@ export class AddQuestionComponent implements OnInit {
             this.addquestionService(addQuestionRequest, stepper, form);
           } else if (this.questionType === 'comprehensionQuestion') {
             const questionRequest: QuestionRequest = new QuestionRequest(
-              this.question, this.score, this.addMultipleChoiceQuestionAnswerRequests);
+              this.question, this.score, duration, this.addMultipleChoiceQuestionAnswerRequests);
 
             const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
-              this.sectionId, this.comprehensionQuestionId, answerTypeId, this.comprehension, duration, questionRequest);
+              this.sectionId, this.comprehensionQuestionId, answerTypeId, this.comprehension, questionRequest);
 
             this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper, form);
           }
@@ -289,10 +281,10 @@ export class AddQuestionComponent implements OnInit {
         this.addquestionService(addQuestionRequest, stepper, form);
       } else if (this.questionType === 'comprehensionQuestion') {
         const questionRequest: QuestionRequest = new QuestionRequest(
-          this.question, this.score, []);
+          this.question, this.score, duration, []);
 
         const addComprehensionQuestionRequest: AddComprehensionQuestionRequest = new AddComprehensionQuestionRequest(
-          this.sectionId, this.comprehensionQuestionId, answerTypeId, this.comprehension, duration, questionRequest);
+          this.sectionId, this.comprehensionQuestionId, answerTypeId, this.comprehension, questionRequest);
 
         this.addcomprehensionQuestionService(addComprehensionQuestionRequest, stepper, form);
       }

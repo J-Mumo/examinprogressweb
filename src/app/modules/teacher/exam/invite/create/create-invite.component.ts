@@ -15,6 +15,7 @@ export class CreateInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   message: string;
+  examPausable = false;
   time = {hour: 0, minute: 0};
 
   constructor(
@@ -41,7 +42,8 @@ export class CreateInviteComponent implements OnInit {
     const examStartDate = form.value.startDate;
     const examEndDate = form.value.endDate;
     const pausable = form.value.pausable;
-    const startTime = form.value.startTime;
+    let startTime = form.value.startTime;
+    startTime = startTime !== undefined ? ('0' + startTime.hour).slice(-2) + ':' + ('0' + startTime.minute).slice(-2) : null;
     const startDate = new Date(new Date(examStartDate).toDateString());
     const today = new Date(new Date().toDateString());
 
@@ -52,6 +54,12 @@ export class CreateInviteComponent implements OnInit {
       if (examStartDate === '') {
         document.getElementById('startDate-error').hidden = false;
       } else { document.getElementById('startDate-error').hidden = true; }
+      if (examEndDate === '' && this.examPausable) {
+        document.getElementById('endDate-error').hidden = false;
+      } else if (this.examPausable) { document.getElementById('endDate-error').hidden = true; }
+      if (startTime === '' && !this.examPausable || startTime === null) {
+        document.getElementById('startTime-error').hidden = false;
+      } else if (!this.examPausable) { document.getElementById('startTime-error').hidden = true; }
 
     } else if (startDate < today) {
       document.getElementById('name-error').hidden = true;
@@ -60,8 +68,7 @@ export class CreateInviteComponent implements OnInit {
       document.getElementById('startDate-error').hidden = true;
 
       const request: CreateInviteRequest = new CreateInviteRequest(
-        this.examId, name, examStartDate, examEndDate, pausable,
-        ('0' + startTime.hour).slice(-2) + ':' + ('0' + startTime.minute).slice(-2));
+        this.examId, name, examStartDate, examEndDate, pausable, startTime);
 
       this.createInviteService.save(request).subscribe(
         (response: SaveResponseWithId) => {

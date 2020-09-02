@@ -102,22 +102,6 @@
                           teacher/exam/section/question/please_provide_comprehension
                         </span>
                       </div>
-                      <div *ngIf="initialData?.examTimedByQuestion" class="form-group">
-                        <mat-label translate
-                          style="color: #7f7f7f; font-size: 14px;">teacher/exam/section/question/duration
-                        </mat-label>
-                        <ngb-timepicker
-                          id="duration"
-                          name="duration"
-                          ngModel
-                          #duration="ngModel"
-                          [seconds]="true"
-                          [ngClass]="{ 'is-invalid': duration.touched && duration.value === '' }">
-                        </ngb-timepicker>
-                        <span style="margin: 0;" id="duration-error" class="form-error" translate hidden>
-                          teacher/exam/section/question/please_type_duration
-                        </span>
-                      </div>
                       <br><br>
                       <div class="form-group row">
                         <button mat-stroked-button 
@@ -200,7 +184,7 @@
                       teacher/exam/section/question/please_add_score
                     </span>
                   </div>
-                  <div *ngIf="initialData?.examTimedByQuestion && questionType !== 'comprehensionQuestion'" class="form-group">
+                  <div class="form-group">
                     <mat-label translate
                       style="color: #7f7f7f; font-size: 14px;">teacher/exam/section/question/duration
                     </mat-label>

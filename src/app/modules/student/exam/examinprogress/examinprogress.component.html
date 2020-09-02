@@ -2,14 +2,24 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 mx-auto" *ngIf="!response?.examComplete">
+        <countdown #countDown 
+          *ngIf="!response?.timedPerQuestion"
+          [config]="{leftTime: timeLeftInSeconds}" 
+          (event)="onTimerExpired($event)"
+          class="text-danger text-center count-down">
+            $!h!:$!m!:$!s!
+        </countdown>
         <div>
           <span class="section-title">{{ response?.examSectionTransfer.sectionName }}</span>
           <div class="lighter-font">{{ response?.examSectionTransfer.description }}</div>
         </div><br>
         <mat-card class="col-md-10 mx-auto" style="padding: 2em;">
-          <countdown #countDown [config]="{leftTime: timeLeftInSeconds}" (finished)="onTimerExpired()"
-            class="text-danger">
-            $!h!:$!m!:$!s!
+          <countdown #countDown
+            *ngIf="response?.timedPerQuestion && !response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion"
+            [config]="{leftTime: timeLeftInSeconds}" 
+            (event)="onTimerExpired($event)"
+            class="text-danger count-down">
+              $!h!:$!m!:$!s!
           </countdown>
           <div style="padding-bottom: 2em;">{{ response?.examSectionTransfer.examQuestionTransfer.question }}</div>
           <form #saveAnswers="ngForm" 
@@ -56,12 +66,26 @@
                 type="button">
                 {{ 'generic/skip'| translate }}
               </button>
+              <button mat-raised-button 
+                *ngIf="response?.pausable"
+                color="primary"
+                (click)="pauseExam()"
+                type="button">
+                {{ 'generic/skip'| translate }}
+              </button>
             </div>
           </form>
         </mat-card><br>
         <mat-card class="col-md-9 mx-auto" 
           style="padding: 2em;"
           *ngIf="response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion">
+          <countdown #countDown
+            *ngIf="response?.timedPerQuestion && response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion"
+            [config]="{leftTime: timeLeftInSeconds}" 
+            (event)="onTimerExpired($event)"
+            class="text-danger count-down">
+              $!h!:$!m!:$!s!
+          </countdown>
           <div style="padding-bottom: 2em;">
             {{ response?.examSectionTransfer.examQuestionTransfer.questionTransfer.question }}
           </div>
@@ -105,6 +129,13 @@
               <button mat-raised-button 
                 color="primary"
                 (click)="skipToNextQuestion()"
+                type="button">
+                {{ 'generic/skip'| translate }}
+              </button>
+              <button mat-raised-button 
+                *ngIf="response?.pausable"
+                color="primary"
+                (click)="pauseExam()"
                 type="button">
                 {{ 'generic/skip'| translate }}
               </button>

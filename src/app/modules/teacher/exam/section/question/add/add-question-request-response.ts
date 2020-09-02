@@ -42,6 +42,7 @@ export class QuestionRequest {
   constructor(
     public questionText: string,
     public score: number,
+    public duration: string,
     public multipleChoiceQuestionAnswerRequests: MultipleChoiceQuestionAnswerRequest[]
   ) {}
 }
@@ -52,7 +53,6 @@ export class AddComprehensionQuestionRequest {
     public comprehensionQuestionId: number,
     public answerTypeId: number,
     public comprehension: string,
-    public duration: string,
     public questionRequest: QuestionRequest
   ) {}
 }

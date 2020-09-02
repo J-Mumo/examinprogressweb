@@ -75,12 +75,11 @@ export class ViewSectionComponent implements OnInit {
       (response: DeleteResponse) => {
         if (response.deleted) {
           this.message = 'teacher/exam/section/section_deleted';
-          this.modalRef.hide();
           this.router.navigate(['/teacher/exam', this.examId, 'view']);
         } else {
           this.message = 'teacher/exam/section/section_not_deleted';
-          this.modalRef.hide();
         }
+        this.modalRef.hide();
         this.viewSectionSnackBar(this.message);
       }
     );
