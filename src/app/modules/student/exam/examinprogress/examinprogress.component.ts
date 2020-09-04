@@ -16,7 +16,7 @@ export class ExaminprogressComponent implements OnInit {
   answerIds: number[] = [];
   answerText: string;
   timeLeftInSeconds = null;
-  pause: boolean;
+  pause = false;
   @ViewChild('countDown', { static: false }) countDown: CountdownComponent;
   config = {
     editable: true,
@@ -135,7 +135,7 @@ export class ExaminprogressComponent implements OnInit {
       const questionId = this.response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion ?
       this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
       this.response.examSectionTransfer.examQuestionTransfer.questionId;
-      const request: SkipQuestionRequest = new SkipQuestionRequest(this.examTokenId, this.pause, questionId);
+      const request: SkipQuestionRequest = new SkipQuestionRequest(this.examTokenId, questionId, this.pause);
       this.examinprogressService.skipQuestion(request).subscribe(
         (response: ExaminprogressResponse) => {
           this.response = response;

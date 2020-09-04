@@ -53,7 +53,7 @@ export class AnswerRequest {
 export class SkipQuestionRequest {
   constructor(
     public examTokenId: number,
-    public pause: boolean,
-    public questionId: number
+    public questionId: number,
+    public pause: boolean
   ) {}
 }
