@@ -98,6 +98,13 @@ export class SendInviteComponent implements OnInit {
         }
       }
     } else {
+
+      for (const email in this.emails) {
+        if (email === '') {
+          this.emails.splice(this.emails.indexOf(email));
+        }
+      }
+
       const request: SendInviteRequest = new SendInviteRequest(this.inviteId, this.emails);
       this.sendInviteService.sendInvite(request).subscribe(
         (response: SaveResponse) => {
