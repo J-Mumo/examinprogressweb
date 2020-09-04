@@ -101,7 +101,7 @@ export class SendInviteComponent implements OnInit {
 
       for (const email in this.emails) {
         if (email === '') {
-          this.emails.splice(this.emails.indexOf(email));
+          this.emails.splice(this.emails.indexOf(email), 1);
         }
       }
 

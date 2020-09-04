@@ -9,8 +9,8 @@ import { ExamsInitialData, DeleteResponse } from './exams-request-response';
   })
 export class ExamsService {
 
-  GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/exams/getinitialdata';
-  DELETE_EXAM_URL = '/examinprogress/teacher/exam/delete';
+  GET_INITIAL_DATA_URL = '/examinprogress/student/exam/exams/getinitialdata';
+  DELETE_EXAM_URL = '/examinprogress/student/exam/delete';
 
   constructor(private http: HttpClient) { }
 
