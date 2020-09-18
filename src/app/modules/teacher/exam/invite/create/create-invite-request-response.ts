@@ -1,3 +1,11 @@
+export class CreateInviteInitialData {
+  constructor(
+    public timedPerExam: boolean,
+    public timedPerSection: boolean,
+    public timedPerQuestion: boolean
+  ) {}
+}
+
 export class CreateInviteRequest {
   constructor(
     public examId: number,

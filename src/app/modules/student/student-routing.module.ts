@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HasPermissionGuard } from '../../guards/haspermission-guard';
-import { ExamsComponent } from './exams/exams.component';
+import { ExamsComponent } from './exam/exams/exams.component';
 import { ExaminprogressComponent } from './exam/examinprogress/examinprogress.component';
 
 

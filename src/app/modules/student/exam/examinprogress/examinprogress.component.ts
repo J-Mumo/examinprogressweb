@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest } from './examinprogress-request-response';
+import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest } from './examinprogress-request-response';
 import { ExaminprogressService } from './examinprogress.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { CountdownComponent } from 'ngx-countdown';
 
@@ -69,7 +69,7 @@ export class ExaminprogressComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private ref: ChangeDetectorRef,
+    private router: Router,
     private examinprogressService: ExaminprogressService
   ) { }
 
@@ -81,6 +81,7 @@ export class ExaminprogressComponent implements OnInit {
     this.examinprogressService.getExamProgress(this.examTokenId).subscribe(
       (response: ExaminprogressResponse) => {
         this.response = response;
+        this.pause = false;
         if (!response.examComplete) {
           if (response.timedPerExam) {
             this.timeLeftInSeconds = response.examTime;
@@ -93,6 +94,8 @@ export class ExaminprogressComponent implements OnInit {
               this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
             }
           }
+          // this.countDown.begin();
+          // this.countDown.left = this.timeLeftInSeconds;
         }
       }
     );
@@ -118,11 +121,15 @@ export class ExaminprogressComponent implements OnInit {
     }
   }
 
-  onTimerExpired(event) {
+  onQuestionTimerExpired(event) {
     if (event.action === 'done') {
-      // this.countDown = event;
-      console.log(this.countDown);
       this.skipToNextQuestion();
+    }
+  }
+
+  onSectionTimerExpired(event) {
+    if (event.action === 'done') {
+      this.skipToNextSection();
     }
   }
 
@@ -140,21 +147,67 @@ export class ExaminprogressComponent implements OnInit {
         (response: ExaminprogressResponse) => {
           this.response = response;
           this.answerIds = [];
-          if (!response.examComplete) {
-            if (response.timedPerExam) {
-              this.timeLeftInSeconds = response.examTime;
-            } else if (response.timedPerSection) {
-              this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
-            } else if (response.timedPerQuestion) {
-              if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
-                this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
-              } else {
-                this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+          if (response.paused) {
+            this.router.navigate(['/student/exams']);
+          } else {
+            if (!response.examComplete) {
+              if (response.timedPerExam) {
+                this.timeLeftInSeconds = response.examTime;
+              } else if (response.timedPerSection) {
+                this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
+              } else if (response.timedPerQuestion) {
+                if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
+                  this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+                } else {
+                  this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+                }
               }
+              this.countDown.left = this.timeLeftInSeconds;
+              this.countDown.restart();
             }
-            this.countDown.left = this.timeLeftInSeconds;
-            this.countDown.restart();
           }
+        }
+      );
+    }
+  }
+
+  skipToNextSection() {
+    if (this.response !== undefined) {
+      const sectionId = this.response.examSectionTransfer.sectionId;
+      const request: SkipSectionRequest = new SkipSectionRequest(this.examTokenId, sectionId, this.pause);
+      this.examinprogressService.skipSection(request).subscribe(
+        (response: ExaminprogressResponse) => {
+          this.response = response;
+          if (response.paused) {
+            this.router.navigate(['/student/exams']);
+          } else {
+            if (!response.examComplete) {
+              if (response.timedPerExam) {
+                this.timeLeftInSeconds = response.examTime;
+              } else if (response.timedPerSection) {
+                this.timeLeftInSeconds = response.examSectionTransfer.sectionTime;
+              } else if (response.timedPerQuestion) {
+                if (response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion) {
+                  this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionTime;
+                } else {
+                  this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
+                }
+              }
+              this.countDown.left = this.timeLeftInSeconds;
+              this.countDown.restart();
+            }
+          }
+        }
+      );
+    }
+  }
+
+  terminateExam(event) {
+    if (event.action === 'done' && this.response !== undefined) {
+      this.examinprogressService.terminateExam(this.examTokenId).subscribe(
+        (response: ExaminprogressResponse) => {
+          this.response = response;
+          this.router.navigate(['/student/exams']);
         }
       );
     }

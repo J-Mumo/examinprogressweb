@@ -4,7 +4,10 @@ export class EditInviteInitialData {
     public examStartDate: Date,
     public examEndDate: Date,
     public pausable: boolean,
-    public examStartTime: string
+    public examStartTime: string,
+    public timedPerExam: boolean,
+    public timedPerSection: boolean,
+    public timedPerQuestion: boolean
   ) {}
 }
 

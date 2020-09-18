@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 
 import { StudentRoutingModule } from './student-routing.module';
-import { ExamsComponent } from './exams/exams.component';
+import { ExamsComponent } from './exam/exams/exams.component';
 import { ExaminprogressComponent } from './exam/examinprogress/examinprogress.component';
 
 

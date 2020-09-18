@@ -1,11 +1,80 @@
 <div class="content" role="main">
   <div class="container">
     <div class="row">
-      <div class="col-md-12 mx-auto" *ngIf="!response?.examComplete">
+      <div class="col-md-8 mx-auto" *ngIf="response?.examTokenNotFound">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/invalid_token</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            The token you have used for the exam is invalid. Please contact your examiner and ask them to send you another
+            token.
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-8 mx-auto" *ngIf="response?.examNotFound">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_not_found</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            The exam you are trying to do is no longer available.
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-8 mx-auto" *ngIf="response?.examExpired">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_expired</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            The time for doing doing this exam has expired. Click to view your results.
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-8 mx-auto" *ngIf="!response?.examHasStarted">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_not_started</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            The exam has not yet started. The exam will start in --timer
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-8 mx-auto" *ngIf="response?.examComplete && response?.examHasStarted">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_complete</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            You have reached the end of the exam.
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-8 mx-auto" *ngIf="response?.paused">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_paused</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            The exam has been paused.
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-12 mx-auto" 
+        *ngIf="!response?.examComplete && !response?.examExpired && response?.examHasStarted && !response?.paused">
         <countdown #countDown 
-          *ngIf="!response?.timedPerQuestion"
+          *ngIf="response?.timedPerExam"
           [config]="{leftTime: timeLeftInSeconds}" 
-          (event)="onTimerExpired($event)"
+          (event)="terminateExam($event)"
+          class="text-danger text-center count-down">
+            $!h!:$!m!:$!s!
+        </countdown>
+        <countdown #countDown 
+          *ngIf="response?.timedPerSection"
+          [config]="{leftTime: timeLeftInSeconds}" 
+          (event)="onSectionTimerExpired($event)"
           class="text-danger text-center count-down">
             $!h!:$!m!:$!s!
         </countdown>
@@ -17,7 +86,7 @@
           <countdown #countDown
             *ngIf="response?.timedPerQuestion && !response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion"
             [config]="{leftTime: timeLeftInSeconds}" 
-            (event)="onTimerExpired($event)"
+            (event)="onQuestionTimerExpired($event)"
             class="text-danger count-down">
               $!h!:$!m!:$!s!
           </countdown>
@@ -29,7 +98,7 @@
               <div
                 *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.answerTransfers;
                   trackBy: trackByFn let i=index"
-                style="display: flex; align-items: flex-start; justify-content: flex-start;">
+                class="multiple-choice">
                 <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice single answer'">
                   <mat-radio-button
                     (change)="getSingleCheckedAnswer(answer.answerId)">
@@ -41,7 +110,7 @@
                     (change)="getMultipleCheckedAnswer($event, answer.answerId)">
                   </mat-checkbox>&nbsp;&nbsp;
                 </div>
-                <div class="form-group" style="width: 60%;">
+                <div class="form-group" style="width: 95%;">
                   {{ answer.answer }}
                 </div>
               </div>
@@ -71,7 +140,7 @@
                 color="primary"
                 (click)="pauseExam()"
                 type="button">
-                {{ 'generic/skip'| translate }}
+                {{ 'student/exam/examinprogress/pause'| translate }}
               </button>
             </div>
           </form>
@@ -82,7 +151,7 @@
           <countdown #countDown
             *ngIf="response?.timedPerQuestion && response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion"
             [config]="{leftTime: timeLeftInSeconds}" 
-            (event)="onTimerExpired($event)"
+            (event)="onQuestionTimerExpired($event)"
             class="text-danger count-down">
               $!h!:$!m!:$!s!
           </countdown>
@@ -95,7 +164,7 @@
               <div
                 *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerTransfers;
                   trackBy: trackByFn let i=index"
-                style="display: flex; align-items: flex-start; justify-content: flex-start;">
+                class="multiple-choice">
                 <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Multiple choice single answer'">
                   <mat-radio-button
                     (change)="getSingleCheckedAnswer(answer.answerId)">
@@ -107,7 +176,7 @@
                     (change)="getMultipleCheckedAnswer($event, answer.answerId)">
                   </mat-checkbox>&nbsp;&nbsp;
                 </div>
-                <div class="form-group" style="width: 60%;">
+                <div class="form-group" style="width: 95%;">
                   {{ answer.answer }}
                 </div>
               </div>
@@ -141,16 +210,6 @@
               </button>
             </div>
           </form>
-        </mat-card>
-      </div>
-      <div class="col-md-8 mx-auto" *ngIf="response?.examComplete">
-        <div class="header-title">
-          <h1 translate>student/exam/examinprogress/exam_complete</h1>
-        </div>
-        <mat-card>
-          <div class="card-body">
-            You have reached the end of the exam.
-          </div>
         </mat-card>
       </div>
     </div>

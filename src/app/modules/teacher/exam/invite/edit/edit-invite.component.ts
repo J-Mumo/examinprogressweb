@@ -68,6 +68,10 @@ export class EditInviteComponent implements OnInit {
         this.examPausable = initialData.pausable;
         this.startDate = initialData.examStartDate.toString().split('T')[0];
         this.endDate = initialData.examEndDate != null ? initialData.examEndDate.toString().split('T')[0] : null;
+
+        if (initialData?.timedPerQuestion) {
+          this.examPausable = true;
+        }
       }
     );
   }

@@ -40,7 +40,7 @@ export class ExamDetailComponent implements OnInit {
         }
         const today = new Date(new Date().toDateString());
         const startDate = new Date(new Date(initialData.startDate).toDateString());
-        if (today <= startDate) {
+        if (today >= startDate) {
           this.isToday = true;
         }
       }

@@ -51,8 +51,15 @@
                   teacher/exam/invite/please_invite_name
                 </span>
               </div><br>
-              <div class="form-group">
-                <mat-label class="label" translate>teacher/exam/invite/pausable</mat-label><br>
+              <div class="form-group" *ngIf="!initialData?.timedPerQuestion">
+                <mat-label class="label" 
+                  *ngIf="initialData?.timedPerExam" 
+                  translate>teacher/exam/invite/exam_pausable
+                </mat-label><br>
+                <mat-label class="label" 
+                  *ngIf="initialData?.timedPerSection" 
+                  translate>teacher/exam/invite/section_pausable
+                </mat-label><br>
                 <mat-radio-group
                   style="border: 0;"
                   id="pausable"
@@ -60,6 +67,23 @@
                   class="form-control"
                   [(ngModel)]="examPausable"
                   #pausable="ngModel">
+                  <mat-radio-button [value]="true">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
+                  <mat-radio-button [value]="false">No</mat-radio-button>
+                </mat-radio-group>
+              </div><br>
+              <div class="form-group" *ngIf="initialData?.timedPerQuestion">
+                <mat-label class="label" 
+                  *ngIf="initialData?.timedPerQuestion" 
+                  translate>teacher/exam/invite/qustion_pausable
+                </mat-label><br>
+                <mat-radio-group
+                  style="border: 0;"
+                  id="pausable"
+                  name="pausable"
+                  class="form-control"
+                  [(ngModel)]="examPausable"
+                  #pausable="ngModel"
+                  readonly>
                   <mat-radio-button [value]="true">Yes</mat-radio-button>&nbsp;&nbsp;&nbsp;
                   <mat-radio-button [value]="false">No</mat-radio-button>
                 </mat-radio-group>

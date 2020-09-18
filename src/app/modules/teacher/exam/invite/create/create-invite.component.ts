@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
-import { CreateInviteRequest, SaveResponseWithId } from './create-invite-request-response';
+import { CreateInviteRequest, SaveResponseWithId, CreateInviteInitialData } from './create-invite-request-response';
 import { CreateInviteService } from './create-invite.service';
 
 @Component({
@@ -14,6 +14,7 @@ import { CreateInviteService } from './create-invite.service';
 export class CreateInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
+  initialData: CreateInviteInitialData;
   message: string;
   examPausable = false;
   time = {hour: 0, minute: 0};
@@ -26,6 +27,18 @@ export class CreateInviteComponent implements OnInit {
     private createInviteService: CreateInviteService ) { }
 
   ngOnInit(): void {
+  }
+
+  getInitialData() {
+    this.createInviteService.getInitialData(this.examId).subscribe(
+      (initialData: CreateInviteInitialData) => {
+        this.initialData = initialData;
+
+        if (initialData?.timedPerQuestion) {
+          this.examPausable = true;
+        }
+      }
+    );
   }
 
   saveSnackBar(message) {

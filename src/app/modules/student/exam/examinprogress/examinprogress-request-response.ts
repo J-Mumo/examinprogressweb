@@ -30,13 +30,20 @@ export class ExamSectionTransfer {
 
 export class ExaminprogressResponse {
   constructor(
-    public examSectionTransfer: ExamSectionTransfer,
+    public examTokenNotFound: boolean,
+    public examNotFound: boolean,
+    public examHasStarted: boolean,
     public examComplete: boolean,
+    public examExpired: boolean,
     public timedPerExam: boolean,
     public timedPerSection: boolean,
     public timedPerQuestion: boolean,
+    public pausable: boolean,
+    public paused: boolean,
     public examTime: number,
-    public pausable: boolean
+    public examStartDate: Date,
+    public examStartTime: string,
+    public examSectionTransfer: ExamSectionTransfer
   ) { }
 }
 
@@ -54,6 +61,14 @@ export class SkipQuestionRequest {
   constructor(
     public examTokenId: number,
     public questionId: number,
+    public pause: boolean
+  ) {}
+}
+
+export class SkipSectionRequest {
+  constructor(
+    public examTokenId: number,
+    public sectionId: number,
     public pause: boolean
   ) {}
 }

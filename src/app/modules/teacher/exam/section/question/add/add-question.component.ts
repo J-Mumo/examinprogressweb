@@ -151,7 +151,9 @@ export class AddQuestionComponent implements OnInit {
     } else if (this.initialData.examTimedByQuestion && (questionDuration === '' || questionDuration === null)) {
         document.getElementById('duration-error').hidden = false;
     } else {
-      document.getElementById('duration-error').hidden = true;
+      if (this.initialData.examTimedByQuestion) {
+        document.getElementById('duration-error').hidden = true;
+      }
       this.question = question;
       this.score = score;
       this.questionDuration = questionDuration;
@@ -234,7 +236,8 @@ export class AddQuestionComponent implements OnInit {
           stepper.previous();
         } else {
 
-          const duration = this.questionDuration != null ?
+          console.log(this.questionDuration);
+          const duration = this.questionDuration !== null ?
             'PT' + this.questionDuration.hour + 'H' + this.questionDuration.minute + 'M' + this.questionDuration.second + 'S' : null;
 
           if (this.questionType === 'question') {

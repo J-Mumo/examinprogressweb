@@ -256,7 +256,9 @@
   "teacher/exam/invite/please_add_valid_enddate": "Please add a valid exam end date.",
   "teacher/exam/invite/start_time": "At what time should the exam start?",
   "teacher/exam/invite/please_add_valid_starttime": "Please add a valid exam start time.",
-  "teacher/exam/invite/pausable": "Would you like to give one the ability to pause in the middle of an exam and continue later?",
+  "teacher/exam/invite/exam_pausable": "Would you like to give one the ability to pause in the middle of an exam and continue later?",
+  "teacher/exam/invite/section_pausable": "Would you like to give one the ability to pause in the middle of section and continue later? A section can be done at any time within the set period for the exam invite.",
+  "teacher/exam/invite/question_pausable": "This exam is timed per question. This means that it can be paused at any time within the set exam period as set in this invite.",
   "teacher/exam/invite/invite_saved_successfully": "Invite saved successfully.",
   "teacher/exam/invite/invite_not_saved": "Invite not saved. Please try again.",
   "teacher/exam/invite/send_invite": "Send Invite",
@@ -286,6 +288,11 @@
   "teacher/exam/invite/delete_invite_info": "Are you sure you want to delete this invite?",
   "teacher/exam/invite/invite_deleted": "Invite deleted",
   "teacher/exam/invite/invite_not_deleted": "Invite not deleted. Try again",
+  "student/exam/examinprogress/exam_not_started": "Exam not started",
   "student/exam/examinprogress/exam_complete": "Exam is complete",
-  "student/exam/examinprogress/pause": "Pause"
+  "student/exam/examinprogress/exam_expired": "Exam expired",
+  "student/exam/examinprogress/invalid_token": "Invalid Token",
+  "student/exam/examinprogress/exam_not_found": "Exam not found",
+  "student/exam/examinprogress/pause": "Pause",
+  "student/exam/examinprogress/exam_paused": "Exam paused"
 }
