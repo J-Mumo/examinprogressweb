@@ -17,6 +17,21 @@ export class ExamQuestionTransfer {
   ) { }
 }
 
+export class SectionResult {
+  constructor(
+    public sectionName: string,
+    public percentScore: number
+  ) { }
+}
+
+export class ExamResult {
+  constructor(
+    public completeResult: boolean,
+    public percentScore: number,
+    public sectionResults: SectionResult[]
+  ) { }
+}
+
 export class ExamSectionTransfer {
   constructor(
     public sectionId: number,
@@ -43,7 +58,8 @@ export class ExaminprogressResponse {
     public examTime: number,
     public examStartDate: Date,
     public examStartTime: string,
-    public examSectionTransfer: ExamSectionTransfer
+    public examSectionTransfer: ExamSectionTransfer,
+    public examResult: ExamResult
   ) { }
 }
 

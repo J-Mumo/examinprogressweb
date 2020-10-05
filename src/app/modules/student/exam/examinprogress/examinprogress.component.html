@@ -7,7 +7,8 @@
         </div>
         <mat-card>
           <div class="card-body">
-            The token you have used for the exam is invalid. Please contact your examiner and ask them to send you another
+            The token you have used for the exam is invalid. Please contact your examiner and ask them to send you
+            another
             token.
           </div>
         </mat-card>
@@ -48,7 +49,10 @@
         </div>
         <mat-card>
           <div class="card-body">
-            You have reached the end of the exam.
+            Score - {{ response?.examResult.percentScore }}
+            <div *ngFor="let sectionResult of response?.examResult.sectionResults">
+              {{ sectionResult.sectionName }} - {{ sectionResult.percentScore }}
+            </div>
           </div>
         </mat-card>
       </div>
@@ -62,7 +66,7 @@
           </div>
         </mat-card>
       </div>
-      <div class="col-md-12 mx-auto" 
+      <div class="col-md-12 mx-auto"
         *ngIf="!response?.examComplete && !response?.examExpired && response?.examHasStarted && !response?.paused">
         <countdown #countDown 
           *ngIf="response?.timedPerExam"
@@ -91,23 +95,20 @@
               $!h!:$!m!:$!s!
           </countdown>
           <div style="padding-bottom: 2em;">{{ response?.examSectionTransfer.examQuestionTransfer.question }}</div>
-          <form #saveAnswers="ngForm" 
-            (ngSubmit)="onSubmit(saveAnswers)"
+          <form #saveAnswers="ngForm" (ngSubmit)="onSubmit(saveAnswers)"
             *ngIf="!response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion">
             <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType !== 'Text answer'">
-              <div
-                *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.answerTransfers;
-                  trackBy: trackByFn let i=index"
-                class="multiple-choice">
-                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice single answer'">
-                  <mat-radio-button
-                    (change)="getSingleCheckedAnswer(answer.answerId)">
-                  </mat-radio-button>
+              <div *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.answerTransfers;
+                  trackBy: trackByFn let i=index" class="multiple-choice">
+                <div
+                  *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice single answer'">
+                  <mat-radio-group name="singleOptions" [ngModel]="selectedRadioOption">
+                    <mat-radio-button #singleRadio (change)="getSingleCheckedAnswer(answer.answerId)"></mat-radio-button>
+                  </mat-radio-group>
                 </div>
-                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice multiple answers'">
-                  <mat-checkbox 
-                    id="multiple-choice-answer-checkbox_{{i}}"
-                    (change)="getMultipleCheckedAnswer($event, answer.answerId)">
+                <div
+                  *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Multiple choice multiple answers'">
+                  <mat-checkbox (change)="getMultipleCheckedAnswer($event, answer.answerId)">
                   </mat-checkbox>&nbsp;&nbsp;
                 </div>
                 <div class="form-group" style="width: 95%;">
@@ -116,64 +117,47 @@
               </div>
             </div>
             <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.answerType === 'Text answer'">
-              <angular-editor id="answer" 
-                [config]="config"
-                name="answer" 
-                [(ngModel)]="answerText"
-                #answer="ngModel">
+              <angular-editor id="answer" [config]="config" name="answer" [(ngModel)]="answerText" #answer="ngModel">
               </angular-editor>
             </div>
             <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
-              <button mat-raised-button 
-                color="primary"
-                type="submit">
+              <button mat-raised-button color="primary" type="submit">
                 {{ 'generic/submit'| translate }}
               </button>
-              <button mat-raised-button 
-                color="primary"
-                (click)="skipToNextQuestion()"
-                type="button">
+              <button mat-raised-button color="primary" (click)="skipToNextQuestion()" type="button">
                 {{ 'generic/skip'| translate }}
               </button>
-              <button mat-raised-button 
-                *ngIf="response?.pausable"
-                color="primary"
-                (click)="pauseExam()"
-                type="button">
+              <button mat-raised-button *ngIf="response?.pausable" color="primary" (click)="pauseExam()" type="button">
                 {{ 'student/exam/examinprogress/pause'| translate }}
               </button>
             </div>
           </form>
         </mat-card><br>
-        <mat-card class="col-md-9 mx-auto" 
-          style="padding: 2em;"
+        <mat-card class="col-md-9 mx-auto" style="padding: 2em;"
           *ngIf="response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion">
           <countdown #countDown
             *ngIf="response?.timedPerQuestion && response?.examSectionTransfer.examQuestionTransfer.comprehensionQuestion"
-            [config]="{leftTime: timeLeftInSeconds}" 
-            (event)="onQuestionTimerExpired($event)"
+            [config]="{leftTime: timeLeftInSeconds}" (event)="onQuestionTimerExpired($event)"
             class="text-danger count-down">
-              $!h!:$!m!:$!s!
+            $!h!:$!m!:$!s!
           </countdown>
           <div style="padding-bottom: 2em;">
             {{ response?.examSectionTransfer.examQuestionTransfer.questionTransfer.question }}
           </div>
-          <form #saveAnswers="ngForm" 
-            (ngSubmit)="onSubmit(saveAnswers)">
-            <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType !== 'Text answer'">
-              <div
-                *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerTransfers;
-                  trackBy: trackByFn let i=index"
-                class="multiple-choice">
-                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Multiple choice single answer'">
-                  <mat-radio-button
-                    (change)="getSingleCheckedAnswer(answer.answerId)">
-                  </mat-radio-button>
-                </div>
-                <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Multiple choice multiple answers'">
-                  <mat-checkbox 
-                    id="multiple-choice-answer-checkbox_{{i}}"
-                    (change)="getMultipleCheckedAnswer($event, answer.answerId)">
+          <form #saveAnswers="ngForm" (ngSubmit)="onSubmit(saveAnswers)">
+            <div
+              *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType !== 'Text answer'">
+              <div *ngFor="let answer of response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerTransfers;
+                  trackBy: trackByFn let i=index" class="multiple-choice">
+                <mat-radio-group name="singleOptions" [ngModel]="selectedRadioOption">
+                  <div
+                    *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Multiple choice single answer'">
+                    <mat-radio-button #singleRadio (change)="getSingleCheckedAnswer(answer.answerId)"></mat-radio-button>
+                  </div>
+                </mat-radio-group>
+                <div
+                  *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Multiple choice multiple answers'">
+                  <mat-checkbox (change)="getMultipleCheckedAnswer($event, answer.answerId)">
                   </mat-checkbox>&nbsp;&nbsp;
                 </div>
                 <div class="form-group" style="width: 95%;">
@@ -181,31 +165,19 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Text answer'">
-              <angular-editor id="answer" 
-                [config]="config"
-                name="answer" 
-                [(ngModel)]="answerText"
-                #answer="ngModel">
+            <div
+              *ngIf="response?.examSectionTransfer.examQuestionTransfer.questionTransfer.answerType === 'Text answer'">
+              <angular-editor id="answer" [config]="config" name="answer" [(ngModel)]="answerText" #answer="ngModel">
               </angular-editor>
             </div>
             <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
-              <button mat-raised-button 
-                color="primary"
-                type="submit">
+              <button mat-raised-button color="primary" type="submit">
                 {{ 'generic/submit'| translate }}
               </button>
-              <button mat-raised-button 
-                color="primary"
-                (click)="skipToNextQuestion()"
-                type="button">
+              <button mat-raised-button color="primary" (click)="skipToNextQuestion()" type="button">
                 {{ 'generic/skip'| translate }}
               </button>
-              <button mat-raised-button 
-                *ngIf="response?.pausable"
-                color="primary"
-                (click)="pauseExam()"
-                type="button">
+              <button mat-raised-button *ngIf="response?.pausable" color="primary" (click)="pauseExam()" type="button">
                 {{ 'student/exam/examinprogress/pause'| translate }}
               </button>
             </div>

@@ -71,6 +71,7 @@ export class ViewSectionComponent implements OnInit {
   }
 
   deleteSectionConfirmed() {
+    this.modalRef.hide();
     this.viewSectionService.deleteSection(this.sectionId).subscribe(
       (response: DeleteResponse) => {
         if (response.deleted) {
@@ -79,7 +80,6 @@ export class ViewSectionComponent implements OnInit {
         } else {
           this.message = 'teacher/exam/section/section_not_deleted';
         }
-        this.modalRef.hide();
         this.viewSectionSnackBar(this.message);
       }
     );

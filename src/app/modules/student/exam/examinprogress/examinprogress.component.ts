@@ -17,6 +17,7 @@ export class ExaminprogressComponent implements OnInit {
   answerText: string;
   timeLeftInSeconds = null;
   pause = false;
+  selectedRadioOption;
   @ViewChild('countDown', { static: false }) countDown: CountdownComponent;
   config = {
     editable: true,
@@ -94,8 +95,6 @@ export class ExaminprogressComponent implements OnInit {
               this.timeLeftInSeconds = response.examSectionTransfer.examQuestionTransfer.questionTime;
             }
           }
-          // this.countDown.begin();
-          // this.countDown.left = this.timeLeftInSeconds;
         }
       }
     );
@@ -107,6 +106,7 @@ export class ExaminprogressComponent implements OnInit {
   }
 
   getSingleCheckedAnswer(answerId: number) {
+    console.log(answerId);
     this.answerIds = [];
     this.answerIds.push(answerId);
   }
@@ -140,13 +140,14 @@ export class ExaminprogressComponent implements OnInit {
   skipToNextQuestion() {
     if (this.response !== undefined) {
       const questionId = this.response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion ?
-      this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
-      this.response.examSectionTransfer.examQuestionTransfer.questionId;
+        this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
+        this.response.examSectionTransfer.examQuestionTransfer.questionId;
       const request: SkipQuestionRequest = new SkipQuestionRequest(this.examTokenId, questionId, this.pause);
       this.examinprogressService.skipQuestion(request).subscribe(
         (response: ExaminprogressResponse) => {
           this.response = response;
           this.answerIds = [];
+          this.answerText = '';
           if (response.paused) {
             this.router.navigate(['/student/exams']);
           } else {
@@ -178,6 +179,8 @@ export class ExaminprogressComponent implements OnInit {
       this.examinprogressService.skipSection(request).subscribe(
         (response: ExaminprogressResponse) => {
           this.response = response;
+          this.answerIds = [];
+          this.answerText = '';
           if (response.paused) {
             this.router.navigate(['/student/exams']);
           } else {
@@ -224,6 +227,7 @@ export class ExaminprogressComponent implements OnInit {
       (response: ExaminprogressResponse) => {
         this.response = response;
         this.answerIds = [];
+        this.selectedRadioOption = false;
         if (!response.examComplete) {
           if (response.timedPerExam) {
             this.timeLeftInSeconds = response.examTime;

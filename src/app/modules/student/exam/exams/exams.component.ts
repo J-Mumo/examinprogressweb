@@ -29,7 +29,7 @@ export class ExamsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getInitialData();
+    // this.getInitialData();
   }
 
   getInitialData() {

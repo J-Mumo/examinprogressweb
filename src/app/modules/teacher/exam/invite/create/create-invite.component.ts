@@ -27,6 +27,7 @@ export class CreateInviteComponent implements OnInit {
     private createInviteService: CreateInviteService ) { }
 
   ngOnInit(): void {
+    this.getInitialData();
   }
 
   getInitialData() {
