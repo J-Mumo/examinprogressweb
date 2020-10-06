@@ -106,7 +106,6 @@ export class ExaminprogressComponent implements OnInit {
   }
 
   getSingleCheckedAnswer(answerId: number) {
-    console.log(answerId);
     this.answerIds = [];
     this.answerIds.push(answerId);
   }
