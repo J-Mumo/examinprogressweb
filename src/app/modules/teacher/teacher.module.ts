@@ -19,6 +19,7 @@ import { InvitesComponent } from './exam/invite/invites/invites.component';
 import { SendInviteComponent } from './exam/invite/send/send-invite.component';
 import { ViewInviteComponent } from './exam/invite/view/view-invite.component';
 import { EditInviteComponent } from './exam/invite/edit/edit-invite.component';
+import { ShowExamsComponent } from './results/show-exams/show-exams.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { EditInviteComponent } from './exam/invite/edit/edit-invite.component';
     InvitesComponent,
     SendInviteComponent,
     ViewInviteComponent,
-    EditInviteComponent
+    EditInviteComponent,
+    ShowExamsComponent
   ],
   imports: [
     CommonModule,

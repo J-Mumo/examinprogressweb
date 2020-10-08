@@ -23,18 +23,10 @@
             <mat-form-field [style.width.%]=80 appearance="standard">
               <input matInput (keyup)="applyExamFilter($event.target.value)" placeholder="Search">
             </mat-form-field>
-            <div class="form-group">
-              <button mat-raised-button 
-                style="margin-top: 18px; margin-right: 10px;"
-                color="primary"
-                routerLink="/teacher/exam/create">
-                {{ 'teacher/exam/create_an_exam'| translate }}
-              </button>
-            </div>
           </div>
           <div *ngIf="initialData?.examTransfers.length < 1">
             <p style="text-align: center;" class="lighter-font" translate>
-              teacher/exam/section/no_exam_info
+              teacher/results/no_exam_with_results
             </p>
           </div>
           <table *ngIf="initialData?.examTransfers.length > 0"

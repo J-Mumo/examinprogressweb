@@ -3,24 +3,39 @@
   <div class="container" style="padding-top: 10px;">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a routerLink="/login" translate>
-            generic/login
-          </a>
-        </li>
-        <li class="breadcrumb-item active">
-          {{ 'generic/register' | translate }}
+        <li class="breadcrumb-item" translate>
+          generic/dashboard
         </li>
       </ol>
     </nav>
-    <h1 class="header-title" translate>
-      register/user/register
-    </h1>
-    <form #register="ngForm">
-      <div class="row">
-        <div class="col-md-8 col-lg-8 mx-auto">
-        </div>
+    <div class="col-md-8 col-lg-8 mx-auto" style="display: flex; flex-wrap: wrap;">
+      <div class="col-lg-6 col-md-6 mt-4">
+        <mat-card>
+          <a routerLink="/teacher/exams">
+            <div class="card-body" translate>
+              teacher/exams
+            </div>
+          </a>
+        </mat-card>
       </div>
-    </form>
+      <div class="col-lg-6 col-md-6 mt-4">
+        <mat-card>
+          <a routerLink="/admin/elections">
+            <div class="card-body" translate>
+              teacher/exam_rooms
+            </div>
+          </a>
+        </mat-card>
+      </div>
+      <div class="col-lg-6 col-md-6 mt-4">
+        <mat-card>
+          <a routerLink="/teacher/results/exams">
+            <div class="card-body" translate>
+              teacher/exam_results
+            </div>
+          </a>
+        </mat-card>
+      </div>
+    </div>
   </div>
 </div>
