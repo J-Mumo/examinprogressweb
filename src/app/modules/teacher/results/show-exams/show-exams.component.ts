@@ -12,7 +12,7 @@ import { ShowExamsService } from './show-exams.service';
 export class ShowExamsComponent implements OnInit {
   initialData: ShowExamsInitialData;
   exams: MatTableDataSource<ExamTransfer>;
-  examsColumns: string[] = ['name', 'description', 'viewExam', 'actions'];
+  examsColumns: string[] = ['name', 'description', 'viewResults'];
 
   constructor(
     private showExamsService: ShowExamsService) { }
@@ -33,5 +33,4 @@ export class ShowExamsComponent implements OnInit {
   applyExamFilter(filterValue: string) {
     this.exams.filter = filterValue.trim().toLowerCase();
   }
-
 }

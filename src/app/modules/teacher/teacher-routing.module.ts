@@ -19,6 +19,7 @@ import { SendInviteComponent } from './exam/invite/send/send-invite.component';
 import { ViewInviteComponent } from './exam/invite/view/view-invite.component';
 import { EditInviteComponent } from './exam/invite/edit/edit-invite.component';
 import { ShowExamsComponent } from './results/show-exams/show-exams.component';
+import { ResultsComponent } from './results/results/results.component';
 
 const routes: Routes = [
   {
@@ -150,6 +151,12 @@ const routes: Routes = [
       {
         path: 'exams',
         component: ShowExamsComponent,
+        canActivate: [HasPermissionGuard],
+        data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+      },
+      {
+        path: ':examId/results',
+        component: ResultsComponent,
         canActivate: [HasPermissionGuard],
         data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },

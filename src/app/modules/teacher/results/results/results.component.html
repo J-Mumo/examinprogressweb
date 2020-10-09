@@ -24,42 +24,56 @@
               <input matInput (keyup)="applyExamFilter($event.target.value)" placeholder="Search">
             </mat-form-field>
           </div>
-          <div *ngIf="initialData?.examTransfers.length < 1">
+          <div *ngIf="initialData?.studentExamResults.length < 1">
             <p style="text-align: center;" class="lighter-font" translate>
-              teacher/results/no_exam_with_results
+              teacher/results/no_results_for_exam
             </p>
           </div>
-          <table *ngIf="initialData?.examTransfers.length > 0"
-            matSort mat-table multiTemplateDataRows [dataSource]="exams">
+          <table *ngIf="initialData?.studentExamResults.length > 0"
+            matSort mat-table multiTemplateDataRows [dataSource]="results">
             <!-- Name Column -->
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Name </th>
-              <td mat-cell *matCellDef="let exam" routerLink="/teacher/results/{{exam.examId}}/results">
-                <span>{{exam.name}}</span>
+              <td mat-cell *matCellDef="let result">
+                <span>{{result.studentName}}</span>
               </td>
             </ng-container>
 
             <!-- Description Column -->
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-              <td mat-cell *matCellDef="let exam" routerLink="/teacher/results/{{exam.examId}}/results">
-                <div class="lighter-font description">{{exam.description}}</div>
+            <ng-container matColumnDef="currentScore">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Score</th>
+              <td mat-cell *matCellDef="let result">
+                <span>{{result.percentScore}}</span>
               </td>
             </ng-container>
 
             <!-- View Column -->
-            <ng-container matColumnDef="viewResults">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>View Results</th>
-              <td mat-cell *matCellDef="let exam">
-                <a routerLink="/teacher/results/{{exam.examId}}/results">
-                  <mat-icon class="eye-icon">remove_red_eye</mat-icon>&nbsp;
-                  <span translate>teacher/results/view_results</span>
-                </a>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let result">
+                <button mat-stroked-button 
+                  *ngIf="result.examInProgress"
+                  color="primary"
+                  type="button">
+                  Exam In Progress
+                </button>
+                <button mat-raised-button 
+                  *ngIf="result.viewPerformance"
+                  color="primary"
+                  type="button">
+                  View Performance
+                </button>
+                <button mat-raised-button 
+                  *ngIf="result.finalizeScoring"
+                  color="warn"
+                  type="button">
+                  Finalize Scoring
+                </button>
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="examsColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: examsColumns;" class="example-element-row"></tr>
+            <tr mat-header-row *matHeaderRowDef="resultsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: resultsColumns;" class="example-element-row"></tr>
           </table>
           <mat-paginator [length]="100"
               [pageSize]="20"
