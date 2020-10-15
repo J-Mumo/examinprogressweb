@@ -9,7 +9,7 @@ import { ResultsInitialData } from './results-request-response';
   })
 export class ResultsService {
 
-  GET_INITIAL_DATA_URL = '/examinprogress/teacher/results/examresults/initialdata';
+  private GET_INITIAL_DATA_URL = '/examinprogress/teacher/results/examresults/initialdata';
 
   constructor(private http: HttpClient) { }
 

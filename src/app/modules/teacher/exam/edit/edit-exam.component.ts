@@ -48,7 +48,7 @@ export class EditExamComponent implements OnInit {
     private editExamService: EditExamService,
     private router: Router,
     private translate: TranslateService,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
     ) { }
 
   ngOnInit(): void {

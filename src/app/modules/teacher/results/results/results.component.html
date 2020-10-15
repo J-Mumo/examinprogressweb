@@ -8,8 +8,13 @@
             generic/dashboard
           </a>
         </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/exams" translate>
+            teacher/exams
+          </a>
+        </li>
         <li class="breadcrumb-item active">
-          {{ 'teacher/exams' | translate }}
+          {{ 'teacher/results' | translate }}
         </li>
       </ol>
     </nav>
@@ -50,24 +55,25 @@
             <!-- View Column -->
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let result">
+              <td mat-cell *matCellDef="let result" style="width: 33%;">
                 <button mat-stroked-button 
                   *ngIf="result.examInProgress"
                   color="primary"
                   type="button">
-                  Exam In Progress
+                  {{ 'teacher/results/examinprogress' | translate }}
                 </button>
                 <button mat-raised-button 
                   *ngIf="result.viewPerformance"
                   color="primary"
                   type="button">
-                  View Performance
+                  {{ 'teacher/results/view_perfomance' | translate }}
                 </button>
                 <button mat-raised-button 
                   *ngIf="result.finalizeScoring"
                   color="warn"
-                  type="button">
-                  Finalize Scoring
+                  type="button"
+                  routerLink="/teacher/results/{{examId}}/{{result.studentId}}/finalize_scoring">
+                  {{ 'teacher/results/finalize_scoring' | translate }}
                 </button>
               </td>
             </ng-container>

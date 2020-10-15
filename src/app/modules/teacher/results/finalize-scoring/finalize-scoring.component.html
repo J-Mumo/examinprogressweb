@@ -1,0 +1,88 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/exams" translate>
+            teacher/exams
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/{{examId}}/results" translate>
+            teacher/exam_results
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/results/finalize_scoring' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/results/finalize_scoring
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="card-header">
+              {{ initialData?.studentName }}
+          </div>
+          <div class="card-body">
+            <div *ngIf="!initialData?.scoringComplete">
+              <div style="padding-bottom: 1em;">{{ initialData?.finalizeScore?.question }}</div>
+              <div>
+                <p class="lighter-font" translate>
+                  teacher/results/answer_student_gave_info
+                </p>
+                <angular-editor 
+                  id="answer" 
+                  [config]="config" 
+                  name="answer" 
+                  [ngModel]="initialData?.finalizeScore?.studentAnswer" 
+                  #answer="ngModel"
+                  readonly>
+                </angular-editor>
+              </div>
+              <form #points="ngForm" (ngSubmit)="onSubmit(points)"
+                style="width: 200px; padding-top: 1em;">
+                <div style="margin-top: 1em">
+                  Question Maximum Points: {{ initialData?.finalizeScore?.questionMaxPoints }}
+                </div>
+                <div class="form-group">
+                  <mat-form-field appearance="standard">
+                    <mat-label translate>teacher/results/points_earned</mat-label>
+                    <input matInput type="number"
+                      id="studentPoints"
+                      name="studentPoints"
+                      class="form-control" 
+                      maxlength="100"
+                      ngModel
+                      #studentPoints="ngModel"
+                      [ngClass]="{ 'is-invalid': studentPoints.touched && studentPoints.value === '' }"
+                      placeholder="{{ 'teacher/results/points_for_student_info' | translate }}"
+                      required>
+                  </mat-form-field>
+                  <span id="studentPoints-error" class="form-error" translate hidden>
+                    teacher/results/please_enter_points
+                  </span>
+                </div><br>
+                <div class="form-group">
+                  <button mat-raised-button 
+                    color="primary"
+                    type="submit">
+                    {{ 'generic/save'| translate }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

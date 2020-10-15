@@ -1,5 +1,6 @@
 export class StudentExamResult {
   constructor(
+    public studentId: number,
     public studentName: string,
     public percentScore: number,
     public examInProgress: boolean,
