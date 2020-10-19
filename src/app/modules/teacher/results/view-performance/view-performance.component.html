@@ -33,7 +33,7 @@
               <span style="font-size: large; font-weight: 500">{{ initialData?.studentName }}</span><br><br>
               <span>Exam: {{ initialData?.examResult.examName }}</span><br>
               <span>Score: {{ initialData?.examResult.percentScore }}%<br></span>
-              <span>Points: {{ initialData?.examResult.pointsEarned }} / {{ initialData?.examResult.examTotalPoints }}<br></span>
+              <span>Points: {{ initialData?.examResult.pointsEarned }}/{{ initialData?.examResult.examTotalPoints }}<br></span>
           </div>
           <div class="card-body">
             <div *ngIf="initialData?.examResult.sectionResults.length < 1">

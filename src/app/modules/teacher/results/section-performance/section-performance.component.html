@@ -38,7 +38,7 @@
             <span style="font-size: large; font-weight: 500">{{ initialData?.studentName }}</span><br><br>
             <span>Section: {{ initialData?.sectionName }}</span><br>
             <span>Score: {{ initialData?.percentScore }}%<br></span>
-            <span>Points: {{ initialData?.pointsEarned }} / {{ initialData?.sectionTotalPoints }}<br></span>
+            <span>Points: {{ initialData?.pointsEarned }}/{{ initialData?.sectionTotalPoints }}<br></span>
           </div>
           <div class="card-body">            
             <div *ngFor="let questionResult of initialData?.questionResults">
