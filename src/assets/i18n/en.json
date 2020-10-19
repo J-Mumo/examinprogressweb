@@ -249,7 +249,7 @@
   "teacher/exam/invite/send_invites": "Invite people to do Exam",
   "teacher/exam/invite/create_invite": "Create Invite",
   "teacher/exam/invite/create_an_invite": "Create an invite",
-  "teacher/exam/invite/create_invite_info": "When creating an invite, you schedule when you want the exam to be done. You will also decide who will do the exam. The same exam can be done multiple times.",
+  "teacher/exam/invite/create_invite_info": "When creating an invite, you schedule when you want the exam to be done. You will also decide who will do the exam.",
   "teacher/exam/invite/start_date": "On what date will the exam start?",
   "teacher/exam/invite/please_add_valid_startdate": "Please add a valid exam start date.",
   "teacher/exam/invite/end_date": "On what date will the exam end?",

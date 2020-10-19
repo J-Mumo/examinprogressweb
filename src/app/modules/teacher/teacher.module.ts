@@ -22,6 +22,8 @@ import { EditInviteComponent } from './exam/invite/edit/edit-invite.component';
 import { ShowExamsComponent } from './results/show-exams/show-exams.component';
 import { ResultsComponent } from './results/results/results.component';
 import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-scoring.component';
+import { ViewPerformanceComponent } from './results/view-performance/view-performance.component';
+import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-sc
     EditInviteComponent,
     ShowExamsComponent,
     ResultsComponent,
-    FinalizeScoringComponent
+    FinalizeScoringComponent,
+    ViewPerformanceComponent,
+    SectionPerformanceComponent
   ],
   imports: [
     CommonModule,

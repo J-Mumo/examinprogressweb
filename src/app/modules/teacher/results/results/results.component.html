@@ -65,8 +65,9 @@
                 <button mat-raised-button 
                   *ngIf="result.viewPerformance"
                   color="primary"
-                  type="button">
-                  {{ 'teacher/results/view_perfomance' | translate }}
+                  type="button"
+                  routerLink="/teacher/results/{{examId}}/{{result.studentId}}/view_performance">
+                  {{ 'teacher/results/view_performance' | translate }}
                 </button>
                 <button mat-raised-button 
                   *ngIf="result.finalizeScoring"

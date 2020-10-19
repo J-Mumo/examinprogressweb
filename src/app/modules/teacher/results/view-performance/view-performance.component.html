@@ -1,0 +1,90 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/exams" translate>
+            teacher/exams
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/{{examId}}/results" translate>
+            teacher/exam_results
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/results/view_performance' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/results/view_performance
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="card-header">
+              {{ initialData?.studentName }}
+          </div>
+          <div class="card-body">
+            {{ initialData?.examResult.examName }}<br>
+            {{ initialData?.examResult.percentScore }}%<br>
+            {{ initialData?.examResult.pointsEarned }} / {{ initialData?.examResult.examTotalPoints }}<br>
+            
+            <div *ngIf="initialData?.examResult.sectionResults.length < 1">
+              <p style="text-align: center;" class="lighter-font" translate>
+                There are no section results to show
+              </p>
+            </div>
+            <table *ngIf="initialData?.examResult.sectionResults.length > 0"
+              matSort mat-table multiTemplateDataRows [dataSource]="sectionResults">
+              <!-- Name Column -->
+              <ng-container matColumnDef="sectionName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Section Name</th>
+                <td mat-cell *matCellDef="let sectionResult">
+                  <span>{{ sectionResult.sectionName}}</span>
+                </td>
+              </ng-container>
+
+              <!-- Percent Column -->
+              <ng-container matColumnDef="percentScore">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Percent Score</th>
+                <td mat-cell *matCellDef="let sectionResult">
+                  {{ sectionResult.percentScore }}%
+                </td>
+              </ng-container>
+
+              <!-- Points Column -->
+              <ng-container matColumnDef="points">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Points</th>
+                <td mat-cell *matCellDef="let sectionResult">
+                  {{ sectionResult.pointsEarned }} / {{ sectionResult.sectionTotalPoints }}
+                </td>
+              </ng-container>
+
+              <!-- View Column -->
+              <ng-container matColumnDef="viewSectionPerformance">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>View Section Performance</th>
+                <td mat-cell *matCellDef="let sectionResult">
+                  <a routerLink="/teacher/results/{{examId}}/{{studentId}}/{{sectionResult.sectionId}}/view_section_performance" translate>
+                    <mat-icon class="eye-icon">remove_red_eye</mat-icon>
+                    generic/view                    
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="sectionResultsColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: sectionResultsColumns;" class="example-element-row"></tr>
+            </table>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
