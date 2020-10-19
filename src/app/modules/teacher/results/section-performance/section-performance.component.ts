@@ -9,6 +9,7 @@ import { SectionPerformanceService } from './section-performance.service';
   styleUrls: ['./section-performance.component.scss']
 })
 export class SectionPerformanceComponent implements OnInit {
+  examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   sectionId = Number(this.activatedRoute.snapshot.paramMap.get('sectionId'));
   studentId = Number(this.activatedRoute.snapshot.paramMap.get('studentId'));
   initialData: SectionPerformanceInitialData;
@@ -78,6 +79,9 @@ export class SectionPerformanceComponent implements OnInit {
     this.sectionPerformanceService.getInitialData(request).subscribe(
       (initialData: SectionPerformanceInitialData) => {
         this.initialData = initialData;
+        let percent = initialData.percentScore;
+        percent = +percent.toFixed(2);
+        initialData.percentScore = percent;
       }
     );
   }

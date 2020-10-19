@@ -30,13 +30,12 @@
       <div class="col-md-12">
         <mat-card>
           <div class="card-header">
-              {{ initialData?.studentName }}
+              <span style="font-size: large; font-weight: 500">{{ initialData?.studentName }}</span><br><br>
+              <span>Exam: {{ initialData?.examResult.examName }}</span><br>
+              <span>Score: {{ initialData?.examResult.percentScore }}%<br></span>
+              <span>Points: {{ initialData?.examResult.pointsEarned }} / {{ initialData?.examResult.examTotalPoints }}<br></span>
           </div>
           <div class="card-body">
-            {{ initialData?.examResult.examName }}<br>
-            {{ initialData?.examResult.percentScore }}%<br>
-            {{ initialData?.examResult.pointsEarned }} / {{ initialData?.examResult.examTotalPoints }}<br>
-            
             <div *ngIf="initialData?.examResult.sectionResults.length < 1">
               <p style="text-align: center;" class="lighter-font" translate>
                 There are no section results to show

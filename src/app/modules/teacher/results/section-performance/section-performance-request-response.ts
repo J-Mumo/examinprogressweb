@@ -13,6 +13,8 @@ export class QuestionResult {
     public textAnswer: boolean,
     public multipleAnswers: boolean,
     public singleAnswer: boolean,
+    public pointsEarned: number,
+    public questionTotalPoints: number,
     public answerResults: AnswerResult[],
     public questionResults: QuestionResult[]
   ) {}
@@ -20,6 +22,7 @@ export class QuestionResult {
 
 export class SectionPerformanceInitialData {
   constructor(
+    public studentName: string,
     public sectionName: string,
     public percentScore: number,
     public pointsEarned: number,
