@@ -85,7 +85,11 @@ export class FinalizeScoringComponent implements OnInit {
 
     this.finalizeScoringService.getInitialData(request).subscribe(
       (initialData: FinalizeScoringInitialData) => {
-        this.initialData = initialData;
+        if (initialData.scoringComplete) {
+          this.router.navigate(['/teacher/results' + this.examId + 'results']);
+        } else {
+          this.initialData = initialData;
+        }
       }
     );
   }

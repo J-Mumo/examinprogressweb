@@ -24,6 +24,7 @@ import { ResultsComponent } from './results/results/results.component';
 import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-scoring.component';
 import { ViewPerformanceComponent } from './results/view-performance/view-performance.component';
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
+import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { SectionPerformanceComponent } from './results/section-performance/secti
     ResultsComponent,
     FinalizeScoringComponent,
     ViewPerformanceComponent,
-    SectionPerformanceComponent
+    SectionPerformanceComponent,
+    ExamRoomComponent
   ],
   imports: [
     CommonModule,
