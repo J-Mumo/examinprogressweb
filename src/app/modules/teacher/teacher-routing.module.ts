@@ -23,6 +23,7 @@ import { ResultsComponent } from './results/results/results.component';
 import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-scoring.component';
 import { ViewPerformanceComponent } from './results/view-performance/view-performance.component';
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
+import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
 
 const routes: Routes = [
   {
@@ -180,6 +181,16 @@ const routes: Routes = [
         component: SectionPerformanceComponent,
         canActivate: [HasPermissionGuard],
         data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+      },
+    ]
+  },
+  {
+    path: 'rooms', children: [
+      {
+        path: 'room',
+        component: ExamRoomComponent,
+        canActivate: [HasPermissionGuard],
+        // data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },
     ]
   }

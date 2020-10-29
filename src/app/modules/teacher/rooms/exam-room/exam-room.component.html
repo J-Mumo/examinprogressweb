@@ -1,1 +1,43 @@
-<p>exam-room works!</p>
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/exams" translate>
+            teacher/exams
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/results/{{examId}}/results" translate>
+            teacher/exam_results
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/results/finalize_scoring' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/results/finalize_scoring
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <video id="localVideo" autoplay playsinline controls="false"></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+        
+        <div>
+          <button id="startButton">Start</button>
+          <button (click)="callAction()" id="callButton">Call</button>
+          <button id="hangupButton">Hang Up</button>
+        </div>
+      
+      </div>
+    </div>
+  </div>
+</div>
