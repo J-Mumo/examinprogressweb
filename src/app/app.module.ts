@@ -34,6 +34,8 @@ import { ResetforgottenpasswordComponent } from './email/resetforgottenpassword/
 import { ValidateemailComponent } from './email/validateemail/validateemail.component';
 import { SidenavMenuComponent } from './sidenav-menu/sidenav-menu.component';
 import { ExamDetailComponent } from './modules/student/exam/detail/exam-detail.component';
+import { environment } from 'src/environments/environment';
+import { NgxAgoraModule } from 'ngx-agora';
 
 registerLocaleData(localeEn, 'en');
 
@@ -92,6 +94,7 @@ const jwtConf = {
         deps: [HttpClient]
       }
     }),
+    NgxAgoraModule.forRoot({ AppID: environment.agora.appId }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

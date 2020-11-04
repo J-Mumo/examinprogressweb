@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  email: 'error@examinprogress.com',
+  debug: false
 };
