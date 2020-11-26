@@ -24,6 +24,7 @@ import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-sc
 import { ViewPerformanceComponent } from './results/view-performance/view-performance.component';
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
 import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
+import { TokensComponent } from './tokens/tokens/tokens.component';
 
 const routes: Routes = [
   {
@@ -193,7 +194,13 @@ const routes: Routes = [
         // data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },
     ]
-  }
+  },
+  {
+    path: 'tokens',
+    component: TokensComponent,
+    canActivate: [HasPermissionGuard],
+    data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+  },
 ];
 
 @NgModule({

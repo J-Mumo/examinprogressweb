@@ -25,7 +25,7 @@ import { FinalizeScoringComponent } from './results/finalize-scoring/finalize-sc
 import { ViewPerformanceComponent } from './results/view-performance/view-performance.component';
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
 import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
-
+import { TokensComponent } from './tokens/tokens/tokens.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
     FinalizeScoringComponent,
     ViewPerformanceComponent,
     SectionPerformanceComponent,
-    ExamRoomComponent
+    ExamRoomComponent,
+    TokensComponent
   ],
   imports: [
     CommonModule,

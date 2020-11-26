@@ -36,6 +36,7 @@ import { SidenavMenuComponent } from './sidenav-menu/sidenav-menu.component';
 import { ExamDetailComponent } from './modules/student/exam/detail/exam-detail.component';
 import { environment } from 'src/environments/environment';
 import { NgxAgoraModule } from 'ngx-agora';
+import { FlutterwaveModule } from 'flutterwave-angular-v3';
 
 registerLocaleData(localeEn, 'en');
 
@@ -95,6 +96,7 @@ const jwtConf = {
       }
     }),
     NgxAgoraModule.forRoot({ AppID: environment.agora.appId }),
+    FlutterwaveModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

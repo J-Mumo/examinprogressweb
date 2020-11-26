@@ -1,0 +1,131 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item" translate>
+          teacher/tokens
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/tokens
+    </h1>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <mat-card>
+          <div class="card-body">
+            <p style="text-align: center;" class="lighter-font" translate>
+              teacher/tokens/tokens_info
+            </p>
+            <div class="tokens-left">
+              <mat-label translate>teacher/tokens_left</mat-label>
+              : {{ tokens }}
+
+              <div style="margin-top: 2rem;">
+                <button mat-raised-button 
+                  color="primary"
+                  (click)="showGetTokens()"
+                  type="button">
+                  {{ 'teacher/tokens/get_more'| translate }}
+                </button>
+              </div>
+            </div>
+            <div id="getTokens" style="padding: 1.5rem;" hidden>
+              <mat-horizontal-stepper [linear]="false" #stepper>
+                <mat-step>
+                  <ng-template matStepLabel>How many tokens do you want?</ng-template>
+                  <mat-form-field appearance="standard">
+                    <mat-label translate>teacher/tokens</mat-label>
+                    <input matInput type="number"
+                      id="newTokens"
+                      name="newTokens"
+                      class="form-control" 
+                      [(ngModel)]="tokensToBuy"
+                      #newTokens="ngModel"
+                      [ngClass]="{ 'is-invalid': newTokens.touched && newTokens.value === '' }"
+                      placeholder="{{ 'teacher/tokens/type_tokens_number' | translate }}"
+                      required>
+                  </mat-form-field>
+                  <div>
+                    <button mat-button matStepperNext
+                      style="font-size: larger;"
+                      color="primary"
+                      (click)="next()"
+                      type="button">
+                      {{ 'generic/next'| translate }}
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </mat-step>
+                <mat-step label="Payment details">
+                  <table matSort mat-table multiTemplateDataRows [dataSource]="tokensData">
+                    <!-- Tokens Column -->
+                    <ng-container matColumnDef="tokens">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Tokens</th>
+                      <td mat-cell *matCellDef="let tokenData" style="width: 23%; padding-right: 32px;">
+                        <mat-form-field appearance="standard">
+                          <input matInput type="number"
+                            id="newTokens"
+                            name="newTokens"
+                            class="form-control" 
+                            [(ngModel)]="tokensToBuy"
+                            #newTokens="ngModel"
+                            (change)="calculateTokenPrice()"
+                            (keyup)="calculateTokenPrice()"
+                            [ngClass]="{ 'is-invalid': newTokens.touched && newTokens.value === '' }"
+                            placeholder="{{ 'teacher/tokens/type_tokens_number' | translate }}"
+                            required>
+                        </mat-form-field>
+                      </td>
+                    </ng-container>
+        
+                    <!-- Price Column -->
+                    <ng-container matColumnDef="pricePerToken">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Price per Token</th>
+                      <td mat-cell *matCellDef="let tokenData">
+                        <div>KES. 100</div>
+                      </td>
+                    </ng-container>
+        
+                    <!-- Total Column -->
+                    <ng-container matColumnDef="total">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                      <td mat-cell *matCellDef="let tokenData">
+                        KES. {{ total }}
+                      </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns;" class="example-element-row"></tr>
+                  </table>
+                  <div style="margin-top: 1rem;">
+                    <button mat-raised-button
+                      style="background-color: #f28f1f; color: white;"
+                      (click)="makePayment()"
+                      type="button">
+                      {{ 'teacher/tokens/make_payment' | translate }}
+                    </button>
+                  </div>
+                  <button mat-button matStepperPrevious
+                    style="font-size: larger; margin-top: 2rem;"
+                    color="primary"
+                    type="button">
+                    {{ 'generic/back'| translate }}
+                  </button>
+                </mat-step>
+              </mat-horizontal-stepper>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

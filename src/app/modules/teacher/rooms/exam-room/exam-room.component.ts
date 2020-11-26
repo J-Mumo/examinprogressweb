@@ -25,7 +25,7 @@ export class ExamRoomComponent implements OnInit {
   ngOnInit(): void {
     this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
     this.assignClientHandlers();
-    this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+    this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: false, video: true, screen: false });
     this.assignLocalStreamHandlers();
     this.initLocalStream();
     this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
@@ -35,7 +35,8 @@ export class ExamRoomComponent implements OnInit {
    * Attempts to connect to an online chat room where users can host and receive A/V streams.
    */
   join(onSuccess?: (uid: number | string) => void, onFailure?: (error: Error) => void): void {
-    this.client.join(null, 'foo-bar', this.uid, onSuccess, onFailure);
+    this.client.join('006703bc0bd4c5c4bc99b4172dd0aecc89eIADxwxWFlRGegI116AveDirmoyAWNQb8G8t7Tl/RxMhkVcamuzgAAAAAEADGU1aHR161XwEAAQD2M7Vf', 
+    'exam', this.uid, onSuccess, onFailure);
   }
 
   /**
