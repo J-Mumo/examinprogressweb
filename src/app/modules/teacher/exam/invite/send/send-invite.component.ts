@@ -47,7 +47,7 @@ export class SendInviteComponent implements OnInit {
   }
 
   changeCopyState() {
-    this.copyState = 'Copied';
+    this.emailSentSnackBar('Copied');
   }
 
   emailSentSnackBar(message) {

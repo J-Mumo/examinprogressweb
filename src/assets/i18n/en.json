@@ -311,6 +311,7 @@
   "teacher/tokens_left": "Tokens left",
   "teacher/tokens/get_more": "Get more",
   "teacher/tokens/make_payment": "Make payment",
+  "teacher/tokens/tokenstobuyerror": "Please enter a valid number greater than 0",
   "teacher/tokens/type_tokens_number": "Type number of tokens you would like to get",
   "teacher/tokens/tokens_info": "You need tokens for examinees to be able to do the exams you create. For example, you will need 10 tokens to for 10 people to do an exam. A token is consumed when you send an invite to an examinee.",
   "student/exam/examinprogress/exam_not_started": "Exam not started",

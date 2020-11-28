@@ -4,6 +4,11 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item">
           <a routerLink="/teacher/exams" translate>
             {{ 'teacher/exams' | translate }}
           </a>
@@ -43,22 +48,24 @@
               <span *ngIf="time.second > 1">{{time.second}} seconds&nbsp;</span>
               <span *ngIf="time.second === 1">{{time.second}} second&nbsp;</span>
             </div>
-            <button mat-stroked-button 
-              *ngIf="initialData?.hasInvites"
-              routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/invites"
-              color="primary"
-              style="margin-top: 20px;"
-              type="button">
-              {{ 'teacher/exam/invite/send_invites'| translate }}
-            </button>
-            <button mat-stroked-button 
-              *ngIf="!initialData?.hasInvites"
-              routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/invite/create"
-              color="primary"
-              style="margin-top: 20px;"
-              type="button">
-              {{ 'teacher/exam/invite/send_invites'| translate }}
-            </button>
+            <div>
+              <button mat-stroked-button 
+                *ngIf="initialData?.hasInvites"
+                routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/invites"
+                color="primary"
+                style="margin-top: 20px;"
+                type="button">
+                {{ 'teacher/exam/invite/send_invites'| translate }}
+              </button>
+              <button mat-stroked-button 
+                *ngIf="!initialData?.hasInvites"
+                routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/invite/create"
+                color="primary"
+                style="margin-top: 20px;"
+                type="button">
+                {{ 'teacher/exam/invite/send_invites'| translate }}
+              </button>
+            </div>
           </div>
         </mat-card>
         <br>

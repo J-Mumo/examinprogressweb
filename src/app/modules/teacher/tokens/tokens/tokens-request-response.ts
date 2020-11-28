@@ -11,32 +11,17 @@ export class PaymentInitialData {
     ) { }
 }
 
-export class PaymentApiResponse {
-  public constructor(
-      public status: string,
-      public txid: string,
-      public orderRef: string,
-      public txref: string,
-      public flwref: string,
-      public deviceFingerprint: string,
-      public ip: string,
-      public cycle: string,
-      public amount: number,
-      public currency: string,
-      public appfee: number,
-      public chargedAmount: number,
-      public merchantFee: number,
-      public merchantBearsFee: number,
-      public vbvrespcode: string,
-      public vbvrespmessage: string,
-      public paymentType: string,
-      public paymentId: string,
-      public fraudStatus: string,
-      public chargeType: string,
-      public customerId: string,
-      public customerPhone: string,
-      public customerEmail: string,
-      public accountId: string
-  ) { }
+export class PaymentRequest {
+  constructor(
+    public tokens: number,
+    public paymentSuccessResponse: any
+  ) {}
 }
 
+export class UpdateTokenResponse {
+  constructor (
+    public updated: boolean,
+    public error: string,
+    public tokens: number
+  ) {}
+}
