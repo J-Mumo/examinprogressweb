@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { PaymentInitialData, UpdateTokenResponse, PaymentRequest } from './tokens-request-response';
+import { PaymentInitialData, UpdateTokenResponse, PaymentRequest, PaymentHistoryInitialData, TokenConsumptionInitialData, PaymentHistoryTransfer, TokenConsumedTransfer } from './tokens-request-response';
 import { TokensService } from './tokens.service';
 import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from 'flutterwave-angular-v3';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgForm } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tokens',
@@ -18,15 +19,19 @@ export class TokensComponent implements OnInit {
   columns: string[] = ['tokens', 'pricePerToken', 'total'];
   message: string;
   tokensData: MatTableDataSource<any>;
+  paymentHistory: MatTableDataSource<PaymentHistoryTransfer>;
+  paymentHistoryColumns: string[] = ['amountPaid', 'tokensBought', 'currency'];
   total = 0;
   paymentInitialData: PaymentInitialData;
+  tokenConsumption: MatTableDataSource<TokenConsumedTransfer>;
+  tokenConsumptionColumns: string[] = ['email', 'examName', 'studentName'];
   paymentData: InlinePaymentOptions = {
     public_key: '',
     tx_ref: '',
     amount: this.total,
     currency: '',
     payment_options: 'card,mpesa',
-    redirect_url: '/teacher/tokens',
+    redirect_url: '',
     meta: '',
     customer: null,
     customizations: this.customizations(),
@@ -38,6 +43,7 @@ export class TokensComponent implements OnInit {
   constructor(
     private tokensService: TokensService,
     private snackBar: MatSnackBar,
+    private router: Router,
     private ref: ChangeDetectorRef,
     private flutterwave: Flutterwave
   ) { }
@@ -48,10 +54,10 @@ export class TokensComponent implements OnInit {
         this.tokens = tokens;
       }
     );
-    this.getPaymentInitialData();
+    this.getInitialData();
   }
 
-  getPaymentInitialData() {
+  getInitialData() {
     this.tokensService.getPaymentInitialData().subscribe(
       (paymentInitialData: PaymentInitialData) => {
         this.paymentInitialData = paymentInitialData;
@@ -63,6 +69,18 @@ export class TokensComponent implements OnInit {
           email: paymentInitialData.email
         };
         this.paymentData.customer = customer;
+      }
+    );
+
+    this.tokensService.getPaymentHistoryInitialData().subscribe(
+      (paymentHistory: PaymentHistoryInitialData) => {
+        this.paymentHistory = new MatTableDataSource(paymentHistory.paymentHistoryTransfers);
+      }
+    );
+
+    this.tokensService.getTokenonsumptionInitialData().subscribe(
+      (tokenConsumption: TokenConsumptionInitialData) => {
+        this.tokenConsumption = new MatTableDataSource(tokenConsumption.tokenConsumedTransfers);
       }
     );
   }
@@ -95,13 +113,14 @@ export class TokensComponent implements OnInit {
   makePaymentCallback(response: PaymentSuccessResponse): void {
     if (response.status === 'successful') {
       const request: PaymentRequest = new PaymentRequest(this.tokensToBuy, response);
+      console.log(response);
       this.tokensService.updateTokens(request).subscribe(
         (res: UpdateTokenResponse) => {
           if (res.updated) {
             this.tokens = res.tokens;
             this.message = 'You have successfuly paid for ' + this.tokensToBuy + ' tokens.';
             this.tokenSnackBar(this.message);
-            this.ref.detectChanges();
+            this.navigateBack();
           } else {
             this.message = 'Your payment was not successful. Please contact support for help.';
             this.tokenSnackBar(this.message);
@@ -145,6 +164,29 @@ export class TokensComponent implements OnInit {
   }
 
   showGetTokens() {
+    console.log('click');
     document.getElementById('getTokens').hidden = false;
+    document.getElementById('paymentHistory').hidden = true;
+    document.getElementById('tokenConsumption').hidden = true;
+  }
+
+  showPaymentHistory() {
+    console.log('click');
+    document.getElementById('getTokens').hidden = true;
+    document.getElementById('paymentHistory').hidden = false;
+    document.getElementById('tokenConsumption').hidden = true;
+  }
+
+  showTokenConsumption() {
+    console.log('click');
+    document.getElementById('getTokens').hidden = true;
+    document.getElementById('paymentHistory').hidden = true;
+    document.getElementById('tokenConsumption').hidden = false;
+  }
+
+  navigateBack(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([this.router.url]);
   }
 }

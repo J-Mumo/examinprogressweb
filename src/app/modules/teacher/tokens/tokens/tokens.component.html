@@ -27,12 +27,22 @@
               <mat-label translate>teacher/tokens_left</mat-label>
               : {{ tokens }}
 
-              <div style="margin-top: 2rem;">
+              <div class="action-buttons">
                 <button mat-raised-button 
                   color="primary"
                   (click)="showGetTokens()"
                   type="button">
                   {{ 'teacher/tokens/get_more'| translate }}
+                </button>
+                <button mat-raised-button 
+                  (click)="showPaymentHistory()"
+                  type="button">
+                  {{ 'teacher/tokens/payment_history'| translate }}
+                </button>
+                <button mat-raised-button
+                  (click)="showTokenConsumption()"
+                  type="button">
+                  {{ 'teacher/tokens/token_consumption'| translate }}
                 </button>
               </div>
             </div>
@@ -129,6 +139,62 @@
                   </button>
                 </mat-step>
               </mat-horizontal-stepper>
+            </div>
+            <div id="paymentHistory" hidden>
+              <table matSort mat-table multiTemplateDataRows [dataSource]="paymentHistory">
+                
+                <ng-container matColumnDef="amountPaid">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount Paid</th>
+                  <td mat-cell *matCellDef="let paymentHistory" style="width: 23%; padding-right: 32px;">
+                    {{ paymentHistory.amountPaid }}
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="tokensBought">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Tokens Bought</th>
+                  <td mat-cell *matCellDef="let paymentHistory">
+                    {{ paymentHistory.tokensBought }}
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="currency">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
+                  <td mat-cell *matCellDef="let paymentHistory">
+                    {{ paymentHistory.currency }}
+                  </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="paymentHistoryColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: paymentHistoryColumns;" class="example-element-row"></tr>
+              </table>
+            </div>
+            <div id="tokenConsumption" hidden>
+              <table matSort mat-table multiTemplateDataRows [dataSource]="tokenConsumption">
+                
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                  <td mat-cell *matCellDef="let tokenConsumption" style="width: 23%; padding-right: 32px;">
+                    {{ tokenConsumption.email }}
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="examName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam Name</th>
+                  <td mat-cell *matCellDef="let tokenConsumption">
+                    {{ tokenConsumption.examName }}
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="studentName">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Student Name</th>
+                  <td mat-cell *matCellDef="let tokenConsumption">
+                    {{ tokenConsumption.studentName }}
+                  </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="tokenConsumptionColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: tokenConsumptionColumns;" class="example-element-row"></tr>
+              </table>
             </div>
           </div>
         </mat-card>
