@@ -25,6 +25,7 @@ import { ViewPerformanceComponent } from './results/view-performance/view-perfor
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
 import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
 import { TokensComponent } from './tokens/tokens/tokens.component';
+import { RoomsComponent } from './rooms/rooms/rooms.component';
 
 const routes: Routes = [
   {
@@ -186,12 +187,18 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'rooms', children: [
+    path: 'examrooms', children: [
+      {
+        path: 'rooms',
+        component: RoomsComponent,
+        canActivate: [HasPermissionGuard],
+        data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+      },
       {
         path: 'room',
         component: ExamRoomComponent,
         canActivate: [HasPermissionGuard],
-        // data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+        data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },
     ]
   },

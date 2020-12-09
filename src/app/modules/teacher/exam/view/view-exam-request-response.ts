@@ -12,7 +12,8 @@ export class ViewExamInitialData {
     public description: string,
     public duration: string,
     public sectionTransfers: SectionTransfer[],
-    public hasInvites: boolean
+    public hasInvites: boolean,
+    public inviteId: number
     ) {}
 }
 

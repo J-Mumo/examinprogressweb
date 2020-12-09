@@ -1,0 +1,66 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/teacher/dashboard" translate>
+            generic/dashboard
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/rooms' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/rooms/which_room
+    </h1><br>
+    <div class="row">
+      <div class="col-md-8 col-lg-8 mx-auto">
+        <div class="mat-elevation-z8">
+          <div class="pl-2 row">
+            <mat-form-field appearance="standard">
+              <input matInput (keyup)="applyExamFilter($event.target.value)" placeholder="Search">
+            </mat-form-field>
+          </div>
+          <div *ngIf="initialData?.examTransfers.length < 1">
+            <p style="text-align: center;" class="lighter-font" translate>
+              teacher/rooms/no_exam_in_progress
+            </p>
+          </div>
+          <table *ngIf="initialData?.examTransfers.length > 0"
+            matSort mat-table multiTemplateDataRows [dataSource]="exams">
+            <!-- Name Column -->
+            <ng-container matColumnDef="exam">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Exam</th>
+              <td mat-cell *matCellDef="let exam">
+                <span>{{exam.name}}</span>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="enterRoom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let exam">
+                <button mat-raised-button 
+                  color="primary"
+                  routerLink="/teacher/examrooms/room">
+                  {{ 'teacher/rooms/enter_room'| translate }}
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="examsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: examsColumns;" class="example-element-row"></tr>
+          </table>
+          <mat-paginator [length]="100"
+              [pageSize]="20"
+              [pageSizeOptions]="[5, 10, 20, 100]"
+              showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

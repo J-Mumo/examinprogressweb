@@ -26,6 +26,7 @@ import { ViewPerformanceComponent } from './results/view-performance/view-perfor
 import { SectionPerformanceComponent } from './results/section-performance/section-performance.component';
 import { ExamRoomComponent } from './rooms/exam-room/exam-room.component';
 import { TokensComponent } from './tokens/tokens/tokens.component';
+import { RoomsComponent } from './rooms/rooms/rooms.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { TokensComponent } from './tokens/tokens/tokens.component';
     ViewPerformanceComponent,
     SectionPerformanceComponent,
     ExamRoomComponent,
-    TokensComponent
+    TokensComponent,
+    RoomsComponent
   ],
   imports: [
     CommonModule,
