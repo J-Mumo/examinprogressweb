@@ -45,7 +45,7 @@
               <td mat-cell *matCellDef="let exam">
                 <button mat-raised-button 
                   color="primary"
-                  routerLink="/teacher/examrooms/room">
+                  routerLink="/teacher/examrooms/{{exam.examId}}/room">
                   {{ 'teacher/rooms/enter_room'| translate }}
                 </button>
               </td>

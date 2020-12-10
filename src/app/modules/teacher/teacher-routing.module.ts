@@ -195,7 +195,7 @@ const routes: Routes = [
         data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },
       {
-        path: 'room',
+        path: ':examId/room',
         component: ExamRoomComponent,
         canActivate: [HasPermissionGuard],
         data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }

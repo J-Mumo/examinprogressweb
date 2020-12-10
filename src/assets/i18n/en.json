@@ -319,6 +319,7 @@
   "teacher/rooms": "Rooms",
   "teacher/rooms/which_room": "Which room would you like to enter?",
   "teacher/rooms/no_exam_in_progress": "There is currently no exam in progress",
+  "teacher/rooms/exam_room": "Exam room",
   "teacher/rooms/enter_room": "Enter room",
   "student/exam/examinprogress/exam_not_started": "Exam not started",
   "student/exam/examinprogress/exam_complete": "Exam is complete",

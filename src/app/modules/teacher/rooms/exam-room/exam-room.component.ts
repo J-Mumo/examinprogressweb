@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxAgoraService, Stream, AgoraClient, ClientEvent, StreamEvent } from 'ngx-agora';
+import { RtcTokenBuilder } from '../../../shared/agora/RtcTokenBuilder';
 
 @Component({
   selector: 'app-exam-room',
@@ -29,13 +30,18 @@ export class ExamRoomComponent implements OnInit {
     this.assignLocalStreamHandlers();
     this.initLocalStream();
     this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+
+    console.log(
+      RtcTokenBuilder.buildTokenWithAccount('703bc0bd4c5c4bc99b4172dd0aecc89e', '7342b2de114e4c4181f6f4c0eb72bb81',
+        'exam', 0, 'Role_Publisher', 0)
+    );
   }
 
   /**
    * Attempts to connect to an online chat room where users can host and receive A/V streams.
    */
   join(onSuccess?: (uid: number | string) => void, onFailure?: (error: Error) => void): void {
-    this.client.join('006703bc0bd4c5c4bc99b4172dd0aecc89eIADxwxWFlRGegI116AveDirmoyAWNQb8G8t7Tl/RxMhkVcamuzgAAAAAEADGU1aHR161XwEAAQD2M7Vf', 
+    this.client.join('006703bc0bd4c5c4bc99b4172dd0aecc89eIABbztDELZBZbIZ7LJyZeqcYSUshw9VmtW1wcFl9cxIONsamuzgAAAAAEADtPGiJ62XSXwEAAQC3O9Jf', 
     'exam', this.uid, onSuccess, onFailure);
   }
 
