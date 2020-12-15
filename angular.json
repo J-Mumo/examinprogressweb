@@ -34,7 +34,10 @@
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "agora-access-token"
+            ]
           },
           "configurations": {
             "production": {
