@@ -17,3 +17,28 @@
   padding: 1em;
   border-bottom: 1px solid rgba(27,31,35,.2);
 }
+
+.local {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 20vw;
+  height: 20vh;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.remote {
+  width: 200px;
+  height: 150px;
+}
+
+.remote-videos {
+  display: grid;
+  width: 100%;
+  grid-row-gap: .5em;
+  grid-column-gap: 1em;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(auto-fill, 120px);
+}

@@ -114,3 +114,30 @@
     </div>
   </div>
 </div>
+
+<ng-template #permissionsError id="permissionsError">
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>student/exam/exam_detail/camera_error</b></label>
+    </div>
+    <div class="modal-body">
+      <p>
+        {{ 'student/exam/exam_detail/camera_error_info' | translate }}
+      </p>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="refreshPage()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,126 @@
+<div #top></div>
+<div class="content" role="main">
+  <div class="container" style="padding-top: 10px;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/student/exams" translate>
+            Exams
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <a routerLink="/student/exam/result/{{examTokenId}}" translate>
+            Exam results
+          </a>
+        </li>
+        <li class="breadcrumb-item active">
+          {{ 'teacher/results/section_performance' | translate }}
+        </li>
+      </ol>
+    </nav>
+    <h1 class="header-title" translate>
+      teacher/results/section_performance
+    </h1>
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="card-header">
+            <span style="font-size: large; font-weight: 500">{{ initialData?.studentName }}</span><br><br>
+            <span>Section: {{ initialData?.sectionName }}</span><br>
+            <span>Score: {{ initialData?.percentScore }}%<br></span>
+            <span>Points: {{ initialData?.pointsEarned }}/{{ initialData?.sectionTotalPoints }}<br></span>
+          </div>
+          <div class="card-body">            
+            <div *ngFor="let questionResult of initialData?.questionResults">
+              <mat-card>
+                <div style="padding: 10px;">{{ questionResult.question }}</div>
+                <div *ngIf="!questionResult.comprehensionQuestion">
+                  <div *ngIf="!questionResult.textAnswer">
+                    <div *ngFor="let answerResult of questionResult.answerResults" class="multiple-choice">
+                      <div *ngIf="questionResult.singleAnswer">
+                        <mat-radio-button #singleRadio readonly [checked]="answerResult.selected"></mat-radio-button>
+                      </div>
+                      <div *ngIf="questionResult.multipleAnswers">
+                        <mat-checkbox readonly [checked]="answerResult.selected"></mat-checkbox>&nbsp;&nbsp;
+                      </div>
+                      <div class="form-group" style="width: 95%">
+                        {{ answerResult.answer }}
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="questionResult.textAnswer">
+                    <angular-editor 
+                      id="answer" 
+                      [config]="config" 
+                      name="answer" 
+                      [(ngModel)]="questionResult.answerResults[0].answer" 
+                      #answer="ngModel">
+                    </angular-editor>
+                  </div>
+                </div>
+                <div *ngIf="questionResult.comprehensionQuestion">            
+                  <div *ngFor="let subQuestion of questionResult?.questionResults">
+                    <mat-card>
+                      <div style="padding: 10px;">{{ subQuestion.question }}</div>
+                      <div *ngIf="!subQuestion.textAnswer">
+                        <div *ngFor="let answerResult of subQuestion.answerResults" class="multiple-choice">
+                          <div *ngIf="subQuestion.singleAnswer">
+                            <mat-radio-button #singleRadio readonly [checked]="answerResult.selected"></mat-radio-button>
+                          </div>
+                          <div *ngIf="subQuestion.multipleAnswers">
+                            <mat-checkbox readonly [checked]="answerResult.selected"></mat-checkbox>&nbsp;&nbsp;
+                          </div>
+                          <div class="form-group" style="width: 95%">
+                            {{ answerResult.answer }}
+                          </div>
+                        </div>
+                      </div>
+                      <div *ngIf="subQuestion.textAnswer">
+                        <angular-editor 
+                          id="answer" 
+                          [config]="config" 
+                          name="answer" 
+                          [(ngModel)]="subQuestion.answerResults[0].answer" 
+                          #answer="ngModel">
+                        </angular-editor>
+                      </div>
+                      <div style="padding-top: 2em; font-weight: 500;">
+                        Points Earned: {{ questionResult.pointsEarned }}/{{ questionResult.questionTotalPoints }}
+                      </div>
+                    </mat-card><br>
+                  </div>
+                  <div *ngIf="!questionResult.textAnswer">
+                    <div *ngFor="let answerResult of questionResult.answerResults" class="multiple-choice">
+                      <div *ngIf="questionResult.singleAnswer">
+                        <mat-radio-button #singleRadio readonly [checked]="answerResult.selected"></mat-radio-button>
+                      </div>
+                      <div *ngIf="questionResult.multipleAnswers">
+                        <mat-checkbox readonly [checked]="answerResult.selected"></mat-checkbox>&nbsp;&nbsp;
+                      </div>
+                      <div class="form-group" style="width: 95%">
+                        {{ answerResult.answer }}
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="questionResult.textAnswer">
+                    <angular-editor 
+                      id="answer" 
+                      [config]="config" 
+                      name="answer" 
+                      [(ngModel)]="questionResult.answerResults[0].answer" 
+                      #answer="ngModel">
+                    </angular-editor>
+                  </div>
+                </div>
+                <div style="padding-top: 2em; font-weight: 500;"
+                  *ngIf="!questionResult.comprehensionQuestion">
+                  Points Earned: {{ questionResult.pointsEarned }}/{{ questionResult.questionTotalPoints }}
+                </div>
+              </mat-card><br>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

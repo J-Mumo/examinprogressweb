@@ -1,20 +1,18 @@
-export class ExamTransfer {
+export class StudentExamsInitialData {
+  constructor(
+    public examTransfers: StudentExamTransfer[]
+  ) {}
+}
+
+export class StudentExamTransfer {
   constructor(
     public examId: number,
     public name: string,
-    public description: string
-  ) {}
-}
-
-export class ExamsInitialData {
-  constructor(
-    public examTransfers: ExamTransfer[]
-  ) {}
-}
-
-export class DeleteResponse {
-  constructor(
-    public deleted: boolean,
-    public error: null
+    public description: string,
+    public examTokenId: number,
+    public examinprogress: boolean,
+    public examNotStarted: boolean,
+    public viewResults: boolean,
+    public token: string
   ) {}
 }

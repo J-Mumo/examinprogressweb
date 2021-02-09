@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ExamDetailService } from './exam-detail.service';
 import { ExamDetailInitialData, ExamDetailRequest } from './exam-detail-request-response';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-exam-detail',
@@ -14,14 +15,27 @@ export class ExamDetailComponent implements OnInit {
   isToday: boolean;
   code: string;
   inviteLink: boolean;
+  mediaPermissionsGranted = false;
+  modalRef: BsModalRef;
+  mediaStreamConstraints = {
+    video: true,
+    audio: true
+  };
+
+  @ViewChild('permissionsError', { static: false })
+  permissionsError: TemplateRef<any>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private ref: ChangeDetectorRef,
+    private modalService: BsModalService,
     private examDetailService: ExamDetailService
   ) { }
 
   ngOnInit(): void {
     this.getInitialData();
+    this.getUserMedia();
   }
 
   getInitialData() {
@@ -45,5 +59,29 @@ export class ExamDetailComponent implements OnInit {
         }
       }
     );
+  }
+
+  getUserMedia() {
+    navigator.mediaDevices.getUserMedia(this.mediaStreamConstraints).then(function(){
+      this.mediaPermissionsGranted = true;
+    }).catch(this.handleGetUserMediaError);
+  }
+
+  handleGetUserMediaError(error) {
+    if (error.name === 'NotAllowedError'){
+      console.log('-------------')
+      // console.log(this.permissionsError)
+      console.log('-------------')
+      this.modalRef = this.modalService.show(this.permissionsError, { class: 'modal-sm' });
+    }
+    console.log(error);
+  }
+
+  refreshPage() {
+    this.router.onSameUrlNavigation = 'reload';
+  }
+
+  decline() {
+    this.modalRef.hide();
   }
 }

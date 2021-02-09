@@ -13,7 +13,8 @@ export class ViewExamInitialData {
     public duration: string,
     public sectionTransfers: SectionTransfer[],
     public hasInvites: boolean,
-    public inviteId: number
+    public inviteId: number,
+    public examHasNoQuestions: boolean
     ) {}
 }
 

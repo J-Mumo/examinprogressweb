@@ -32,12 +32,12 @@ const routes: Routes = [
       {
         path: 'teacher',
         loadChildren: () => import('./modules/teacher/teacher.module').then(m => m.TeacherModule),
-        canActivate: [HasPermissionGuard], data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
+        // canActivate: [HasPermissionGuard], data: { authorities: ['TEACHER', 'EMAIL_VALIDATED'] }
       },
       {
         path: 'student',
         loadChildren: () => import('./modules/student/student.module').then(m => m.StudentModule),
-        canActivate: [HasPermissionGuard], data: { authorities: ['STUDENT', 'EMAIL_VALIDATED'] }
+        // canActivate: [HasPermissionGuard], data: { authorities: ['STUDENT', 'EMAIL_VALIDATED'] }
       },
       { path: '', component: HomeComponent },
       { path: '**', component: Error404Component }

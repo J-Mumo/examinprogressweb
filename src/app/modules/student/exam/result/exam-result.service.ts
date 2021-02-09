@@ -2,27 +2,28 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StudentExamsInitialData } from './exams-request-response';
+import { ViewPerformanceInitialData } from './exam-result-request-response';
 
 @Injectable({
   providedIn: 'root'
   })
-export class ExamsService {
+export class ExamResultService {
 
-  GET_INITIAL_DATA_URL = '/examinprogress/student/exam/exams/initialdata';
+  private GET_INITIAL_DATA_URL = '/examinprogress/student/exam/result';
 
   constructor(private http: HttpClient) { }
 
-  getInitialData(): Observable<StudentExamsInitialData> {
+  getInitialData(examTokenId: number): Observable<ViewPerformanceInitialData> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     };
+    const body = JSON.stringify(examTokenId)
 
     return this.http.post(
-      this.GET_INITIAL_DATA_URL, httpOptions).pipe(map(
-        (response: StudentExamsInitialData) => {
+      this.GET_INITIAL_DATA_URL, body, httpOptions).pipe(map(
+        (response: ViewPerformanceInitialData) => {
           return response;
         }
     ));

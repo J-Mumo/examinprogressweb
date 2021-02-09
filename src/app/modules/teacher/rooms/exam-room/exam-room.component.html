@@ -24,7 +24,23 @@
     <div class="row">
       <div class="col-md-12">
         <div [id]="localCallId" class="local"></div>
-        <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>      
+        <div class="remote-videos">
+          <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote">
+            <!-- <mat-icon>mic</mat-icon> -->
+            <!-- <div style="background-color: blue; grid-area: 1 / 1 / 2 / 2;"></div> -->
+            <div class="video-actions" [id]="callId">
+              <mat-icon class="mic">mic</mat-icon>
+              <mat-icon class="mic">mic_off</mat-icon>
+              <button mat-raised-button
+                style="line-height: 26px !important;"
+                color="primary"
+                type="button"
+                (click)="terminateStudentExam(callId)">
+                Terminate exam
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

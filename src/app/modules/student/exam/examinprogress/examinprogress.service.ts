@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest } from './examinprogress-request-response';
+import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest } from './examinprogress-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,14 @@ export class ExaminprogressService {
   private SKIP_QUESTION_URL = '/examinprogress/student/exam/examinprogress/skipquestion';
   private SKIP_SECTION_URL = '/examinprogress/student/exam/examinprogress/skipsection';
   private TERMINATE_EXAM_URL = '/examinprogress/student/exam/examinprogress/terminate';
+  private RTC_TOKEN_URL = '/examinprogress/agora/rtctoken';
 
   constructor(private http: HttpClient) {
 
+  }
+
+  getRtcToken(request: RtcTokenRequest): Observable<RtcTokenResponse> {
+    return this.http.post<RtcTokenResponse>(`${this.RTC_TOKEN_URL}`, request);
   }
 
   getExamProgress(examTokenId: number):

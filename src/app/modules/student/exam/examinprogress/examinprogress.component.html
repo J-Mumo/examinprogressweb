@@ -33,6 +33,16 @@
           </div>
         </mat-card>
       </div>
+      <div class="col-md-8 mx-auto" *ngIf="response?.examHasNoQuestions">
+        <div class="header-title">
+          <h1 translate>student/exam/examinprogress/exam_has_no_questions</h1>
+        </div>
+        <mat-card>
+          <div class="card-body">
+            No questions have been found for this exam. Please contact your examiner.
+          </div>
+        </mat-card>
+      </div>
       <div class="col-md-8 mx-auto" *ngIf="!response?.examHasStarted">
         <div class="header-title">
           <h1 translate>student/exam/examinprogress/exam_not_started</h1>
@@ -189,6 +199,11 @@
           </form>
         </mat-card>
       </div>
+
+      <div [id]="localCallId" class="local"></div>
+      <!-- <div class="remote-videos" hidden>
+        <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>      
+      </div> -->
     </div>
   </div>
 </div>

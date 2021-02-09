@@ -66,9 +66,17 @@
               <span style="font-weight: bold; color: #000000bf;">Exam start time:</span>&nbsp;&nbsp;
               {{initialData?.examStartTime}}
             </div>
-            <div style="line-height: 2; display: flex;">
+            <div style="line-height: 2; display: flex; align-items: center;">
               <span style="font-weight: bold; color: #000000bf;">Exam link:</span>&nbsp;&nbsp;
-              <span><a class="link" href="">{{initialData?.inviteCode}}</a></span>
+              <button mat-stroked-button 
+                color="primary"
+                (click)="unsendConfirmation(unsendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)"
+                type="button">
+                Click to copy the link to this invite
+              </button>
+              <a target="blank" href="{{initialData?.inviteCode}}" style="margin-left: 10px;">
+                <mat-icon>launch</mat-icon>
+              </a>
             </div>
           </div>
         </mat-card>

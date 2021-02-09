@@ -55,6 +55,8 @@ export class ExaminprogressResponse {
     public timedPerQuestion: boolean,
     public pausable: boolean,
     public paused: boolean,
+    public examHasNoQuestions: boolean,
+    public examId: number,
     public examTime: number,
     public examStartDate: Date,
     public examStartTime: string,
@@ -86,5 +88,20 @@ export class SkipSectionRequest {
     public examTokenId: number,
     public sectionId: number,
     public pause: boolean
+  ) {}
+}
+
+export class RtcTokenResponse {
+  constructor(
+    public token: string,
+    public uid: number
+  ) {}
+}
+
+export class RtcTokenRequest {
+  constructor(
+    public channelName: string, 
+    public student: boolean, 
+    public examTokenId: number
   ) {}
 }

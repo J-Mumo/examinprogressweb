@@ -324,8 +324,12 @@
   "student/exam/examinprogress/exam_not_started": "Exam not started",
   "student/exam/examinprogress/exam_complete": "Exam is complete",
   "student/exam/examinprogress/exam_expired": "Exam expired",
+  "student/exam/examinprogress/exam_has_no_questions": "Exam has no questions",
   "student/exam/examinprogress/invalid_token": "Invalid Token",
   "student/exam/examinprogress/exam_not_found": "Exam not found",
   "student/exam/examinprogress/pause": "Pause",
-  "student/exam/examinprogress/exam_paused": "Exam paused"
+  "student/exam/examinprogress/exam_paused": "Exam paused",
+  "student/exam/exam_detail/camera_error": "Camera Error",
+  "student/exam/exam_detail/camera_error_info": "In order to proceed with the exam, you need to allow us to use your camera and mirophone. You can refresh the page and click allow when prompted for camera and microphone permissions. Would you like us to refresh the page for you?",
+  "student/exam/section/no_exam_info": "You currently do not have any exam"
 }

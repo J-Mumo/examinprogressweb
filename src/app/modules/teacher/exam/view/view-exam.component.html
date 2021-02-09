@@ -48,7 +48,7 @@
               <span *ngIf="time.second > 1">{{time.second}} seconds&nbsp;</span>
               <span *ngIf="time.second === 1">{{time.second}} second&nbsp;</span>
             </div>
-            <div>
+            <div *ngIf="!initialData?.examHasNoQuestions">
               <button mat-stroked-button 
                 *ngIf="initialData?.hasInvites"
                 routerLink="/teacher/exam/{{examId}}/{{initialData?.name}}/invite/{{initialData?.inviteId}}/view"

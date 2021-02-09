@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxAgoraService, Stream, AgoraClient, ClientEvent, StreamEvent } from 'ngx-agora';
-import { RtcTokenBuilder, RtcRole } from 'agora-access-token';
+import { RtcTokenRequest, RtcTokenResponse } from './exam-room-request-response';
+import { ExamRoomService } from './exam-room.service';
 
 @Component({
   selector: 'app-exam-room',
@@ -16,47 +17,42 @@ export class ExamRoomComponent implements OnInit {
   private client: AgoraClient;
   private localStream: Stream;
   private uid: number;
-  private appID = '703bc0bd4c5c4bc99b4172dd0aecc89e';
-  private appCertificate = '7342b2de114e4c4181f6f4c0eb72bb81';
-  private channelName: string;
-  private role = RtcRole.PUBLISHER;
-  private expirationTimeInSeconds = 3600
-  private currentTimestamp = Math.floor(Date.now() / 1000)
-  private privilegeExpiredTs: number;
   private token: string;
+  private channelName: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private ngxAgoraService: NgxAgoraService) {
-      this.uid = Math.floor(Math.random() * 100);
-    }
+    private examRoomService: ExamRoomService,
+    private ngxAgoraService: NgxAgoraService) {}
 
   ngOnInit(): void {
+    this.getRtcToken();
     this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
     this.assignClientHandlers();
     this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: false, video: true, screen: false });
     this.assignLocalStreamHandlers();
     this.initLocalStream();
-    this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+    this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));    
+  }
 
+  getRtcToken() {
     this.channelName = this.examId.toString();
-    this.privilegeExpiredTs = this.currentTimestamp + this.expirationTimeInSeconds;
-    this.token = RtcTokenBuilder.buildTokenWithUid(
-      this.appID, this.appCertificate, this.channelName, this.uid, this.role, this.privilegeExpiredTs);
-    
-    console.log("Token With Integer Number Uid: " + this.token);
-    // console.log(
-    //   RtcTokenBuilder.buildTokenWithAccount('703bc0bd4c5c4bc99b4172dd0aecc89e', '7342b2de114e4c4181f6f4c0eb72bb81',
-    //     'exam', 'Role_Publisher', 0, 0)
-    // );
+    const student = false;
+    const examTokenId = null;
+    const request = new RtcTokenRequest(this.channelName, student, examTokenId)
+    this.examRoomService.getRtcToken(request).subscribe(
+      (response: RtcTokenResponse) => {
+        this.token = response.token;
+        this.uid = response.uid;
+      }
+    )
   }
 
   /**
    * Attempts to connect to an online chat room where users can host and receive A/V streams.
    */
   join(onSuccess?: (uid: number | string) => void, onFailure?: (error: Error) => void): void {
-    this.client.join(this.token, 
-    'exam', this.uid, onSuccess, onFailure);
+    this.client.join(this.token, this.channelName, this.uid, onSuccess, onFailure);
   }
 
   /**
@@ -116,10 +112,9 @@ export class ExamRoomComponent implements OnInit {
     this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
       const stream = evt.stream as Stream;
       const id = this.getRemoteId(stream);
-      if (!this.remoteCalls.length) {
-        this.remoteCalls.push(id);
-        setTimeout(() => stream.play(id), 1000);
-      }
+      this.remoteCalls.push(id);
+      setTimeout(() => stream.play(id), 1000);
+      console.log('Remote calls: ',this.remoteCalls)
     });
 
     this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
@@ -143,5 +138,15 @@ export class ExamRoomComponent implements OnInit {
 
   private getRemoteId(stream: Stream): string {
     return `agora_remote-${stream.getId()}`;
+  }
+
+  terminateStudentExam(callId) {
+    const callId_arr = callId.split('-')
+    console.log(callId)
+    const examTokenId= callId_arr[callId_arr.length - 1]
+    console.log(examTokenId)
+    this.examRoomService.terminateStudentExam(examTokenId).subscribe(
+      terminated => { console.log(terminated)}
+    )
   }
 }

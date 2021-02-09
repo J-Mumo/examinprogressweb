@@ -30,7 +30,7 @@ export class ValidateemailComponent implements OnInit {
   }
 
   emailNotSent(response) {
-    this.error = false;
+    this.error = true;
   }
 
   unknownError(error) {

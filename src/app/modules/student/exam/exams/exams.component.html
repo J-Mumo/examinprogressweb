@@ -15,21 +15,13 @@
       <div class="col-md-12">
         <div class="mat-elevation-z8">
           <div class="pl-2 row">
-            <mat-form-field [style.width.%]=80 appearance="standard">
+            <mat-form-field [style.width.%]=100 appearance="standard">
               <input matInput (keyup)="applyExamFilter($event.target.value)" placeholder="Search">
             </mat-form-field>
-            <div class="form-group">
-              <button mat-raised-button 
-                style="margin-top: 18px; margin-right: 10px;"
-                color="primary"
-                routerLink="/teacher/exam/create">
-                {{ 'teacher/exam/create_an_exam'| translate }}
-              </button>
-            </div>
           </div>
           <div *ngIf="initialData?.examTransfers.length < 1">
             <p style="text-align: center;" class="lighter-font" translate>
-              teacher/exam/section/no_exam_info
+              student/exam/section/no_exam_info
             </p>
           </div>
           <table *ngIf="initialData?.examTransfers.length > 0"
@@ -51,30 +43,38 @@
             </ng-container>
 
             <!-- View Column -->
-            <ng-container matColumnDef="viewExam">
+            <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>View Exam</th>
               <td mat-cell *matCellDef="let exam">
-                <a routerLink="/teacher/exam/{{exam.examId}}/view" translate>
-                  <mat-icon class="eye-icon">remove_red_eye</mat-icon>
-                  generic/view                    
-                </a>
+                <div class="lighter-font description" *ngIf="exam.examinprogress">Exam in progress</div>
+                <div class="lighter-font description" *ngIf="exam.examNotStarted">Exam has not started</div>
+                <div class="lighter-font description" *ngIf="exam.viewResults">Exam complete</div>
               </td>
             </ng-container>
 
             <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
               <td mat-cell *matCellDef="let exam">
-                <mat-icon
-                  class="icon-button"
-                  routerLink="/teacher/exam/{{exam.examId}}/edit">
-                    edit
-                </mat-icon>&nbsp;
-                <mat-icon
-                  class="icon-button"
-                  color="warn">
-                    delete
-                </mat-icon>
+                <button mat-raised-button 
+                  *ngIf="exam.examinprogress"
+                  color="warn"
+                  routerLink="/student/exam/examinprogress/{{exam.examTokenId}}">
+                    Resume
+                </button>
+                <button mat-raised-button 
+                  *ngIf="exam.examNotStarted"
+                  color="accent"
+                  routerLink="/student/exam/detail"
+                  [queryParams]="{token: exam.token }">
+                    View exam details
+                </button>
+                <button mat-raised-button 
+                  *ngIf="exam.viewResults"
+                  color="primary"
+                  routerLink="/student/exam/result/{{exam.examTokenId}}">
+                    View results
+                </button>
               </td>
             </ng-container>
 
@@ -86,36 +86,8 @@
               [pageSizeOptions]="[5, 10, 20, 100]"
               showFirstLastButtons>
           </mat-paginator>
-
-          <div [id]="localCallId" class="local"></div>
-          <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<ng-template #deleteExam>
-  <div class="modal-body text-center">
-    <div class="modal-header">
-      <label><b translate>teacher/exam/delete_exam</b></label>
-    </div>
-    <div class="modal-body">
-      <p>
-        {{ 'teacher/exam/delete_exam_info' | translate }}
-      </p>
-    </div>
-    <div class="modal-footer" style="justify-content: space-between;">
-      <button mat-raised-button 
-        color="primary"
-        type="button">
-        {{ 'generic/yes'| translate }}
-      </button>
-      <button mat-stroked-button 
-        color="primary"
-        type="button">
-        {{ 'generic/no'| translate }}
-      </button>
-    </div>
-  </div>
-</ng-template>
