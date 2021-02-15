@@ -67,7 +67,7 @@
               <button mat-raised-button 
                 *ngIf="isToday && !initialData?.examHasEnded && initialData?.studentRegistered"
                 color="primary"
-                routerLink="/student/exam/examinprogress/{{ initialData?.examTokenId }}"
+                (click)="startExam()"
                 type="button">
                 Start Exam
               </button>
@@ -115,7 +115,7 @@
   </div>
 </div>
 
-<ng-template #permissionsError id="permissionsError">
+<ng-template #permissionsError>
   <div class="modal-body text-center">
     <div class="modal-header">
       <label><b translate>student/exam/exam_detail/camera_error</b></label>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ExamDetailService } from './exam-detail.service';
 import { ExamDetailInitialData, ExamDetailRequest } from './exam-detail-request-response';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
   templateUrl: './exam-detail.component.html',
   styleUrls: ['./exam-detail.component.scss']
 })
-export class ExamDetailComponent implements OnInit {
+export class ExamDetailComponent implements OnInit, AfterViewInit {
   initialData: ExamDetailInitialData;
   examExists: boolean;
   isToday: boolean;
@@ -22,7 +22,7 @@ export class ExamDetailComponent implements OnInit {
     audio: true
   };
 
-  @ViewChild('permissionsError', { static: false })
+  @ViewChild('permissionsError')
   permissionsError: TemplateRef<any>;
 
   constructor(
@@ -35,6 +35,10 @@ export class ExamDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getInitialData();
+    // this.getUserMedia();
+  }
+
+  ngAfterViewInit(): void {
     this.getUserMedia();
   }
 
@@ -64,24 +68,37 @@ export class ExamDetailComponent implements OnInit {
   getUserMedia() {
     navigator.mediaDevices.getUserMedia(this.mediaStreamConstraints).then(function(){
       this.mediaPermissionsGranted = true;
-    }).catch(this.handleGetUserMediaError);
+    }).catch(this.handleGetUserMediaError)
   }
 
   handleGetUserMediaError(error) {
-    if (error.name === 'NotAllowedError'){
-      console.log('-------------')
-      // console.log(this.permissionsError)
-      console.log('-------------')
-      this.modalRef = this.modalService.show(this.permissionsError, { class: 'modal-sm' });
-    }
     console.log(error);
   }
 
   refreshPage() {
-    this.router.onSameUrlNavigation = 'reload';
+    window.location.reload()
   }
 
   decline() {
     this.modalRef.hide();
+  }
+
+  startExam() {
+    let video = false
+    let audio = false
+    navigator.mediaDevices.enumerateDevices().then(devices => 
+      devices.forEach(device => {
+        if (device.kind === 'videoinput') {
+          video = true
+        }
+        if (device.kind === 'audioinput') {
+          audio = true
+        }
+    }))
+    if (audio && video) {
+      this.router.navigate([`/student/exam/examinprogress/${this.initialData.examTokenId}`])
+    } else {
+      this.modalRef = this.modalService.show(this.permissionsError, { class: 'modal-sm' });
+    }
   }
 }

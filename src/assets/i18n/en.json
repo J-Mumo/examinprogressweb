@@ -330,6 +330,6 @@
   "student/exam/examinprogress/pause": "Pause",
   "student/exam/examinprogress/exam_paused": "Exam paused",
   "student/exam/exam_detail/camera_error": "Camera Error",
-  "student/exam/exam_detail/camera_error_info": "In order to proceed with the exam, you need to allow us to use your camera and mirophone. You can refresh the page and click allow when prompted for camera and microphone permissions. Would you like us to refresh the page for you?",
+  "student/exam/exam_detail/camera_error_info": "In order to proceed with the exam, you need to allow us to use your camera and mirophone. You can refresh the page and click allow when prompted for camera and microphone permissions. If that doesn't work, you need to adjust your browser permission settings. Would you like us to refresh the page for you?",
   "student/exam/section/no_exam_info": "You currently do not have any exam"
 }
