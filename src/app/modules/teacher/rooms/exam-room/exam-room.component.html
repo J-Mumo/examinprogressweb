@@ -29,8 +29,8 @@
             <!-- <mat-icon>mic</mat-icon> -->
             <!-- <div style="background-color: blue; grid-area: 1 / 1 / 2 / 2;"></div> -->
             <div class="video-actions" [id]="callId">
-              <mat-icon class="mic">mic</mat-icon>
-              <mat-icon class="mic">mic_off</mat-icon>
+              <mat-icon id="mic-on" class="mic" (click)="muteAudio(callId)">mic</mat-icon>
+              <mat-icon id="mic-off" class="mic" (click)="unMuteAudio(callId)" hidden>mic_off</mat-icon>
               <button mat-raised-button
                 style="line-height: 26px !important;"
                 color="primary"

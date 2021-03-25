@@ -29,7 +29,7 @@ export class ExamRoomComponent implements OnInit {
     this.getRtcToken();
     this.client = this.ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
     this.assignClientHandlers();
-    this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: false, video: true, screen: false });
+    this.localStream = this.ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
     this.assignLocalStreamHandlers();
     this.initLocalStream();
     this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));    
@@ -138,6 +138,18 @@ export class ExamRoomComponent implements OnInit {
 
   private getRemoteId(stream: Stream): string {
     return `agora_remote-${stream.getId()}`;
+  }
+
+  muteAudio(callId) {
+    this.localStream.muteAudio()
+    document.getElementById('mic-on').hidden = true
+    document.getElementById('mic-off').hidden = false
+  }
+
+  unMuteAudio(callId) {
+    this.localStream.unmuteAudio()
+    document.getElementById('mic-on').hidden = false
+    document.getElementById('mic-off').hidden = true
   }
 
   terminateStudentExam(callId) {
