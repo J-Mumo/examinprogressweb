@@ -1,3 +1,25 @@
+.landing-content{
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 4rem;
+}
+
+.intro {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tagline {
+  text-align: center;
+  margin: 0 1rem 0 1rem;
+}
+
+.create-button {
+  display: block;
+  margin: 2rem auto 0 auto;
+}
+
 .bg {
   width: 100%;
   height: auto;
