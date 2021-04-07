@@ -55,6 +55,17 @@
   padding: 3rem;
 }
 
+.teacher-img {
+  width: 350px;
+  margin-top: 1rem;
+}
+
+@media (min-width: 992px) {
+  .teacher-img {
+    width: auto;
+  }
+}
+
 .tagline {
   text-align: center;
   margin: 0 1rem 0 1rem;
