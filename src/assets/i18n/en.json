@@ -1,4 +1,6 @@
 {
+  "email/message_sent": "Your message has been sent. We will get back to you shortly.",
+  "email/message_not_sent": "Your message has not been sent, please try again",
   "email/emailvalidated/email_activation_status": "Email Activation Status",
   "email/emailvalidated/your_email_has_been_validated": "Your Email has been been activated successfully. Please login to proceed",
   "email/emailvalidated/we_have_failed_to_activate_your_email": "Email activation failed. Maybe you have activated your email already.  In any case, you can login. If you are not activated you will be directed to a page where you can request for a new activation link to be sent to you by email.",

@@ -1,3 +1,16 @@
+.intro-header {
+  text-align: left;
+  font-weight: lighter;
+  font-size: xx-large;
+  padding-top: 1em;
+}
+
+.intro-p {
+  font-size: large;
+  opacity: .8;
+  padding-top: 1em;
+}
+
 .landing-content{
   display: grid;
   grid-template-columns: auto;
@@ -23,14 +36,24 @@
   justify-content: center;
 }
 
+@media (min-width: 992px) {
+  .intro {
+    display: flex;
+    flex-direction: column;
+    padding-left: 70px;
+    margin-top: 50px;
+    justify-content: flex-start;
+  }
+}
+
 .teacher-img {
-  width: 350px;
+  height: 300px;
   margin-top: 1rem;
 }
 
 @media (min-width: 992px) {
   .teacher-img {
-    width: auto;
+    height: auto;
   }
 }
 
@@ -55,79 +78,17 @@
   padding: 3rem;
 }
 
-.teacher-img {
-  width: 350px;
-  margin-top: 1rem;
-}
-
 @media (min-width: 992px) {
   .teacher-img {
     width: auto;
   }
 }
 
-.tagline {
-  text-align: center;
-  margin: 0 1rem 0 1rem;
-}
-
 .create-button {
-  display: block;
-  margin: 2rem auto 0 auto;
+  margin-top: 2rem;
 }
 
-.bg {
-  width: 100%;
-  height: auto;
-}
-
-@media (max-width: 1920px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-1920x640.jpg');
-    height: 640px;
-    // margin-left: -330px;
-    // margin-top: -33px;
-  } 
-}
-
-@media (max-width: 1440px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-1440x480.jpg');
-    height: 480px;
-  } 
-}
-
-@media (max-width: 1024px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-1024x341.jpg');
-    height: 341px;
-  } 
-}
-
-@media (max-width: 768px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-768x256.jpg');
-    height: 256px;
-  } 
-}
-
-@media (max-width: 425px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-425x142.jpg');
-    height: 142px;
-  } 
-}
-
-@media (max-width: 375px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-375x125.jpg');
-    height: 125px;
-  } 
-}
-
-@media (max-width: 320px) {
-  .bg {
-    background-image: url('../../assets/images/bg/bg-320x107.jpg');
-    height: 107px;
-  } 
+.support-container {
+  display: flex;
+  flex-wrap: wrap;
 }
