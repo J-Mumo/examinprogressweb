@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest } from './examinprogress-request-response';
+import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest, TerminatedResponse } from './examinprogress-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class ExaminprogressService {
   private SKIP_QUESTION_URL = '/examinprogress/student/exam/examinprogress/skipquestion';
   private SKIP_SECTION_URL = '/examinprogress/student/exam/examinprogress/skipsection';
   private TERMINATE_EXAM_URL = '/examinprogress/student/exam/examinprogress/terminate';
+  private CHEATING_ATTEMPT_URL = '/examinprogress/student/exam/examinprogress/cheatingattempt';
   private RTC_TOKEN_URL = '/examinprogress/agora/rtctoken';
 
   constructor(private http: HttpClient) {
@@ -96,5 +97,9 @@ export class ExaminprogressService {
           return response;
         }
       ));
+  }
+
+  updateCheatingAttempts(examTokenId): Observable<TerminatedResponse> {
+    return this.http.post<TerminatedResponse>(`${this.CHEATING_ATTEMPT_URL}`, examTokenId);
   }
 }

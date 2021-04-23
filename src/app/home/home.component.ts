@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit {
           } else {
             this.message = 'email/message_not_sent';
           }
+          form.reset()
           this.messageSnackBar(this.message);
         }
       );

@@ -95,6 +95,7 @@
   "generic/optional": "(Optional)",
   "generic/required": "*",
   "generic/copy": "Copy",
+  "generic/exit": "Exit",
 
   "login/please_sign_in": "Please Log In",
   "login/placeholder/type_email": "Type Email",
@@ -333,5 +334,7 @@
   "student/exam/examinprogress/exam_paused": "Exam paused",
   "student/exam/exam_detail/camera_error": "Camera Error",
   "student/exam/exam_detail/camera_error_info": "In order to proceed with the exam, you need to allow us to use your camera and mirophone. You can refresh the page and click allow when prompted for camera and microphone permissions. If that doesn't work, you need to adjust your browser permission settings. Would you like us to refresh the page for you?",
-  "student/exam/section/no_exam_info": "You currently do not have any exam"
+  "student/exam/section/no_exam_info": "You currently do not have any exam",
+  "student/exam/terminated": "Exam terminated",
+  "student/exam/exam_terminated_info": "Your exam has been terminated. We have observed you have not been focused on your screen in several occassions. You have breached our security rules even after notifying you severally. Your result will be calculated from what you have done so far."
 }

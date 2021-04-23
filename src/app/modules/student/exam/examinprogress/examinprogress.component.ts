@@ -1,10 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, AfterViewInit } from '@angular/core';
-import { ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest } from './examinprogress-request-response';
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {
+  ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest, TerminatedResponse
+} from './examinprogress-request-response';
 import { ExaminprogressService } from './examinprogress.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { CountdownComponent } from 'ngx-countdown';
 import { NgxAgoraService, Stream, AgoraClient, ClientEvent, StreamEvent } from 'ngx-agora';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-examinprogress',
@@ -19,7 +24,44 @@ export class ExaminprogressComponent implements OnInit {
   timeLeftInSeconds = null;
   pause = false;
   selectedRadioOption;
+  modalRef: BsModalRef;
 
+  @HostListener('window:keydown',['$event'])
+  onKeyPress($event: KeyboardEvent) {
+    if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyC') {
+      $event.preventDefault();
+      const message = 'Copy pasting is prohibited';
+      this.snackBar(message);
+    }
+    if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyV') {
+      $event.preventDefault();
+      const message = 'Copy pasting is prohibited';
+      this.snackBar(message);
+    }
+  }
+  @HostListener('window:contextmenu',['$event'])
+  onRightClick($event) {
+    $event.preventDefault()
+  }
+  @HostListener('window:visibilitychange',[])
+  onVisibilityChange() {
+    const message = 'Focus on your screen. You risk having your screen terminated.';
+    this.snackBar(message);
+    this.updateCheatingAttempts()
+  }
+  @HostListener('window:blur',[])
+  onBlur() {
+    const message = 'Focus on your screen. You risk having your screen terminated.';
+    this.snackBar(message);
+    this.updateCheatingAttempts()
+  }
+  @HostListener('window:resize',[])
+  onBrowserResize() {
+    const message = 'Focus on your screen. You risk having your screen terminated.';
+    this.snackBar(message);
+    this.updateCheatingAttempts()
+  }
+  
   remoteCalls: string[] = [];
   localCallId = 'agora_local';
 
@@ -28,6 +70,9 @@ export class ExaminprogressComponent implements OnInit {
   private uid: number;
   private token: string;
   private channelName: string;
+
+  @ViewChild('examTerminated')
+  private examTerminatedRef: TemplateRef<any>;
 
   @ViewChild('countDown', { static: false }) countDown: CountdownComponent;
   config = {
@@ -83,6 +128,9 @@ export class ExaminprogressComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private ngxAgoraService: NgxAgoraService,
+    private translate: TranslateService,
+    private _snackBar: MatSnackBar,
+    private modalService: BsModalService,
     private examinprogressService: ExaminprogressService
   ) { }
 
@@ -269,7 +317,7 @@ export class ExaminprogressComponent implements OnInit {
   }
 
   skipToNextQuestion() {
-    if (this.response !== undefined) {
+    if (this.response !== undefined && this.response.examSectionTransfer != null) {
       const questionId = this.response.examSectionTransfer.examQuestionTransfer.comprehensionQuestion ?
         this.response.examSectionTransfer.examQuestionTransfer.questionTransfer.questionId :
         this.response.examSectionTransfer.examQuestionTransfer.questionId;
@@ -374,5 +422,31 @@ export class ExaminprogressComponent implements OnInit {
         }
       }
     );
+  }
+
+  updateCheatingAttempts() {
+    this.examinprogressService.updateCheatingAttempts(this.examTokenId).subscribe(
+      (res: TerminatedResponse) => {
+        if (res.terminated) {
+          this.skipToNextQuestion()
+          this.modalRef = this.modalService.show(this.examTerminatedRef, { class: 'modal-lg' });
+        }
+      }
+    )
+  }
+
+  onExit() {
+    for (let i = 1; i <= this.modalService.getModalsCount(); i++) {
+      this.modalService.hide(i);
+    }
+  }
+
+  snackBar(message) {
+    this.translate.get(message).subscribe(( res: string ) => {
+      this._snackBar.open( res, '', {
+        duration: 20000,
+        verticalPosition: 'top'
+      });
+    });
   }
 }

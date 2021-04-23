@@ -105,3 +105,9 @@ export class RtcTokenRequest {
     public examTokenId: number
   ) {}
 }
+
+export class TerminatedResponse {
+  constructor(
+    public terminated: boolean
+  ) {}
+}

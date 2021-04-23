@@ -207,3 +207,24 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #examTerminated>
+  <div class="modal-header">
+    <label><b translate>student/exam/terminated</b></label>
+  </div>
+  <div class="modal-body">
+    <p>
+      {{ 'student/exam/exam_terminated_info' | translate }}
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button 
+      color="primary"
+      routerLink="/student/exams"
+      (click)="onExit()"
+      type="button">
+      {{ 'generic/exit'| translate }}
+    </button>
+  </div>
+</ng-template>
