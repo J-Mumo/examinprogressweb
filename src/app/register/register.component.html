@@ -79,18 +79,18 @@
                     #email="ngModel"
                     [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
                     required>
-                    <input matInput type="email"
-                      *ngIf="studentEmail !== undefined"
-                      id="email"
-                      name="email"
-                      class="form-control" 
-                      maxlength="256"
-                      [ngModel]="studentEmail"
-                      #email="ngModel"
-                      [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
-                      style="background-color: transparent;"
-                      readonly
-                      required>
+                  <input matInput type="email"
+                    *ngIf="studentEmail !== undefined"
+                    id="email"
+                    name="email"
+                    class="form-control" 
+                    maxlength="256"
+                    [ngModel]="studentEmail"
+                    #email="ngModel"
+                    [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
+                    style="background-color: transparent;"
+                    readonly
+                    required>
                 </mat-form-field>
               </div>
               <div class="form-group">

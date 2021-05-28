@@ -15,12 +15,12 @@ export class SendInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   inviteId = Number(this.activatedRoute.snapshot.paramMap.get('inviteId'));
-  emails = ['', ''];
   message: string;
   inviteMethod;
   inviteCode: string;
   initialData: SendInviteInitialData;
   copyState = 'Copy';
+  invalidEmails = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -59,65 +59,34 @@ export class SendInviteComponent implements OnInit {
     });
   }
 
-  sendInviteClick(form: NgForm, index) {
-    const email = form.value['email_' + index];
-    if (form.invalid) {
-      document.getElementById('email_' + index + '-error').hidden = false;
-    } else {
-      document.getElementById('email_' + index + '-error').hidden = true;
-      const request: SendInviteToEmailRequest = new SendInviteToEmailRequest(this.inviteId, email);
-      this.sendInviteService.sendInviteToEmail(request).subscribe(
-        (response: SaveResponse) => {
-          if (response.saved) {
-            this.message = 'teacher/exam/invite/invite_sent';
-            document.getElementById('email-row_' + index).hidden = true;
-            this.emails.push('');
-          } else if (response.error !== null) {
-            this.message = response.error;
-          } else {
-            this.message = 'teacher/exam/invite/invite_not_sent';
-          }
-          this.emailSentSnackBar(this.message);
-        }
-      );
-    }
-  }
-
   onSubmit(form: NgForm) {
+    const emails: string[] = form.value.emails.toLowerCase().split(/[\s\n,]+/)
+    let validEmails = [];
+    this.invalidEmails = [];
+    const emailPattern = /^[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,63}/;
+    emails.forEach(email => {
+      if (emailPattern.test(email))
+        validEmails.push(email)
+      else
+        this.invalidEmails.push(email)
+    })
+    console.log(this.invalidEmails);
+    
+    
 
-    if (form.invalid) {
-      const controls = form.controls;
-      let counter = 0;
-      for (const name in controls) {
-        if (controls[name].invalid) {
-            document.getElementById('email_' + counter + '-error').hidden = false;
-            counter++;
-        } else {
-          document.getElementById('email_' + counter + '-error').hidden = true;
-          counter++;
-        }
-      }
-    } else {
-
-      for (const email in this.emails) {
-        if (email === '') {
-          this.emails.splice(this.emails.indexOf(email), 1);
-        }
-      }
-
-      const request: SendInviteRequest = new SendInviteRequest(this.inviteId, this.emails);
-      this.sendInviteService.sendInvite(request).subscribe(
-        (response: SaveResponse) => {
-          if (response.saved) {
-            this.message = 'teacher/exam/invite/invite_sent';
-            this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
-          } else {
-            this.message = 'teacher/exam/invite/invite_not_sent';
-          }
-          this.emailSentSnackBar(this.message);
-        }
-      );
-    }
+    const request: SendInviteRequest = new SendInviteRequest(this.inviteId, validEmails);
+    // this.sendInviteService.sendInvite(request).subscribe(
+    //   (response: SaveResponse) => {
+    //     if (response.saved) {
+    //       this.message = 'teacher/exam/invite/invite_sent';
+    //       if (this.invalidEmails.length < 1)
+    //         this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
+    //     } else {
+    //       this.message = 'teacher/exam/invite/invite_not_sent';
+    //     }
+    //     this.emailSentSnackBar(this.message);
+    //   }
+    // );
   }
 
   scroll(el) {

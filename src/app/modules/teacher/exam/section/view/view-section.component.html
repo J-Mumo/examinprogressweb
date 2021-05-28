@@ -77,7 +77,7 @@
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
               </mat-form-field>
             </div>
-            <table matSort mat-table multiTemplateDataRows [dataSource]="questions">
+            <table matSort mat-table multiTemplateDataRows [dataSource]="questions" class="table-responsive">
               <!-- Question Column -->
               <ng-container matColumnDef="question">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Question </th>

@@ -1,138 +1,427 @@
-<div class="landing-content">
-  <div class="intro">
-    <h1 class="intro-header">Secure online exams from your remote comfort</h1>
-    <p class="intro-p">Imagine being able to create exams, schedule when they should be done, monitor, assess and grade from your device.</p>
-    <div class="create-button">
-      <button mat-raised-button 
-        color="primary"
-        type="button">
-        Get Started
-      </button>
-    </div>
-  </div>
-  <img src="/assets/images/teacher.png" class="teacher-img">
-</div>
 
-<div class="feature" style="background-color: whitesmoke;">
-  <h2>Create an Exam, get people to do it online and have their results graded</h2>
-  <p class="text-muted" style="font-size: large;">
-    We provide you with a simple and seemless way of creating an exam.You can add sections
-    to the exam and questions for each sections. You will invite people to do your exam
-    at the time of your choosing. When one has completed an exam you will be able to see
-    how he /she has performed and the points they earned. Interesting, isn't it?
-  </p>
-</div>
-<div class="feature" style="background-color: whitesmoke;">
-  <h2>Exam &amp; Data Security</h2>
-  <p class="text-muted">We understand that security of exam is very important to you. This is why
-    we have taken the necessary steps to maximize this.
-  </p>
-</div>
-<div class="feature">
-  <svg id="rocket-smoke" alt="Rocket Ship Smoke" xmlns="http://www.w3.org/2000/svg" width="516.119" height="1083.632" viewBox="0 0 516.119 1083.632">
-    <path id="Path_40" data-name="Path 40" d="M644.6,141S143.02,215.537,147.049,870.207s342.774,201.755,342.774,201.755S404.659,847.213,388.815,762.2c-27.116-145.51-11.551-384.124,271.9-609.1C671.15,139.365,644.6,141,644.6,141Z" transform="translate(-147.025 -140.939)" fill="#f5f5f5"/>
-  </svg>
-  <h2>Exam Monitor</h2>
-  <p class="text-muted">Get to see how people are doing the exam real time</p>
-</div>
-<div class="feature" style="background-color: whitesmoke;">
-  <h2>Analysis &amp; Reports</h2>
-  <p class="text-muted">Advanced analytics that provides in-depth, informative reports for each exam,
-    section, candidate or performance.
-  </p>
-</div>
-<div class="feature">
-  <h2>Customer Support</h2>
-  <div class="support-container">
-    <div style="flex-basis: 0; flex-grow: 1; font-size: large;">
-      <p class="text-muted">We want you to have the simplest, easiest online exam experience possible.
-        But we know you might have a few questions. We are closer than you think.
-      </p>
-      <a href="tel:+254705622181">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2f8eed" class="bi bi-telephone-outbound-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zM11 .5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-4.146 4.147a.5.5 0 0 1-.708-.708L14.293 1H11.5a.5.5 0 0 1-.5-.5z"/>
-        </svg>
-        <span style="color: black; padding-left: 2em;">Call us on: +254 705 622 181</span>
-      </a>
-      <div>
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#2f8eed" class="bi bi-envelope-fill" viewBox="0 0 16 16">
-          <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z"/>
-        </svg>
-        <span style="color: black; padding-left: 2em;">Send us an email to: info@examinprogress.com</span>
-      </div>
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
+      <h1 style="padding: 0 !important;">Secure online exams from your remote comfort</h1>
+      <h2>I provide you with a platform to create exams, schedule when they should be done, monitor, assess and grade from your device.</h2>
+      <a href="/register" class="btn-get-started scrollto">Get Started</a>
+      <!-- <img src="/assets/img/teacher.png" class="teacher-img img-fluid" data-aos="zoom-in" data-aos-delay="150"> -->
+      <img src="/assets/img/hero-img.png" class="img-fluid hero-img" alt="" data-aos="zoom-in" data-aos-delay="150">
     </div>
-    <form style="flex-basis: 0; flex-grow: 1;" #messageForm="ngForm" (ngSubmit)="onSendMessage(messageForm)">
-      <div class="row">
-        <div class="col-md-10 col-lg-10 mx-auto">
-          <mat-card>
-            <div class="card-body">
-              <h3>Send us a message</h3>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+      <div class="container" data-aos="zoom-in">
+
+        <div class="row">
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-1.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-2.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-3.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-4.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-5.png" class="img-fluid" alt="">
+          </div>
+
+          <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+            <img src="/assets/img/clients/client-6.png" class="img-fluid" alt="">
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Clients Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features" data-aos="fade-up">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Features</h2>
+          <p>Check out what I have set up for you.</p>
+        </div>
+
+        <div class="row composition">
+          <div class="col-md-5" data-aos="fade-right" data-aos-delay="100">
+            <img src="/assets/img/features-1.png" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 pt-4" data-aos="fade-left" data-aos-delay="100">
+            <h3>Create an Exam, get people to do it online and have their results graded.</h3>
+            <p class="font-italic">
+              I provide you with a simple and seemless way of creating an exam.
+            </p>
+            <ul>
+              <li><i class="icofont-check"></i> Create an exam.</li>
+              <li><i class="icofont-check"></i> Add sections to the exam.</li>
+              <li><i class="icofont-check"></i> Add questions to the exam.</li>
+              <li><i class="icofont-check"></i> Send invites for people to do an exam at the scheduled time.</li>
+              <li><i class="icofont-check"></i> Conduct final analysis and view performance.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="row composition">
+          <div class="col-md-5 order-1 order-md-2" data-aos="fade-left">
+            <img src="/assets/img/features-2.png" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 pt-5 order-2 order-md-1" data-aos="fade-right">
+            <h3>Exam &amp; Data Security</h3>
+            <p>
+              One of the things that could be going on in your mind, is exam cheating.
+              You could be concerned that there will be cheating during exam due to lack of physical presence.
+              I have thought deeply as well so that you do not have to worry about it. I have
+              implemented browser monitoring strategies that detect each action being done on the browser.
+              When cheating attempts are observed, the use is notified and 
+              when they persist, their exam is terminated.
+            </p>
+          </div>
+        </div>
+
+        <div class="row composition">
+          <div class="col-md-5" data-aos="fade-right">
+            <img src="/assets/img/features-3.png" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 pt-5" data-aos="fade-left">
+            <h3>Exam Analysis &amp; Reports</h3>
+            <p>Advanced analytics that provides in-depth, informative reports for each exam,
+              section, candidate or performance. When an exam is done you can compare results of candidates,
+              go through each question that was done and see how it was answered.
+            </p>
+          </div>
+        </div>
+
+        <div class="row composition">
+          <div class="col-md-5 order-1 order-md-2" data-aos="fade-left">
+            <img src="/assets/img/features-4.png" class="img-fluid" alt="">
+          </div>
+          <div class="col-md-7 pt-5 order-2 order-md-1" data-aos="fade-right">
+            <h3>Live monitor as exams are being done</h3>
+            <p>
+              This is the icing on the cake. You will be able to have a live feed of everyone doing the exam. 
+              This is an added extra layer of security to tie all loose ends.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Features Section -->
+
+    <!-- ======= Steps Section ======= -->
+    <section id="steps" class="steps">
+      <div class="container">
+
+        <div class="row" data-aos="fade-up">
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
+            <span>01</span>
+            <h4>Register</h4>
+            <p>Register and create an account. If you already have, simply log in.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
+            <span>02</span>
+            <h4>Create an Exam</h4>
+            <p>Create an exam by simply giving it a name and description</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
+            <span>03</span>
+            <h4> Add a section</h4>
+            <p>Add a section and section description to the exam. Each exam has a minimum of one section.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="100">
+            <span>04</span>
+            <h4>Add questions</h4>
+            <p>Add questions to the section you just created. There are different types of questions to choose from.</p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="200">
+            <span>05</span>
+            <h4>Send Invites</h4>
+            <p>Create an invite which describes how the exam should be done and when it should be done. Send out this 
+              invite to those you intend to do the exam.
+            </p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 content-item" data-aos="fade-up" data-aos-delay="300">
+            <span>06</span>
+            <h4>Monitor, Analyse, Get Report</h4>
+            <p>When the exam is being done, you can log in to have a live view of those doing it. After the exam view
+              their performance. 
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Steps Section -->
+
+    <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Pricing</h2>
+          <!-- <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p> -->
+        </div>
+
+        <div class="row justify-content-center">
+
+          <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+            <div class="box">
+              <h3>Price per Token</h3>
+              <h4><sup>Ksh.</sup>100<span style="color: initial;"> / token</span></h4>
+              <ul>
+                <li>Each person needs a token to do an exam.</li>
+                <li>A token can only be used in one exam</li>
+                <li>A token expires when the exam is complete</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="col-lg-4 col-md-6 mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="100">
+            <div class="box featured">
+              <h3>Business</h3>
+              <h4><sup>$</sup>19<span> / month</span></h4>
+              <ul>
+                <li>Aida dere</li>
+                <li>Nec feugiat nisl</li>
+                <li>Nulla at volutpat dola</li>
+                <li>Pharetra massa</li>
+                <li class="na">Massa ultricies mi</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="box">
+              <h3>Developer</h3>
+              <h4><sup>$</sup>29<span> / month</span></h4>
+              <ul>
+                <li>Aida dere</li>
+                <li>Nec feugiat nisl</li>
+                <li>Nulla at volutpat dola</li>
+                <li>Pharetra massa</li>
+                <li>Massa ultricies mi</li>
+              </ul>
+              <div class="btn-wrap">
+                <a href="#" class="btn-buy">Buy Now</a>
+              </div>
+            </div>
+          </div> -->
+
+        </div>
+
+      </div>
+    </section><!-- End Pricing Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Contact</h2>
+          <p>I want you to have the simplest, easiest online exam experience possible.
+            But I know you might have a few questions. I am closer than you think.</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bx bx-envelope"></i>
+                  <h3>Email Us</h3>
+                  <p>info@examinprogress.com<br>
+                    <!-- contact@examinprogress.com -->
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="info-box">
+                  <i class="bx bx-phone-call"></i>
+                  <h3>Call Us</h3>
+                  <p>+254 705 622 181<br>
+                    <!-- +1 6678 254445 41 -->
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="info-box mt-4">
+                  <i class="bx bx-map"></i>
+                  <h3>Our Address</h3>
+                  <p>NSSF Nkrumah Rd, Mombasa, Kenya</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6 mt-4 mt-md-0">
+            <form #messageForm="ngForm" (ngSubmit)="onSendMessage(messageForm)" class="php-email-form">
               <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>Name</mat-label>
-                  <input matInput type="text"
-                    id="name"
-                    name="name"
-                    class="form-control" 
-                    maxlength="100"
-                    ngModel
-                    #name="ngModel"
-                    [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
-                    required>
-                </mat-form-field>
-                <span id="name-error" class="form-error" translate hidden>
+                <input type="text" 
+                  name="name" 
+                  class="form-control" 
+                  id="name" 
+                  placeholder="Your Name" 
+                  ngModel
+                  #name="ngModel"
+                  [ngClass]="{ 'is-invalid': name.touched && name.value === '' }"
+                  required />
+                <span id="name-error" class="form-error" hidden>
                   Please type name
                 </span>
               </div>
               <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>Email</mat-label>
-                  <input matInput type="email"
-                    id="email"
-                    name="email"
-                    class="form-control" 
-                    maxlength="100"
-                    ngModel
-                    #email="ngModel"
-                    [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
-                    required>
-                </mat-form-field>
-                <span id="email-error" class="form-error" translate hidden>
-                  Please type email
+                <input type="email" 
+                  class="form-control" 
+                  name="email" 
+                  id="email" 
+                  placeholder="Your Email" 
+                  maxlength="100"
+                  ngModel
+                  #email="ngModel"
+                  pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,63}"
+                  [ngClass]="{ 'is-invalid': email.touched && email.value === '' }"
+                  required />
+                <span id="email-error" class="form-error" hidden>
+                  Please type a valid email
                 </span>
               </div>
               <div class="form-group">
-                <mat-form-field appearance="standard">
-                  <mat-label translate>Message</mat-label>
-                  <textarea matInput type="text"
-                    id="message"
-                    name="message"
-                    class="form-control" 
-                    maxlength="1024"
-                    ngModel
-                    cdkTextareaAutosize
-                    cdkAutosizeMinRows="3"
-                    cdkAutosizeMaxRows="9"
-                    #message="ngModel"
-                    required>
-                  </textarea>
-                </mat-form-field>
-                <span id="message-error" class="form-error" translate hidden>
+                <textarea class="form-control" 
+                  name="message" 
+                  placeholder="Message"
+                  maxlength="1024"
+                  ngModel
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="9"
+                  #message="ngModel"
+                  required>
+                </textarea>
+                <span id="message-error" class="form-error" hidden>
                   Please type in the message
                 </span>
               </div>
-              <div class="form-group">
-                <br><br>
-                <button mat-raised-button 
-                  color="primary"
-                  type="submit">
-                  Send
-                </button>
+              <div class="mb-3">
+                <div id="error-message" class="error-message">Your message has not been sent. Please try again!</div>
+                <div id="sent-message" class="sent-message">Your message has been sent. Thank you!</div>
               </div>
+              <div class="text-center" style="margin-top: 1.9rem;"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 footer-contact">
+            <h3>ExamInProgress</h3>
+            <p>
+              NSSF Nkrumah Rd <br>
+              Mombasa<br>
+              Kenya <br><br>
+              <strong>Phone:</strong> +254 770 645 731<br>
+              <strong>Email:</strong> info@examinprogress.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-5 col-md-6 footer-newsletter">
+            <h4>Join Our Newsletter</h4>
+            <p>Don’t miss out! Subscribe to receive email updates on special promotions,
+              new product announcements and more.
+            </p>
+            <form #subscribe="ngForm" (ngSubmit)="subscribeToMailingList(subscribe)">
+              <input type="email" 
+                name="email"
+                ngModel
+                pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,63}">
+              <input type="submit" value="Subscribe">
+            </form>
+            <span id="email-subscribe-error" class="form-error" hidden>
+              Please type a valid email
+            </span>
+            <div class="mb-3">
+              <div id="subscribe-error" class="error-message d-none">Your request to subscribe was not successful. Please try again!</div>
+              <div id="subscribe-success" class="sent-message d-none">You have subscribed successfully.</div>
             </div>
-          </mat-card>
+          </div>
+
         </div>
       </div>
-    </form>
-  </div>
-</div>
+    </div>
+
+    <div class="container d-md-flex py-4">
+
+      <div class="mr-md-auto text-center text-md-left">
+        <div class="copyright">
+          &copy; Copyright <strong><span>ExamInProgress</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bikin-free-simple-landing-page-template/ -->
+          Designed by <a href="https://jmumo.com/">JMumo</a>
+        </div>
+      </div>
+      <div class="social-links text-center text-md-right pt-3 pt-md-0">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+  <!-- <div id="preloader"></div> -->

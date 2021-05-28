@@ -1,9 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateService } from '@ngx-translate/core';
 import { SaveResponse, SendMessageRequest } from './home-request-response';
 import { HomeService } from './home.service';
+import * as AOS from 'aos';
 
 @Component({
   selector: 'app-home',
@@ -15,52 +14,61 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private homeService: HomeService,
-    private translate: TranslateService,
-    private snackBar: MatSnackBar,
     ) { }
 
   ngOnInit(): void {
-  }
-
-  messageSnackBar(message) {
-    this.translate.get(message).subscribe(( res: string ) => {
-      this.snackBar.open( res, '', {
-        duration: 10000,
-        verticalPosition: 'top'
-      });
-    });
+    AOS.init();
   }
 
   onSendMessage(form: NgForm) {
     const name = form.value.name;
     const email = form.value.email;
     const message = form.value.message;
+    console.log(name,email,message)
 
     if (!form.valid) {
-      if (name === '') {
-        document.getElementById('name-error').hidden = false;
-      } else { document.getElementById('name-error').hidden = true; }
-
-      if (email === '') {
-        document.getElementById('email-error').hidden = false;
-      } else { document.getElementById('email-error').hidden = true; }
-
-      if (message === '') {
-        document.getElementById('message-error').hidden = false;
-      } else { document.getElementById('message-error').hidden = true; }
-
+      const controls = form.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+            document.getElementById(name+'-error').hidden = false;
+          } else { document.getElementById(name+'-error').hidden = true; }
+      }
     } else {
 
       const request: SendMessageRequest = new SendMessageRequest(name, email, message);
       this.homeService.sendMessage(request).subscribe(
         (response: SaveResponse) => {
           if (response.saved) {
-            this.message = 'email/message_sent';
+            document.getElementById('sent-message').style.display = 'block'
+            form.reset()
           } else {
-            this.message = 'email/message_not_sent';
+            document.getElementById('error-message').style.display = 'block'
           }
-          form.reset()
-          this.messageSnackBar(this.message);
+        }
+      );
+    }
+  }
+
+  subscribeToMailingList(form: NgForm) {
+    const email = form.value.email;
+
+    if (!form.valid) {
+      const controls = form.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+            document.getElementById(name+'-subscribe-error').hidden = false;
+          } else { document.getElementById(name+'-subscribe-error').hidden = true; }
+      }
+    } else {
+
+      this.homeService.subscribeToMailingList(email).subscribe(
+        (response: SaveResponse) => {
+          if (response.saved) {
+            document.getElementById('subscribe-success').style.display = 'block'
+            form.reset()
+          } else {
+            document.getElementById('subscribe-error-').style.display = 'block'
+          }
         }
       );
     }

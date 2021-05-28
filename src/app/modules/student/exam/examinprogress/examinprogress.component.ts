@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
   ExaminprogressResponse, AnswerRequest, SkipQuestionRequest, SkipSectionRequest, RtcTokenResponse, RtcTokenRequest, TerminatedResponse
 } from './examinprogress-request-response';
@@ -425,14 +425,16 @@ export class ExaminprogressComponent implements OnInit {
   }
 
   updateCheatingAttempts() {
-    this.examinprogressService.updateCheatingAttempts(this.examTokenId).subscribe(
-      (res: TerminatedResponse) => {
-        if (res.terminated) {
-          this.skipToNextQuestion()
-          this.modalRef = this.modalService.show(this.examTerminatedRef, { class: 'modal-lg' });
+    if (!this.response.examComplete) {
+      this.examinprogressService.updateCheatingAttempts(this.examTokenId).subscribe(
+        (res: TerminatedResponse) => {
+          if (res.terminated) {
+            this.skipToNextQuestion()
+            this.modalRef = this.modalService.show(this.examTerminatedRef, { class: 'modal-lg' });
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   onExit() {

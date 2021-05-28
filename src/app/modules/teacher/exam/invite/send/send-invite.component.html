@@ -75,57 +75,52 @@
           {{ 'teacher/exam/invite/send_invite' | translate }}
         </ng-template><br>
         <div class="row">
-          <div class="col-md-10 col-lg-10 mx-auto">
+          <div class="mx-auto">
             <mat-card style="margin-top: 10px;">
               <div class="card-body" *ngIf="inviteMethod === 'token'">
-                <p style="text-align: center;" class="lighter-font" translate>
+                <p class="lighter-font" translate>
                   teacher/exam/invite/send_invite_info
                 </p>
+                <div *ngIf="invalidEmails.length > 0" class="alert alert-warning">
+                  <p>The following emails were found to be invalid and an invite was not sent to them.
+                  Please rectify the emails and try again.</p>
+                  <span *ngFor="let email of invalidEmails" class="border border-danger rounded pl-1 pr-1 mr-1">
+                    {{email}}
+                  </span>
+                </div>
                 <form #sendInvite="ngForm" (ngSubmit)="onSubmit(sendInvite)">
-                  <div class="email-holder">
-                    <div *ngFor="let email of emails; trackBy: trackByFn index as i">
-                      <div id="email-row_{{i}}"
-                        style="display: flex; justify-content: space-between; align-items: center;">
-                        <div class="form-group" style="width: 70%;">
-                          <mat-form-field appearance="standard">
-                            <mat-label translate>teacher/exam/invite/email</mat-label>
-                            <input matInput type="email"
-                              id="email_{{i}}"
-                              name="email_{{i}}"
-                              class="form-control" 
-                              maxlength="100"
-                              [(ngModel)]="emails[i]"
-                              #email_{{i}}="ngModel"
-                              email>
-                          </mat-form-field>
-                          <span id="email_{{i}}-error" class="form-error" translate hidden>
-                            teacher/exam/invite/please_enter_valid_email
-                          </span>
-                        </div>
-                        <div>
-                          <button mat-stroked-button 
-                            color="primary"
-                            (click)="sendInviteClick(sendInvite, i)"
-                            type="button">
-                            {{ 'teacher/exam/invite/send_invite'| translate }}
-                          </button>
-                        </div>
-                      </div>
+                  <div class="d-flex flex-wrap">
+                    <div class="col-11" style="padding: 0;">
+                      <mat-form-field appearance="standard">
+                        <mat-label translate>teacher/exam/invite/email_list</mat-label>
+                        <textarea matInput
+                          class="form-control" 
+                          name="emails" 
+                          placeholder="e.g example1@email.com, example2@email.com"
+                          maxlength="1024"
+                          ngModel
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="5"
+                          cdkAutosizeMaxRows="9"
+                          required>
+                        </textarea>
+                      </mat-form-field>
                     </div>
-                  </div>
-                  <div class="form-group row" style="justify-content: space-between; padding-top: 20px;">
-                    <button mat-raised-button 
-                      color="primary"
-                      (click)="scroll(top)"
-                      type="submit">
-                      {{ 'teacher/exam/invite/send_to_all'| translate }}
-                    </button>
-                    <button mat-raised-button 
-                      color="primary"
-                      routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
-                      type="button">
-                      {{ 'generic/skip'| translate }}
-                    </button>
+                    <div class="form-group d-flex justify-content-between" style="width: 90%;">
+                      <button mat-raised-button 
+                        class="mr-auto"
+                        color="primary"
+                        (click)="scroll(top)"
+                        type="submit">
+                        {{ 'teacher/exam/invite/send_invite'| translate }}
+                      </button>
+                      <button mat-raised-button 
+                        color="primary"
+                        routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/view"
+                        type="button">
+                        {{ 'generic/skip'| translate }}
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

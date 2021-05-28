@@ -11,3 +11,15 @@
 ::ng-deep .mat-horizontal-stepper-header{
   pointer-events: none !important;
 }
+
+mat-card {
+  padding: 0 !important;
+}
+
+mat-horizontal-content-container {
+  padding: 1px !important;
+}
+
+.col-9 {
+  padding: 0 !important;
+}
