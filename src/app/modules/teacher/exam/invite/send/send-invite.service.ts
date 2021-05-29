@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SendInviteRequest, SaveResponse, SendInviteToEmailRequest, SendInviteInitialData } from './send-invite-request-response';
+import { SendInviteRequest, SaveResponse, SendInviteInitialData } from './send-invite-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ import { SendInviteRequest, SaveResponse, SendInviteToEmailRequest, SendInviteIn
 export class SendInviteService {
 
   private GET_INITIAL_DATA_URL = '/examinprogress/teacher/exam/invite/send/getinitialdata';
-  private SEND_INVITE_TO_EMAIL_URL = '/examinprogress/teacher/exam/invite/sendtoemail';
   private SEND_INVITE_URL = '/examinprogress/teacher/exam/invite/send';
 
   constructor(private http: HttpClient) {
@@ -31,23 +30,6 @@ export class SendInviteService {
           return response;
         }
     ));
-  }
-
-  sendInviteToEmail(request: SendInviteToEmailRequest):
-    Observable<SaveResponse> {
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
-
-    return this.http.post(this.SEND_INVITE_TO_EMAIL_URL,
-      request, httpOptions).pipe(map(
-        (response: SaveResponse) => {
-          return response;
-        }
-      ));
   }
 
   sendInvite(request: SendInviteRequest):

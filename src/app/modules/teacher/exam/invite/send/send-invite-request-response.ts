@@ -4,13 +4,6 @@ export class SendInviteInitialData {
   ) {}
 }
 
-export class SendInviteToEmailRequest {
-  constructor(
-    public inviteId: number,
-    public email: string
-  ) {}
-}
-
 export class SendInviteRequest {
   constructor(
     public inviteId: number,

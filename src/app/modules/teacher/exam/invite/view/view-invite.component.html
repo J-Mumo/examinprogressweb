@@ -49,40 +49,46 @@
             </div>
           </div>
           <div class="card-body">
-            <div *ngIf="initialData?.examStartDate !== null" style="line-height: 2;">
-              <span style="font-weight: bold; color: #000000bf;">Exam start date:</span>&nbsp;&nbsp;
-              {{initialData?.examStartDate | date: 'mediumDate'}}
-            </div>
-            <div *ngIf="initialData?.examEndDate !== null" style="line-height: 2;">
-              <span style="font-weight: bold; color: #000000bf;">Exam end date:</span>&nbsp;&nbsp;
-              {{initialData?.examEndDate | date: 'mediumDate'}}
-            </div>
-            <div style="line-height: 2;">
-              <span style="font-weight: bold; color: #000000bf;" translate>teacher/exam/invite/is_pausable</span>&nbsp;&nbsp;
+            <p *ngIf="initialData?.examStartDate !== null" class="d-flex flex-wrap">
+              <span class="font-weight-bold mr-2">Exam start date:</span>
+              <span>{{initialData?.examStartDate | date: 'mediumDate'}}</span>
+            </p>
+            <p *ngIf="initialData?.examEndDate !== null" class="d-flex flex-wrap">
+              <span class="font-weight-bold mr-2">Exam end date:</span>
+            <span>{{initialData?.examEndDate | date: 'mediumDate'}}</span>
+            </p>
+            <p class="d-flex flex-wrap">
+              <span class="font-weight-bold mr-2" translate>teacher/exam/invite/is_pausable</span>
               <span *ngIf="initialData?.pausable" translate>generic/yes</span>
               <span *ngIf="!initialData?.pausable" translate>generic/no</span>
-            </div>
-            <div *ngIf="initialData?.examStartTime !== null" style="line-height: 2;">
-              <span style="font-weight: bold; color: #000000bf;">Exam start time:</span>&nbsp;&nbsp;
-              {{initialData?.examStartTime}}
-            </div>
-            <div style="line-height: 2; display: flex; align-items: center;">
-              <span style="font-weight: bold; color: #000000bf;">Exam link:</span>&nbsp;&nbsp;
-              <button mat-stroked-button 
-                color="primary"
-                type="button">
-                Click to copy the link to this invite
-              </button>
-              <a target="blank" href="{{initialData?.inviteCode}}" style="margin-left: 10px;">
-                <mat-icon>launch</mat-icon>
-              </a>
+            </p>
+            <p class="d-flex flex-wrap" *ngIf="initialData?.examStartTime !== null">
+              <span class="font-weight-bold mr-2">Exam start time:</span>
+              <span>{{initialData?.examStartTime}}</span>
+            </p>
+            <div class="d-flex align-content-center">
+              <span class="font-weight-bold mr-2 align-self-center">Share exam invite:</span>
+              <div class="d-flex;" [matTooltip]="copyState" (click)="changeCopyState()">
+                <button mat-stroked-button 
+                  color="primary"
+                [cdkCopyToClipboard]="initialData?.inviteCode"
+                  type="button">
+                  Click to copy then share
+                </button>
+              </div>
             </div>
           </div>
         </mat-card>
         <br>
         <mat-card>
-          <div class="header card-header" translate>
-            teacher/exam/invite/emails_sent_to_exam_invite
+          <div class="header card-header d-flex flex-wrap justify-content-between flex-lg-row-reverse">
+            <div><button mat-raised-button 
+              color="primary"
+              routerLink="/teacher/exam/{{examId}}/{{examName}}/invite/{{inviteId}}/send"
+              type="button">
+              Send Invites
+            </button></div>
+            <span class="align-self-center mt-2" translate>teacher/exam/invite/emails_sent_to_exam_invite</span>
           </div>
           <div class="card-body">
             <p style="text-align: center;" class="lighter-font" translate
@@ -91,9 +97,8 @@
             </p>
             <div class="email-holder">
               <div *ngFor="let examTokenTransfer of initialData?.examTokenTransfers trackBy: trackByFn index as i">
-                <div id="email-row_{{i}}"
-                  style="display: flex; justify-content: space-between; align-items: center;">
-                  <div class="form-group" style="width: 70%;">
+                <div id="email-row_{{i}}" class="d-flex justify-content-between align-content-center">
+                  <div class="col-9">
                     <mat-form-field appearance="standard">
                       <mat-label translate>teacher/exam/invite/email</mat-label>
                       <input matInput type="email"
@@ -109,21 +114,19 @@
                       teacher/exam/invite/please_enter_valid_email
                     </span>
                   </div>
-                  <div>
-                    <button mat-stroked-button 
-                      color="primary"
-                      (click)="unsendConfirmation(unsendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)"
-                      type="button">
-                      {{ 'teacher/exam/invite/unsend_invite'| translate }}
-                    </button>
-                  </div>
+                  <button mat-button 
+                    color="primary"
+                    class="col align-self-center"
+                    (click)="unsendConfirmation(unsendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)"
+                    type="button">
+                    {{ 'teacher/exam/invite/unsend_invite'| translate }}
+                  </button>
                 </div>
               </div>
               <form #sendNewInvite="ngForm">
                 <div *ngFor="let email of emails; trackBy: trackByFn index as i">
-                  <div id="email-row_{{i}}"
-                    style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="form-group" style="width: 70%;">
+                  <div id="email-row_{{i}}" class="d-flex justify-content-between align-content-center">
+                    <div class="col-9">
                       <mat-form-field appearance="standard">
                         <mat-label translate>teacher/exam/invite/email</mat-label>
                         <input matInput type="email"
@@ -139,14 +142,13 @@
                         teacher/exam/invite/please_enter_valid_email
                       </span>
                     </div>
-                    <div>
-                      <button mat-stroked-button 
-                        color="primary"
-                        (click)="sendInviteClick(sendNewInvite, i)"
-                        type="button">
-                        {{ 'teacher/exam/invite/send_invite'| translate }}
-                      </button>
-                    </div>
+                    <button mat-button 
+                      color="primary"
+                      class="col align-self-center"
+                      (click)="sendInviteClick(sendNewInvite, i)"
+                      type="button">
+                      {{ 'teacher/exam/invite/send_invite'| translate }}
+                    </button>
                   </div>
                 </div>
               </form>

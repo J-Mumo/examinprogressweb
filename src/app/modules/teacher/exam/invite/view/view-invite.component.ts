@@ -22,6 +22,7 @@ export class ViewInviteComponent implements OnInit {
   message: string;
   examTokenId: number;
   emailToUnsend: string;
+  copyState = 'Copy';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,6 +49,10 @@ export class ViewInviteComponent implements OnInit {
 
   public trackByFn(index) {
     return index;
+  }
+
+  changeCopyState() {
+    this.viewInviteSnackBar('Copied');
   }
 
   viewInviteSnackBar(message) {

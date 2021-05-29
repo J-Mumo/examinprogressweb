@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { SendInviteService } from './send-invite.service';
-import { SaveResponse, SendInviteToEmailRequest, SendInviteRequest, SendInviteInitialData } from './send-invite-request-response';
+import { SaveResponse, SendInviteRequest, SendInviteInitialData } from './send-invite-request-response';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -65,28 +65,28 @@ export class SendInviteComponent implements OnInit {
     this.invalidEmails = [];
     const emailPattern = /^[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,63}/;
     emails.forEach(email => {
-      if (emailPattern.test(email))
-        validEmails.push(email)
-      else
-        this.invalidEmails.push(email)
+      email.trim();
+      if (email.length > 0) {
+        if (emailPattern.test(email))
+          validEmails.push(email)
+        else
+          this.invalidEmails.push(email)
+      }
     })
-    console.log(this.invalidEmails);
-    
-    
 
     const request: SendInviteRequest = new SendInviteRequest(this.inviteId, validEmails);
-    // this.sendInviteService.sendInvite(request).subscribe(
-    //   (response: SaveResponse) => {
-    //     if (response.saved) {
-    //       this.message = 'teacher/exam/invite/invite_sent';
-    //       if (this.invalidEmails.length < 1)
-    //         this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
-    //     } else {
-    //       this.message = 'teacher/exam/invite/invite_not_sent';
-    //     }
-    //     this.emailSentSnackBar(this.message);
-    //   }
-    // );
+    this.sendInviteService.sendInvite(request).subscribe(
+      (response: SaveResponse) => {
+        if (response.saved) {
+          this.message = 'teacher/exam/invite/invite_sent';
+          if (this.invalidEmails.length < 1)
+            this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
+        } else {
+          this.message = 'teacher/exam/invite/invite_not_sent';
+        }
+        this.emailSentSnackBar(this.message);
+      }
+    );
   }
 
   scroll(el) {
