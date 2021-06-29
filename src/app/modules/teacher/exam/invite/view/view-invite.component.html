@@ -30,7 +30,7 @@
       </ol>
     </nav>
     <div class="row">
-      <div class="col-md-8 col-lg-8 mx-auto">
+      <div class="col-md-10 col-lg-10 mx-auto">
         <mat-card>
           <div class="card-header">
             {{initialData?.name}}
@@ -88,39 +88,46 @@
               type="button">
               Send Invites
             </button></div>
-            <span class="align-self-center mt-2" translate>teacher/exam/invite/emails_sent_to_exam_invite</span>
+            <div>
+              <span class="align-self-center mt-2" translate>teacher/exam/invite/emails_sent_to_exam_invite</span>
+              <button mat-stroked-button 
+                color="primary"
+                style="min-width: 0;"
+                class="rounded-circle ml-2"
+                type="button">
+                {{initialData?.examTokenTransfers.length}}
+              </button>
+            </div>
           </div>
           <div class="card-body">
             <p style="text-align: center;" class="lighter-font" translate
               *ngIf="initialData?.examTokenTransfers.length < 1">
               teacher/exam/invite/no_emails_with_invite_info
             </p>
+            <input matInput type="email" placeholder="Search" [(ngModel)]="searchText">
             <div class="email-holder">
-              <div *ngFor="let examTokenTransfer of initialData?.examTokenTransfers trackBy: trackByFn index as i">
-                <div id="email-row_{{i}}" class="d-flex justify-content-between align-content-center">
-                  <div class="col-9">
-                    <mat-form-field appearance="standard">
-                      <mat-label translate>teacher/exam/invite/email</mat-label>
-                      <input matInput type="email"
-                        id="email_{{examTokenTransfer.examTokenId}}"
-                        name="email_{{examTokenTransfer.examTokenId}}"
-                        class="form-control" 
-                        maxlength="100"
-                        [(ngModel)]="examTokenTransfer.email"
-                        #email_{{examTokenTransfer.examTokenId}}="ngModel"
-                        email>
-                    </mat-form-field>
-                    <span id="email_{{examTokenTransfer.examTokenId}}-error" class="form-error" translate hidden>
-                      teacher/exam/invite/please_enter_valid_email
-                    </span>
+              <div *ngFor="let examTokenTransfer of examTokenTransfers | emailFilter: searchText trackBy: trackByFn index as i">
+                <div class="d-flex justify-content-between align-content-center">
+                  {{i+1}}
+                  <div class="col-9"
+                  appHighlight [searchedWord]="searchText" [content]="examTokenTransfer.email"  
+                  [classToApply]="'font-weight-bold'" [setTitle]="'true'">
+                    {{examTokenTransfer.email}}
                   </div>
                   <button mat-button 
                     color="primary"
                     class="col align-self-center"
+                    style="min-width: min-content;"
                     (click)="unsendConfirmation(unsendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)"
                     type="button">
                     {{ 'teacher/exam/invite/unsend_invite'| translate }}
                   </button>
+                  <mat-icon matTooltip="Resend invite" 
+                    class="col align-self-center" 
+                    style="cursor: pointer;"
+                    (click)="resendInviteConfirmation(resendInviteToEmail, examTokenTransfer.examTokenId, examTokenTransfer.email)">
+                    refresh
+                  </mat-icon>
                 </div>
               </div>
               <form #sendNewInvite="ngForm">
@@ -141,6 +148,16 @@
                       <span id="email_{{i}}-error" class="form-error" translate hidden>
                         teacher/exam/invite/please_enter_valid_email
                       </span>
+                      <div id="emailresponse_{{i}}-error" class="form-error" style="height: auto; white-space: normal; position: relative;" translate hidden>
+                      </div>
+                      <button mat-raised-button
+                        id="tokensbutton-{{i}}"
+                        color="primary"
+                        type="button"
+                        routerLink="/teacher/tokens"
+                        hidden>
+                        Add more tokens
+                      </button>
                     </div>
                     <button mat-button 
                       color="primary"
@@ -160,13 +177,38 @@
   </div>
 </div>
 
+<ng-template #resendInviteToEmail>
+  <div class="modal-body text-center">
+    <div class="modal-header">
+      <label><b translate>Resend Invite</b></label>
+    </div>
+    <p>
+      {{ 'teacher/exam/invite/resend_invite_info' | translate:{email: email} }}
+    </p>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button mat-raised-button 
+        color="primary"
+        (click)="resendInvite()"
+        type="button">
+        {{ 'generic/yes'| translate }}
+      </button>
+      <button mat-stroked-button 
+        color="primary"
+        (click)="decline()"
+        type="button">
+        {{ 'generic/no'| translate }}
+      </button>
+    </div>
+  </div>
+</ng-template>
+
 <ng-template #unsendInviteToEmail>
   <div class="modal-body text-center">
     <div class="modal-header">
       <label><b translate>teacher/exam/invite/unsend_invite</b></label>
     </div>
     <p>
-      {{ 'teacher/exam/invite/unsend_invite_info' | translate:{email: emailToUnsend} }}
+      {{ 'teacher/exam/invite/unsend_invite_info' | translate:{email: email} }}
     </p>
     <div class="modal-footer" style="justify-content: space-between;">
       <button mat-raised-button 

@@ -26,9 +26,11 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { CountdownModule } from 'ngx-countdown';
+import { FilterPipe } from '../../directive/email-filter.pipe';
+import { HighlightDirective } from '../../directive/highlight.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [FilterPipe,HighlightDirective],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -82,7 +84,9 @@ import { CountdownModule } from 'ngx-countdown';
     ClipboardModule,
     MatTooltipModule,
     AngularEditorModule,
-    CountdownModule
+    CountdownModule,
+    FilterPipe,
+    HighlightDirective
   ],
 })
 export class SharedModule { }

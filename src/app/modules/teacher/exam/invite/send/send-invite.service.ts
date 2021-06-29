@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SendInviteRequest, SaveResponse, SendInviteInitialData } from './send-invite-request-response';
+import { SendInviteRequest, SendInviteResponse, SendInviteInitialData } from './send-invite-request-response';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +32,7 @@ export class SendInviteService {
     ));
   }
 
-  sendInvite(request: SendInviteRequest):
-    Observable<SaveResponse> {
-
+  sendInvite(request: SendInviteRequest): Observable<SendInviteResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -43,7 +41,7 @@ export class SendInviteService {
 
     return this.http.post(this.SEND_INVITE_URL,
       request, httpOptions).pipe(map(
-        (response: SaveResponse) => {
+        (response: SendInviteResponse) => {
           return response;
         }
       ));

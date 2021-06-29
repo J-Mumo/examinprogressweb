@@ -46,12 +46,12 @@
                 <div style="padding: 10px;">{{ questionResult.question }}</div>
                 <div *ngIf="!questionResult.comprehensionQuestion">
                   <div *ngIf="!questionResult.textAnswer">
-                    <div *ngFor="let answerResult of questionResult.answerResults" class="multiple-choice">
+                    <div *ngFor="let answerResult of questionResult.answerResults; let i = index" class="multiple-choice">
                       <div *ngIf="questionResult.singleAnswer">
-                        <mat-radio-button #singleRadio readonly [checked]="answerResult.selected"></mat-radio-button>
+                        <mat-radio-button #singleRadio readonly [checked]="answerResult.selected" name="answerResult_{{i}}"></mat-radio-button>
                       </div>
                       <div *ngIf="questionResult.multipleAnswers">
-                        <mat-checkbox readonly [checked]="answerResult.selected"></mat-checkbox>&nbsp;&nbsp;
+                        <mat-checkbox readonly [(ngModel)]="answerResult.selected" name="Result" ngDefaultControl [ngModelOptions]="{ standalone: true }"></mat-checkbox>&nbsp;&nbsp;
                       </div>
                       <div class="form-group" style="width: 95%">
                         {{ answerResult.answer }}
@@ -95,7 +95,7 @@
                         </angular-editor>
                       </div>
                       <div style="padding-top: 2em; font-weight: 500;">
-                        Points Earned: {{ questionResult.pointsEarned }}/{{ questionResult.questionTotalPoints }}
+                        Points Earned: {{ subQuestion.pointsEarned }}/{{ subQuestion.questionTotalPoints }}
                       </div>
                     </mat-card><br>
                   </div>

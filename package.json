@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4200 --host examinprogressweb.com --disable-host-check --proxy-config proxy.conf.json -o",
-    "build": "ng build --prod && gzip --best -r -k ./dist/* && rm dist/assets/images/*.gz",
+    "build": "ng build --prod && gzip --best -r -k ./dist/* && rm dist/examinprogressweb/assets/img/*.gz",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

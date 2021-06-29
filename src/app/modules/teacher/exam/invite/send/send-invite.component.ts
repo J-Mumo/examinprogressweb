@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { SendInviteService } from './send-invite.service';
-import { SaveResponse, SendInviteRequest, SendInviteInitialData } from './send-invite-request-response';
+import { SendInviteResponse, SendInviteRequest, SendInviteInitialData } from './send-invite-request-response';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -15,6 +15,7 @@ export class SendInviteComponent implements OnInit {
   examId = Number(this.activatedRoute.snapshot.paramMap.get('examId'));
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   inviteId = Number(this.activatedRoute.snapshot.paramMap.get('inviteId'));
+  response: SendInviteResponse;
   message: string;
   inviteMethod;
   inviteCode: string;
@@ -76,10 +77,14 @@ export class SendInviteComponent implements OnInit {
 
     const request: SendInviteRequest = new SendInviteRequest(this.inviteId, validEmails);
     this.sendInviteService.sendInvite(request).subscribe(
-      (response: SaveResponse) => {
-        if (response.saved) {
+      (response: SendInviteResponse) => {
+        this.response = response;
+        if (response.tokensError || response.emailError) {
+          this.message = 'teacher/exam/invite/invite_not_sent';
+        }
+        else if (response.sent) {
           this.message = 'teacher/exam/invite/invite_sent';
-          if (this.invalidEmails.length < 1)
+          if (this.invalidEmails.length < 1 && response.unsentEmails.length < 1 && !response.tokensError)
             this.router.navigate(['/teacher/exam/', this.examId, this.examName, 'invite', this.inviteId, 'view']);
         } else {
           this.message = 'teacher/exam/invite/invite_not_sent';

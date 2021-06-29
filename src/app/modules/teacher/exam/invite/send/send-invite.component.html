@@ -81,7 +81,26 @@
                 <p class="lighter-font" translate>
                   teacher/exam/invite/send_invite_info
                 </p>
-                <div *ngIf="invalidEmails.length > 0" class="alert alert-warning">
+                <div *ngIf="response !== undefined && response.tokensError" class="alert alert-warning">
+                  <p>Error! You do not have enough tokens. When sending an invite, a token is 
+                    required. Click the button below to add more tokens.
+                  </p>
+                  <button mat-raised-button
+                    color="primary"
+                    type="button"
+                    routerLink="/teacher/tokens">
+                    Add more tokens
+                  </button>
+                </div>
+                <div *ngIf="response !== undefined && response.unsentEmails.length > 0" class="alert alert-warning">
+                  <p>Invites to the following emails have not been created or sent to their emails.
+                    Take a note of the emails and resend the invites.
+                  </p>
+                  <span *ngFor="let email of response.unsentEmails" class="border border-danger rounded pl-1 pr-1 mr-1">
+                    {{email}}
+                  </span>
+                </div>
+                <div *ngIf="invalidEmails.length > 0 && !response.tokensError" class="alert alert-warning">
                   <p>The following emails were found to be invalid and an invite was not sent to them.
                   Please rectify the emails and try again.</p>
                   <span *ngFor="let email of invalidEmails" class="border border-danger rounded pl-1 pr-1 mr-1">

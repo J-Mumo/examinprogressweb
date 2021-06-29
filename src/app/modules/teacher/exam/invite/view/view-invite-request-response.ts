@@ -31,6 +31,16 @@ export class SaveResponse {
   ) {}
 }
 
+export class SendInviteResponse {
+  constructor(
+    public sent: boolean,
+    public emailError: boolean,
+    public tokensError: boolean,
+    public error: string,
+    public unsentEmails: string[]
+  ) {}
+}
+
 export class DeleteResponse {
   constructor(
     public deleted: boolean,

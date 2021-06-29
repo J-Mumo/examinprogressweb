@@ -284,6 +284,7 @@
   "teacher/exam/invite/no_emails_with_invite_info": "There are currently no emails to which this invite has been sent to.",
   "teacher/exam/invite/invite_unsent": "The invite to the requested email has been retracted.",
   "teacher/exam/invite/invite_unsent_failed": "The invite has not been unsent. Try again.",
+  "teacher/exam/invite/resend_invite_info": "Are you sure you would like to re-send the invite to {{ email }}?",
   "teacher/exam/invite/unsend_invite_info": "Are you sure you would like to unsend the invite to {{ email }}? They will no longer be able to do this exam.",
   "teacher/exam/invite/edit_invite": "Edit invite",
   "teacher/exam/invite/invites": "Invites",

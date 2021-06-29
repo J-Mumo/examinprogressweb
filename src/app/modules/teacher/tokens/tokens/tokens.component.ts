@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { PaymentInitialData, UpdateTokenResponse, PaymentRequest, PaymentHistoryInitialData, TokenConsumptionInitialData, PaymentHistoryTransfer, TokenConsumedTransfer } from './tokens-request-response';
+import { 
+  PaymentInitialData, UpdateTokenResponse, PaymentRequest, PaymentHistoryInitialData, 
+  TokenConsumptionInitialData, PaymentHistoryTransfer, TokenConsumedTransfer 
+} from './tokens-request-response';
 import { TokensService } from './tokens.service';
 import {Flutterwave, InlinePaymentOptions, PaymentSuccessResponse} from 'flutterwave-angular-v3';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgForm } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tokens',
@@ -18,6 +21,7 @@ export class TokensComponent implements OnInit {
   tokensToBuy: number;
   columns: string[] = ['tokens', 'pricePerToken', 'total'];
   message: string;
+  stepper: MatStepper;
   tokensData: MatTableDataSource<any>;
   paymentHistory: MatTableDataSource<PaymentHistoryTransfer>;
   paymentHistoryColumns: string[] = ['amountPaid', 'tokensBought', 'currency'];
@@ -41,11 +45,12 @@ export class TokensComponent implements OnInit {
   };
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private tokensService: TokensService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private ref: ChangeDetectorRef,
-    private flutterwave: Flutterwave
+    private flutterwave: Flutterwave,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -99,10 +104,11 @@ export class TokensComponent implements OnInit {
   }
 
   makePayment(stepper: MatStepper){
+    this.stepper = stepper;
     if (this.total > 0) {
+      document.getElementById('tokensToBuyInTable-error').hidden = true;
       this.paymentData.amount = this.total;
       this.flutterwave.inlinePay(this.paymentData);
-      document.getElementById('tokensToBuyInTable-error').hidden = true;
     } else if (document.getElementById('tokensToBuyInTable-error') === null) {
       stepper.previous();
     } else {
@@ -113,14 +119,17 @@ export class TokensComponent implements OnInit {
   makePaymentCallback(response: PaymentSuccessResponse): void {
     if (response.status === 'successful') {
       const request: PaymentRequest = new PaymentRequest(this.tokensToBuy, response);
-      console.log(response);
       this.tokensService.updateTokens(request).subscribe(
         (res: UpdateTokenResponse) => {
           if (res.updated) {
             this.tokens = res.tokens;
-            this.message = 'You have successfuly paid for ' + this.tokensToBuy + ' tokens.';
+            this.flutterwave.closePaymentModal(3);
+            this.getInitialData();
+            this.ref.detectChanges();
+            this.stepper.previous();
+            document.getElementById('getTokens').hidden = true;
+            this.message = 'You have successfuly paid for ' + this.tokensToBuy + ' token(s).';
             this.tokenSnackBar(this.message);
-            this.navigateBack();
           } else {
             this.message = 'Your payment was not successful. Please contact support for help.';
             this.tokenSnackBar(this.message);
@@ -164,21 +173,18 @@ export class TokensComponent implements OnInit {
   }
 
   showGetTokens() {
-    console.log('click');
     document.getElementById('getTokens').hidden = false;
     document.getElementById('paymentHistory').hidden = true;
     document.getElementById('tokenConsumption').hidden = true;
   }
 
   showPaymentHistory() {
-    console.log('click');
     document.getElementById('getTokens').hidden = true;
     document.getElementById('paymentHistory').hidden = false;
     document.getElementById('tokenConsumption').hidden = true;
   }
 
   showTokenConsumption() {
-    console.log('click');
     document.getElementById('getTokens').hidden = true;
     document.getElementById('paymentHistory').hidden = true;
     document.getElementById('tokenConsumption').hidden = false;

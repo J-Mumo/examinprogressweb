@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private parentService: ParentService,
   ) {
     this.parentService.hidePublicHeader = false;
-    this.parentService.hidePrivateHeader = true;
   }
 
   ngOnInit() {

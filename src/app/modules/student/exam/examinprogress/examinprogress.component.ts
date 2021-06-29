@@ -25,42 +25,46 @@ export class ExaminprogressComponent implements OnInit {
   pause = false;
   selectedRadioOption;
   modalRef: BsModalRef;
+  mediaStreamConstraints = {
+    video: true,
+    audio: true
+  };
 
-  @HostListener('window:keydown',['$event'])
-  onKeyPress($event: KeyboardEvent) {
-    if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyC') {
-      $event.preventDefault();
-      const message = 'Copy pasting is prohibited';
-      this.snackBar(message);
-    }
-    if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyV') {
-      $event.preventDefault();
-      const message = 'Copy pasting is prohibited';
-      this.snackBar(message);
-    }
-  }
-  @HostListener('window:contextmenu',['$event'])
-  onRightClick($event) {
-    $event.preventDefault()
-  }
-  @HostListener('window:visibilitychange',[])
-  onVisibilityChange() {
-    const message = 'Focus on your screen. You risk having your screen terminated.';
-    this.snackBar(message);
-    this.updateCheatingAttempts()
-  }
-  @HostListener('window:blur',[])
-  onBlur() {
-    const message = 'Focus on your screen. You risk having your screen terminated.';
-    this.snackBar(message);
-    this.updateCheatingAttempts()
-  }
-  @HostListener('window:resize',[])
-  onBrowserResize() {
-    const message = 'Focus on your screen. You risk having your screen terminated.';
-    this.snackBar(message);
-    this.updateCheatingAttempts()
-  }
+  // @HostListener('window:keydown',['$event'])
+  // onKeyPress($event: KeyboardEvent) {
+  //   if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyC') {
+  //     $event.preventDefault();
+  //     const message = 'Copy pasting is prohibited';
+  //     this.snackBar(message);
+  //   }
+  //   if(($event.ctrlKey || $event.metaKey) && $event.code == 'KeyV') {
+  //     $event.preventDefault();
+  //     const message = 'Copy pasting is prohibited';
+  //     this.snackBar(message);
+  //   }
+  // }
+  // @HostListener('window:contextmenu',['$event'])
+  // onRightClick($event) {
+  //   $event.preventDefault()
+  // }
+  // @HostListener('window:visibilitychange',[])
+  // onVisibilityChange() {
+  //   const message = 'Focus on your screen. You risk having your screen terminated.';
+  //   this.snackBar(message);
+  //   this.updateCheatingAttempts()
+  // }
+  // @HostListener('window:blur',[])
+  // onBlur() {
+  //   const message = 'Focus on your screen. You risk having your screen terminated.';
+  //   this.snackBar(message);
+  //   this.updateCheatingAttempts()
+  // }
+  // @HostListener('window:resize',[])
+  // onBrowserResize() {
+  //   const message = 'Focus on your screen. You risk having your screen terminated.';
+  //   this.snackBar(message);
+  //   this.updateCheatingAttempts()
+  // }
   
   remoteCalls: string[] = [];
   localCallId = 'agora_local';
@@ -70,6 +74,9 @@ export class ExaminprogressComponent implements OnInit {
   private uid: number;
   private token: string;
   private channelName: string;
+
+  @ViewChild('mediaError')
+  private mediaError: TemplateRef<any>;
 
   @ViewChild('examTerminated')
   private examTerminatedRef: TemplateRef<any>;
@@ -135,7 +142,24 @@ export class ExaminprogressComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getExamProgress();
+    this.getUserMedia();
+  }
+
+  getUserMedia() {
+    navigator.mediaDevices.getUserMedia(this.mediaStreamConstraints).then(function(){
+      this.mediaPermissionsGranted = true;
+      this.getExamProgress();
+    }.bind(this)).catch(this.handleGetUserMediaError.bind(this))
+  }
+
+  handleGetUserMediaError(error) {
+    console.log(error);
+    this.modalRef = this.modalService.show(this.mediaError, { class: 'modal-md' });
+    this.router.navigate(['/student/exams'])
+  }
+
+  decline() {
+    this.modalRef.hide();
   }
 
   initAgoraStreaming(response) {

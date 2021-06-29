@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { ViewInviteService } from './view-invite.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { ViewInviteInitialData, SendInviteToEmailRequest, SaveResponse, DeleteResponse } from './view-invite-request-response';
+import { ViewInviteInitialData, SendInviteToEmailRequest, SaveResponse, DeleteResponse, SendInviteResponse, ExamTokenTransfer } from './view-invite-request-response';
 import { NgForm } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,12 +17,25 @@ export class ViewInviteComponent implements OnInit {
   examName = String(this.activatedRoute.snapshot.paramMap.get('examName'));
   inviteId = Number(this.activatedRoute.snapshot.paramMap.get('inviteId'));
   initialData: ViewInviteInitialData;
+  examTokenTransfers: ExamTokenTransfer[];
+  deleteResponse: DeleteResponse;
   modalRef: BsModalRef;
   emails = ['', ''];
   message: string;
   examTokenId: number;
-  emailToUnsend: string;
+  email: string;
   copyState = 'Copy';
+  searchText = '';
+  characters = [
+    'Ant-Man',
+    'Aquaman',
+    'Asterix',
+    'The Atom',
+    'The Avengers',
+    'Batgirl',
+    'Batman',
+    'Batwoman'
+  ]
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,6 +56,7 @@ export class ViewInviteComponent implements OnInit {
     this.viewInviteService.getInitialData(this.inviteId).subscribe(
       (initialData: ViewInviteInitialData) => {
         this.initialData = initialData;
+        this.examTokenTransfers = initialData.examTokenTransfers;
       }
     );
   }
@@ -86,8 +100,31 @@ export class ViewInviteComponent implements OnInit {
 
   unsendConfirmation(template: TemplateRef<any>, examTokenId, email) {
     this.examTokenId = examTokenId;
-    this.emailToUnsend = email;
+    this.email = email;
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  resendInviteConfirmation(template: TemplateRef<any>, examTokenId, email) {
+    this.examTokenId = examTokenId;
+    this.email = email;
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  resendInvite() {
+    this.viewInviteService.resendInvite(this.examTokenId).subscribe(
+      (response: SaveResponse) => {
+        if (response.saved) {
+          this.message = `An invite has been resent to ${this.email}`;
+        } else {
+          this.message = 'Invite has not been re-sent, please try again';
+          const err = document.getElementById(`email_${this.examTokenId}-error`)
+          err.hidden = false;
+          err.innerText = 'Invite has not been resent, please try again';
+        }
+        this.modalRef.hide();
+        this.viewInviteSnackBar(this.message);
+      }
+    );
   }
 
   unsendInvite() {
@@ -95,11 +132,14 @@ export class ViewInviteComponent implements OnInit {
       (response: DeleteResponse) => {
         if (response.deleted) {
           this.message = 'teacher/exam/invite/invite_unsent';
-          this.modalRef.hide();
           this.navigateBack();
         } else {
           this.message = 'teacher/exam/invite/invite_unsent_failed';
+          const err = document.getElementById(`email_${this.examTokenId}-error`)
+          err.hidden = false;
+          err.innerText = 'Cannot unsend invite to this email, the user has started the exam';
         }
+        this.modalRef.hide();
         this.viewInviteSnackBar(this.message);
       }
     );
@@ -117,14 +157,19 @@ export class ViewInviteComponent implements OnInit {
       document.getElementById('email_' + index + '-error').hidden = true;
       const request: SendInviteToEmailRequest = new SendInviteToEmailRequest(this.inviteId, email);
       this.viewInviteService.sendInviteToEmail(request).subscribe(
-        (response: SaveResponse) => {
-          if (response.saved) {
+        (response: SendInviteResponse) => {
+          if (response.sent) {
             this.message = 'teacher/exam/invite/invite_sent';
             this.navigateBack();
             document.getElementById('email-row_' + index).hidden = true;
             this.emails.push('');
           } else if (response.error !== null) {
             this.message = response.error;
+            const err = document.getElementById(`emailresponse_${index}-error`);
+            err.hidden = false;
+            err.innerText = response.error;
+            if (response.tokensError)
+              document.getElementById(`tokensbutton-${index}`).hidden = false;
           } else {
             this.message = 'teacher/exam/invite/invite_not_sent';
           }

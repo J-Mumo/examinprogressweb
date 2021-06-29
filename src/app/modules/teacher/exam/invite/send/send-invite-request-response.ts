@@ -11,9 +11,12 @@ export class SendInviteRequest {
   ) {}
 }
 
-export class SaveResponse {
+export class SendInviteResponse {
   constructor(
-    public saved: boolean,
-    public error: null
+    public sent: boolean,
+    public emailError: boolean,
+    public tokensError: boolean,
+    public error: string,
+    public unsentEmails: string[]
   ) {}
 }

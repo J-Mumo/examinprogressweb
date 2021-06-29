@@ -1,47 +1,16 @@
-<!-- <mat-sidenav-container> -->
-  <!-- <div class="toolbar" role="banner" *ngIf="!parentService.hidePrivateHeader">
-    <a href="#">
-      <img
-        width="100%"
-        alt="Exam in Progress"
-        src=""
-      />
-    </a>
-    <div class="spacer"></div>
-    <div class="header-buttons">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon style="font-size: 34px;">account_circle</mat-icon>
-      </button>
-    </div>
-    <mat-menu #menu="matMenu" overlapTrigger="false">
-      <button mat-menu-item (click)="editMyAccount()">
-        <mat-icon class="ml-3" title="Logout">settings</mat-icon>
-        <span>Settings</span>
-      </button>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon class="ml-3" title="Logout">exit_to_app</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
-  </div>
-  <div class="toolbar" role="banner" *ngIf="!parentService.hidePublicHeader">
-    <a href="#">
-      <img
-        width="100%"
-        alt="Exam in Progress"
-        src=""
-      />
-    </a>
-    <div class="spacer"></div>
-    <div class="header-buttons">
-      <a mat-stroked-button 
-        routerLink="/login" 
-        routerLinkActive="active-link">Login</a>
-    </div>
-  </div> -->
-
   <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top">
+  <header id="header" class="fixed-top" *ngIf="!parentService.hidePrivateHeader">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo mr-auto"><a href="index.html">ExamInProgress</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <a mat-stroked-button class="login-button" routerLink="/login" (click)="logout()" routerLinkActive="active-link">Logout</a>
+    </div>
+  </header>
+
+  <header id="header" class="fixed-top" *ngIf="!parentService.hidePublicHeader">
     <div class="container d-flex align-items-center">
 
       <h1 class="logo mr-auto"><a href="index.html">ExamInProgress</a></h1>
@@ -63,10 +32,9 @@
       <a href="/register" class="get-started-btn scrollto">Get Started</a>
 
     </div>
-  </header><!-- End Header -->
+  </header>
+  <!-- End Header -->
 
     <router-outlet></router-outlet>
 
   <app-footer></app-footer>
-
-<!-- </mat-sidenav-container> -->
